@@ -1,5 +1,4 @@
 <script lang="ts">
-
 export default {
   /**
    * Name of the component
@@ -10,9 +9,9 @@ export default {
    * Mounted lifecycle hook
    * This function is called when the component is mounted
    */
-   mounted() {
+  mounted() {
     console.log('NavbarComponent mounted');
-  },
+  }
 };
 </script>
 

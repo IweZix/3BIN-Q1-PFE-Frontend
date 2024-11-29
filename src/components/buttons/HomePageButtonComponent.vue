@@ -31,7 +31,6 @@ export default {
 };
 </script>
 
-
 <template>
   <button @click="goToHomePage" class="btn btn-primary">Go to Home Page</button>
 </template>

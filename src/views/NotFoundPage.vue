@@ -15,7 +15,7 @@ export default {
    */
   mounted() {
     renderPageTitle('404 - Not found');
-  },
+  }
 };
 </script>
 
@@ -25,6 +25,4 @@ export default {
   </div>
 </template>
 
-<style>
-
-</style>
+<style></style>

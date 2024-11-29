@@ -10,5 +10,4 @@ import NavbarComponent from '@/layouts/NavbarComponent.vue';
   <router-view />
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
