@@ -32,7 +32,7 @@ jobs:
       run: npm run lint
 
     - name: Formatting Prettier
-      run: npm run fromat
+      run: npm run format
 
     - name: Test
       run: npm run test
