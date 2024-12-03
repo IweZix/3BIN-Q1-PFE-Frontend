@@ -8,14 +8,15 @@ export default {
   /**
    * Name of the component
    */
-  name: 'HomePage',
+  name: 'LoginPage',
 
   /**
    * Data of the component
    */
   data() {
     return {
-      integer: 0 as number
+        email: '',
+        password: '',
     };
   },
 
@@ -23,44 +24,106 @@ export default {
    * Mounted lifecycle hook
    * This function is called when the component is mounted
    */
-  async mounted() {
-    renderPageTitle('Home');
+  mounted() {
+    renderPageTitle('Login');
   },
 
   /**
    * Methods of the component
    */
   methods: {
-    /**
-     * Increment the integer value
-     */
-    incrementInteger() {
-      this.integer++;
-    }
+     login() {
+      // Simuler une action de connexion
+      alert(`Connexion avec l'email : ${this.email}`);
+    },
+    contact() {
+      // Simuler une action pour contacter l'entreprise
+      window.location.href = "https://betterbusiness.be/contact/";
   }
 };
 </script>
 
 <template>
-  <div class="text-center my-4 title-search">
-    <h1>This is the HomePage</h1>
-  </div>
-  <div v-if="integer === 0" class="text-center my-4">
-    <h2 class="text-center my-4">The value of the integer is {{ integer }}</h2>
-    <p>Click on the button to increment</p>
-    <button @click="incrementInteger" class="btn btn-primary">Increment</button>
-  </div>
-  <div v-else-if="integer > 0 && integer < 10" class="text-center my-4">
-    <h2 class="text-center my-4">The value of the integer is {{ integer }}</h2>
-    <p>Click on the button to increment</p>
-    <p>You can go up to 10</p>
-    <button @click="incrementInteger" class="btn btn-primary">Increment</button>
-  </div>
-  <div v-else class="text-center my-4">
-    <h2 class="text-center my-4">The value of the integer is {{ integer }}</h2>
-    <p>You reached the maximum value</p>
-    <button @click="integer = 0" class="btn btn-primary">Reset</button>
+  <div class="container">
+
+    <div class="content">
+      <!-- Section de gauche : Pas encore de compte -->
+      <div class="left-panel">
+        <h2>Pas encore de compte ?</h2>
+        <p>Contactez l’entreprise pour créer un compte</p>
+        <button @click="contact">Contact</button>
+      </div>
+
+      <!-- Section de droite : Connexion -->
+      <div class="right-panel">
+        <h2>Connexion</h2>
+        <form @submit.prevent="login">
+          <label for="email">Email</label>
+          <input type="email" id="email" v-model="email" required />
+
+          <label for="password">Mot de passe</label>
+          <input type="password" id="password" v-model="password" required />
+
+          <button type="submit">Connexion</button>
+        </form>
+      </div>
+    </div>
   </div>
 </template>
 
-<style></style>
+<style scoped>
+.container {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.left-panel,
+.right-panel {
+  background-color: #e6e6e6;
+  padding: 20px;
+  border-radius: 5px;
+  width: 45%;
+}
+
+.left-panel h2,
+.right-panel h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+button {
+  background-color: #808080;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #666666;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin: 10px 0 5px;
+}
+
+input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+</style>
+
