@@ -10,6 +10,7 @@ import Home from '../views/HomePage.vue';
 import About from '../views/AboutPage.vue';
 import CreateAdmin from '../views/CreatAdminPage.vue';
 import NotFound from '@/views/NotFoundPage.vue';
+import Login from '../views/LoginPage.vue';
 
 /**
  * Define routes
@@ -29,6 +30,11 @@ const routes = [
     path: '/createAdmin',
     name: 'CreateAdmin',
     component: CreateAdmin
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
   },
   /**
    * Define not found route
