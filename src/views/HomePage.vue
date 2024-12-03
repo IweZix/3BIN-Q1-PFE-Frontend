@@ -23,7 +23,7 @@ export default {
    * Mounted lifecycle hook
    * This function is called when the component is mounted
    */
-  async mounted() {
+  mounted() {
     renderPageTitle('Home');
   },
 
