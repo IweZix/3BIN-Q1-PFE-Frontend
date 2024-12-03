@@ -8,6 +8,7 @@ import { createRouter, createWebHistory } from 'vue-router';
  */
 import Home from '../views/HomePage.vue';
 import About from '../views/AboutPage.vue';
+import CreateAdmin from '../views/CreatAdminPage.vue';
 import NotFound from '@/views/NotFoundPage.vue';
 
 /**
@@ -23,6 +24,11 @@ const routes = [
     path: '/about',
     name: 'About',
     component: About
+  },
+  {
+    path: '/createAdmin',
+    name: 'CreateAdmin',
+    component: CreateAdmin
   },
   /**
    * Define not found route
