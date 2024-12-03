@@ -11,6 +11,9 @@ import About from '../views/AboutPage.vue';
 import NotFound from '@/views/NotFoundPage.vue';
 import Login from '../views/LoginPage.vue';
 
+import ChangePassword from '@/views/ChangePasswordPage.vue';
+//import path from 'path';
+
 /**
  * Define routes
  */
@@ -29,6 +32,15 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login
+  },
+  /**
+   * Define change password route
+   */
+  {
+    path: '/changePassword',
+    name: 'ChangePassword',
+    component: ChangePassword
+
   },
   /**
    * Define not found route
