@@ -12,6 +12,9 @@ import CreateAdmin from '../views/CreatAdminPage.vue';
 import NotFound from '@/views/NotFoundPage.vue';
 import Login from '../views/LoginPage.vue';
 
+// ADMIN ROUTES
+import AdminHome from '@/views/AdminHomePage.vue';
+
 import ChangePassword from '@/views/ChangePasswordPage.vue';
 //import path from 'path';
 
@@ -28,6 +31,11 @@ const routes = [
     path: '/about',
     name: 'About',
     component: About
+  },
+  {
+    path: '/admin',
+    name: 'AdminHome',
+    component: AdminHome
   },
   {
     path: '/createAdmin',
