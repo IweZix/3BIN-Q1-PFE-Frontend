@@ -1,11 +1,3 @@
-<template>
-    <div class="left-panel">
-        <h2>Pas encore de compte ?</h2>
-        <p style="padding-bottom: 2em;">Contactez l’entreprise pour créer un compte</p>
-        <button class="leftButton" @click="contact">Contact</button>
-    </div>
-</template>
-
 <script lang="ts">
 export default {
     name: 'LeftPanel',
@@ -16,6 +8,14 @@ export default {
     }
 };
 </script>
+
+<template>
+    <div class="left-panel">
+        <h2>Pas encore de compte ?</h2>
+        <p style="padding-bottom: 2em;">Contactez l’entreprise pour créer un compte</p>
+        <button class="leftButton" @click="contact">Contact</button>
+    </div>
+</template>
 
 <style scoped>
 .left-panel {

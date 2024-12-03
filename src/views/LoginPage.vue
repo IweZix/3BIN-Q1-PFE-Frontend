@@ -1,12 +1,3 @@
-<template>
-  <div class="container">
-    <div class="content">
-      <LeftPanel />
-      <RightPanel />
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
 import LeftPanel from '../components/loginPage/LeftPanelComponent.vue';
 import RightPanel from '../components/loginPage/RightPanelComponent.vue';
@@ -19,6 +10,15 @@ export default {
   }
 };
 </script>
+
+<template>
+  <div class="container">
+    <div class="content">
+      <LeftPanel />
+      <RightPanel />
+    </div>
+  </div>
+</template>
 
 <style scoped>
 .container {
