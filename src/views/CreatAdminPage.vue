@@ -114,7 +114,6 @@ export default {
         <button 
           type="submit" 
           class="submit-button"
-          :disabled="!!(errors.email || errors.password)"
         >
           Créer
         </button>
@@ -139,18 +138,14 @@ main {
   justify-content: center;
 }
 
-h1 {
-  font-size: 24px;
-  margin-bottom: 20px;
-}
 
 /* Form Styles */
 form {
   background-color: #f9f9f9;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 300px;
+  padding: 10%;
+  border-radius: 8%;
+  box-shadow: 0 4% 8% rgba(0, 117, 90, 0.1);
+  width: 75%;
 }
 
 .form-group {
