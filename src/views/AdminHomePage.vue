@@ -8,16 +8,22 @@
                     <th>Terminé</th>
                     <th>Validé</th>
                     <th>Score</th>
-                    <th>Modifier</th>
+                    <th>Visualiser</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="company in companies" :key="company.id">
                     <td>{{ company.name }}</td>
-                    <td>{{ company.completed ? 'Oui' : 'Non' }}</td>
-                    <td>{{ company.validated ? 'Oui' : 'Non' }}</td>
-                    <td>{{ company.score }}</td>
-                    <td><button @click="editCompany(company.id)">Modifier</button></td>
+                    <td :class="{'bg-green': company.completed, 'bg-red': !company.completed}">
+                        {{ company.completed ? 'Oui' : 'Non' }}
+                    </td>
+                    <td :class="{'bg-green': company.validated, 'bg-red': !company.validated}">
+                        {{ company.validated ? 'Oui' : 'Non' }}
+                    </td>
+                    <td>{{ company.score ?? "/" }}</td>
+                    <td>
+                        <ButtonEditCompany :companyId="company.id" @edit-company="editCompany" :disabled="!company.completed" />
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -25,12 +31,18 @@
 </template>
 
 <script>
+
+import ButtonEditCompany from '@/components/buttons/GetCompanyButtonComponent.vue';
+
 export default {
+    components: {
+        ButtonEditCompany
+    },
     data() {
         return {
             companies: [
                 { id: 1, name: 'Entreprise A', completed: true, validated: false, score: 85 },
-                { id: 2, name: 'Entreprise B', completed: false, validated: true, score: 90 },
+                { id: 2, name: 'Entreprise B', completed: false, validated: false, score: null },
                 // Ajoutez plus d'entreprises ici
             ]
         };
@@ -65,15 +77,11 @@ export default {
     text-align: left;
 }
 
-button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
+.bg-green {
+    background-color: rgba(75, 160, 75, 0.562);
 }
 
-button:hover {
-    background-color: #45a049;
+.bg-red {
+    background-color: rgba(241, 35, 35, 0.555);
 }
 </style>
