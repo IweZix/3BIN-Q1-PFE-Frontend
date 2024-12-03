@@ -122,7 +122,7 @@ export default {
   </div>
 </template>
 
-<style>
+<style scoped>
 /* Container and Layout */
 .container {
   display: flex;
