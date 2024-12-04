@@ -1,64 +1,34 @@
 <script lang="ts">
+import { PropType } from 'vue';
+
+interface Category {
+  category: string;
+  subCategories: string[];
+}
+
+
 export default {
   name: 'LeftNavBarComponent',
   props: {
-    categorie: {
-      type: String,
-      required: true,
-    },
-    sousCategorie: {
-      type: String,
+    categoryTable: {
+    type: Array as PropType<Category[]>,
       required: true,
     },
   },
-  data() {
-    return {
-      localCategorie: this.categorie,  // Crée une variable locale pour la categorie
-      localSousCategorie: this.sousCategorie,  // Crée une variable locale pour la confirmation
-      showPassword: false,
-      showConfirmPassword: false,
-      passwordError: null as string | null,
-    };
-  },
-  watch: {
-    // Mettez à jour les props si les variables locales changent
-    localPassword(newValue: string) {
-      this.$emit('update:password', newValue);
-      this.checkPassword(newValue);
-    },
-    localConfirmPassword(newValue: string) {
-      this.$emit('update:confirmPassword', newValue);
-    },
-  },
-
-  methods: {
-    togglePasswordVisibility() {
-      this.showPassword = !this.showPassword;
-    },
-    toggleConfirmPasswordVisibility() {
-      this.showConfirmPassword = !this.showConfirmPassword;
-    },
-    checkPassword(input: string) {
-      let errorMessage = '';
-
-      // Vérification de la longueur
-      if (input.length < 6) {
-        errorMessage = 'Le mot de passe doit contenir au moins 6 caractères.';
-      }
-
-      // Vérification de la présence d'une majuscule
-      if (!/[A-Z]/.test(input)) {
-        errorMessage = 'Le mot de passe doit contenir au moins une majuscule.';
-      }
-
-      // Vérification de la présence d'un caractère spécial
-      if (!/[!@#$%^&*(),.?":{}|<>]/.test(input)) {
-        errorMessage = 'Le mot de passe doit contenir au moins un caractère spécial.';
-      }
-
-      this.passwordError = errorMessage;
-      this.$emit('checkPassword', !errorMessage);
-    }
-  }
 };
 </script>
+
+<template>
+  <div>
+    <ul>
+      <li v-for="(categoryItem, index) in categoryTable" :key="index">
+        <strong>{{ categoryItem.category }}</strong>
+        <ul>
+          <li v-for="(sub, subIndex) in categoryItem.subCategories" :key="subIndex">
+            {{ sub }}
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</template>
