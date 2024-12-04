@@ -44,19 +44,6 @@
       title="Glossaire"
     >
       <template #default>
-        <!-- Sections personnalisées -->
-        <section>
-          <h2>Section 1</h2>
-          <p>Description ou contenu pour la première section.</p>
-        </section>
-        <section>
-          <h2>Section 2</h2>
-          <p>Description ou contenu pour la deuxième section.</p>
-        </section>
-        <section>
-          <h2>Section 3</h2>
-          <p>Description ou contenu pour la troisième section.</p>
-        </section>
       </template>
     </GlossaireModalComponent>
   </div>
