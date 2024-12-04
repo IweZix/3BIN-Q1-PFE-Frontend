@@ -1,74 +1,97 @@
 <script lang="ts">
+import test from 'node:test';
 import { PropType } from 'vue';
+import { getAllQuestions } from '@/services/moduleESGService';
+import { log } from 'console';
 
-interface Question {
-  idCategory: number;      
-  subCategories: number;
-  idQuestion: number;   
-  nomQuestion: string;      
-  numReponse: number[];      
-  template: string;        
-  answers: Answer[];         
+interface ListQuestions {
+   issue_id: number;
+  questionsList: Question[];
+}
+
+interface Question {     
+  txt: string;   
+  responsesList: Answer[];      
 }
 
 interface Answer {
-  answer: string;            
-  comment: string;           
-  now: boolean;             
-  twoYears: boolean;         
+  template: number;
+  txt_answer : string;
+  comment: string;          
+  isNow: boolean;             
+  is2Years: boolean; 
+  scoreNow : number;
+  score2 : number;        
 }
 
 
 
 export default {
   name: 'QuestionComponent',
-  props: {
-    questionsTable: {
-    type: Array as PropType<Question[]>,
-      required: true,
-    },
+  data() {
+    return {
+      questionsTable: [] as Question[],  // Initialisation de questionsTable
+    };
+  },
+  mounted() {
+    this.loadQuestions();  // Charger les questions au montage du composant
   },
   methods: {
-    toggleCheckbox(answer: Answer, type: 'now' | 'twoYears') {
-  const oppositeType = type === 'now' ? 'twoYears' : 'now';
-  
-  if (answer[oppositeType]) {
-    answer[oppositeType] = false;
-  }
-
-  answer[type] = !answer[type];
-
-  if ((answer.answer === "N/A" || answer.answer === "Aucune de ces réponses." || answer.answer === "Je ne sais pas") && answer[type]) {
-    const question = this.questionsTable.find(q =>
-      q.answers.includes(answer)
-    );
-    question?.answers.forEach(ans => {
-      if (ans !== answer) {
-        ans.now = false;
-        ans.twoYears = false;
+    async loadQuestions() {
+      try {
+        // Récupérer les questions depuis l'API
+        const response = await getAllQuestions();
+        // Assumer que response contient un objet 'essai'
+        console.log(response);
+        const essaiData: ListQuestions[] = response as ListQuestions[];
+        this.questionsTable = essaiData[1].questionsList;  // Mettre les questions dans questionsTable
+        console.log(this.questionsTable);
+      } catch (error) {
+        console.error('Erreur lors du chargement des questions:', error);
       }
-    });
-  }
+    },
 
-  if (answer.answer !== "N/A" && answer.answer !== "Aucune de ces réponses." && answer.answer !== "Je ne sais pas" && answer[type]) {
-    const question = this.questionsTable.find(q =>
-      q.answers.includes(answer)
-    );
-    const specialAnswers = question?.answers.filter(ans =>
-      ans.answer === "N/A" || ans.answer === "Aucune de ces réponses." || ans.answer === "Je ne sais pas" 
-    );
-    specialAnswers?.forEach(specialAnswer => {
-      specialAnswer.now = false;
-      specialAnswer.twoYears = false;
-    });
-  }
-}
-,
+    // Méthode pour gérer le changement d'état des cases à cocher (isNow / is2Years)
+    toggleCheckbox(answer: Answer, type: 'isNow' | 'is2Years') {
+      const oppositeType = type === 'isNow' ? 'is2Years' : 'isNow';
+
+      if (answer[oppositeType]) {
+        answer[oppositeType] = false;
+      }
+
+      answer[type] = !answer[type];
+
+      if ((answer.txt_answer === "N/A" || answer.txt_answer === "Aucune de ces réponses." || answer.txt_answer === "Je ne sais pas") && answer[type]) {
+        const question = this.questionsTable.find(q =>
+          q.responsesList.includes(answer)
+        );
+        question?.responsesList.forEach(ans => {
+          if (ans !== answer) {
+            ans.isNow = false;
+            ans.is2Years = false;
+          }
+        });
+      }
+
+      if (answer.txt_answer !== "N/A" && answer.txt_answer !== "Aucune de ces réponses." && answer.txt_answer !== "Je ne sais pas" && answer[type]) {
+        const question = this.questionsTable.find(q =>
+          q.responsesList.includes(answer)
+        );
+        const specialAnswers = question?.responsesList.filter(ans =>
+          ans.txt_answer === "N/A" || ans.txt_answer === "Aucune de ces réponses." || ans.txt_answer === "Je ne sais pas"
+        );
+        specialAnswers?.forEach(specialAnswer => {
+          specialAnswer.isNow = false;
+          specialAnswer.is2Years = false;
+        });
+      }
+    },
+
     saveCustomAnswer(answer: Answer) {
-      if (answer.answer.trim() === '') {
-        answer.answer = '';
+      if (answer.txt_answer.trim() === '') {
+        answer.txt_answer = '';
       } else {
-        console.log('Réponse personnalisée sauvegardée:', answer.answer);
+        console.log('Réponse personnalisée sauvegardée:', answer.txt_answer);
       }
     },
 
@@ -86,8 +109,7 @@ export default {
 <template>
   <div class="question-container" v-for="(question, index) in questionsTable" :key="index">
     <div class="question-box">
-      <h2>Question {{ question.idQuestion }}</h2>
-      <h5>{{ question.nomQuestion }}</h5>
+      <h5>{{ question.txt }}</h5>
       
       <table class="table">
         <thead>
@@ -105,25 +127,24 @@ export default {
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(answer, answerIndex) in question.answers" :key="answerIndex">
+          <tr v-for="(answer, answerIndex) in question.responsesList" :key="answerIndex">
             <td class="answers">
-              
-              <div >
-                <label>{{ answer.answer }}</label>
+              <div>
+                <label>{{ answer.txt_answer }}</label>
               </div>
             </td>
             <td class="now">
               <input 
                 type="checkbox" 
-                :checked="answer.now" 
-                @change="toggleCheckbox(answer, 'now')" 
+                :checked="answer.isNow" 
+                @change="toggleCheckbox(answer, 'isNow')" 
               />
             </td>
             <td class="twoYears">
               <input 
                 type="checkbox" 
-                :checked="answer.twoYears" 
-                @change="toggleCheckbox(answer, 'twoYears')" 
+                :checked="answer.is2Years" 
+                @change="toggleCheckbox(answer, 'is2Years')" 
               />
             </td>
             <td class="commentaire">
