@@ -3,6 +3,7 @@
  * Import of HomePage component
  */
 import { renderPageTitle } from '@/utils/render/render';
+import { registerCompany } from '@/services/authCompanyService';
 
 export default {
   /**
@@ -23,7 +24,8 @@ export default {
         companyName: '',
         email: '',
         password: ''
-      }
+      },
+      successMessage: ''
     };
   },
 
@@ -69,12 +71,19 @@ export default {
 
       return !this.errors.companyName && !this.errors.email && !this.errors.password;
     },
-    handleSubmit() {
+    async handleSubmit() {
       if (this.validateForm()) {
-        alert('Entreprise créée avec succès !');
-        // Ajouter ici l'appel à l'API ou une autre logique.
+        try {
+          // Appel de l'API pour enregistrer un administrateur
+          const result = await registerCompany(this.companyName,this.email, this.password);
+          this.successMessage = 'Administrateur créé avec succès !';
+          alert(this.successMessage);
+          console.log(result); // Log des données renvoyées par l'API
+        } catch (error) {
+          alert((error as any).message); // Affiche le message d'erreur dans une alerte
+        }
       }
-    }
+    },
   }
 };
 </script>
