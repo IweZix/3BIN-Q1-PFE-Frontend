@@ -7,7 +7,8 @@ export default {
         };
     },
     mounted() {
-        const storedCompanyName = localStorage.getItem('companyName');
+        const storedCompany = localStorage.getItem('company');
+        const storedCompanyName = storedCompany ? JSON.parse(storedCompany).name : null;
         if (storedCompanyName) {
             this.companyName = storedCompanyName;
         } else {

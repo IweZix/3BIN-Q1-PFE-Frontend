@@ -25,6 +25,7 @@ export default defineComponent({
                     const responseCompany = await loginCompany(this.email, this.password);
                     if (responseCompany?.token) {
                         this.handleLoginSuccess(responseCompany, 'CompanyHome');
+                        localStorage.setItem('company', JSON.stringify(responseCompany));
                         return;
                     }
                 } catch (error) {

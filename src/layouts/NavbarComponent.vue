@@ -16,6 +16,7 @@ export default {
     logout() {
       localStorage.removeItem('token');
       localStorage.removeItem('email');
+      localStorage.removeItem('company');
       this.isLoggedIn = false;
       this.admin = false;
       this.$router.push({ name: 'Home' });
