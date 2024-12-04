@@ -1,9 +1,7 @@
-<template>
-    <button @click="handleClick" :disabled="disabled">Visualiser</button>
-</template>
+<script lang="ts">
 
-<script>
 export default {
+    name: 'GetCompanyButton',
     props: {
         companyId: {
             type: Number,
@@ -23,6 +21,10 @@ export default {
     }
 };
 </script>
+
+<template>
+    <button @click="handleClick" :disabled="disabled">Visualiser</button>
+</template>
 
 <style scoped>
 button {
