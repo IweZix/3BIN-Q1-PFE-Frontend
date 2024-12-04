@@ -73,7 +73,7 @@ export default {
           alert(this.successMessage);
           console.log(result); // Log des données renvoyées par l'API
         } catch (error) {
-          alert(error.message); // Affiche le message d'erreur dans une alerte
+          alert((error as any).message); // Affiche le message d'erreur dans une alerte
         }
       }
     },
