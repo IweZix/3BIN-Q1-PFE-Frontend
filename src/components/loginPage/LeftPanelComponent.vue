@@ -23,7 +23,7 @@ export default {
     flex-direction: column;
     justify-content: center;
     /* Centre verticalement les éléments */
-    background-color: #ebebeb;
+    background-color: #F1EFE9;
     padding: 50px;
     border-radius: 5px 0 0 5px;
     /* Coins arrondis pour la gauche */
@@ -38,7 +38,7 @@ export default {
 }
 
 button {
-    background-color: #808080;
+    background-color: #013238;
     color: white;
     border: none;
     padding: 10px;
