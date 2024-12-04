@@ -1,3 +1,41 @@
+<script lang="ts">
+import { adminVerif } from '@/services/authAdminService';
+export default {
+  name: 'NavbarComponent',
+  async mounted() {
+    this.checkLoginStatus();
+  },
+  
+  data() {
+    return {
+      isLoggedIn: false,
+      admin: false,
+    };
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem('token');
+      localStorage.removeItem('email');
+      this.isLoggedIn = false;
+      this.admin = false;
+      this.$router.push({ name: 'Home' });
+    },
+    async checkLoginStatus() {
+      const token = localStorage.getItem('token');
+      if (token) {
+        this.isLoggedIn = true;
+        try {
+          const verifAdmin = await adminVerif(token);
+          if (verifAdmin) {
+            this.admin = true;
+          }
+        } catch (error) { /* empty */ }
+      }
+    },
+  },
+};
+</script>
+
 <template>
   <div class="p-4" id="navbarWrapper">
     <nav class="navbar navbar-expand-lg">
@@ -10,19 +48,21 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <router-link to="/" class="nav-link">Home</router-link>
+              <router-link v-if="!isLoggedIn" to="/" class="nav-link">Home</router-link>
+              <router-link v-if="isLoggedIn && admin" to="/admin" class="nav-link">Home</router-link>
+              <router-link v-if="isLoggedIn && !admin" to="/company" class="nav-link">Home</router-link>
             </li>
-            <li class="nav-item">
+            <li v-if="isLoggedIn && admin" class="nav-item">
               <router-link to="/createAdmin" class="nav-link">CreateAdmin</router-link>
             </li>
             <li class="nav-item">
-              <router-link to="/about" class="nav-link">About</router-link>
+              <router-link to="/AdminCreateCompany" class="nav-link">AdminCreateCompany</router-link>
             </li>
             <li class="nav-item">
               <router-link to="/changePassword" class="nav-link">ChangePassword</router-link>
             </li>
-            <li class="nav-item">
-              <router-link to="/login" class="nav-link">Login</router-link>
+            <li v-if="isLoggedIn" class="nav-item">
+              <router-link to="/changePassword" class="nav-link">Change Password</router-link>
             </li>
             <!-- Bouton pour ouvrir le glossaire -->
             <li class="nav-item">
@@ -30,8 +70,10 @@
             </li>
           </ul>
           <div class="navbar-icons">
-            <img src="../assets/icons/profil-de-lutilisateur.png" alt="User Icon" class="icon" />
-            <img src="../assets/icons/se-deconnecter.png" alt="exit Icon" class="icon" />
+            <router-link v-if="!isLoggedIn" to="/login" class="nav-link">
+              <img src="../assets/icons/profil-de-lutilisateur.png" alt="User Icon" class="icon" />
+            </router-link>
+            <img v-if="isLoggedIn" src="../assets/icons/se-deconnecter.png" alt="exit Icon" class="icon" @click="logout" />
           </div>
         </div>
       </div>
@@ -48,6 +90,7 @@
     </GlossaireModalComponent>
   </div>
 </template>
+
 
 <script lang="ts">
 import GlossaireModalComponent from '@/components/Modal/GlossaireModalComponent.vue';
