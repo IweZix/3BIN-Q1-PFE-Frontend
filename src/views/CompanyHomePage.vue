@@ -23,94 +23,227 @@ export default {
             <h1 class="company-name">{{ companyName }}</h1>
         </header>
         <main class="main-content">
-            <h2>Voici les prochaines étapes de votre certification ShiftingPact :</h2>
-            <p class="description">
-                <strong>1. Module ODD :</strong><br>
-                Préciser le niveau de votre engagement au regard des Objectifs de Développement Durable que vous avez préalablement sélectionnés.
+            <h2>Bienvenue dans votre certification ShiftingPact</h2>
+            <p class="intro">
+                Suivez les étapes ci-dessous pour compléter votre certification et accéder aux avantages réservés aux entreprises exemplaires !
             </p>
-            <p class="description">
-                <strong>2. Modules ESG et Pacte :</strong><br>
-                Répondre au questionnaire à choix multiples pour préciser à la fois :
+
+            <!-- Section ODD -->
+            <section class="section section-odd">
+                <h3 class="section-title">
+                    <i class="icon">🌍</i> Module ODD
+                </h3>
+                <p>
+                    Précisez votre niveau d'engagement concernant les Objectifs de Développement Durable que vous avez sélectionnés.
+                </p>
+            </section>
+
+            <!-- Section ESG -->
+            <section class="section section-esg">
+                <h3 class="section-title">
+                    <i class="icon">📋</i> Modules ESG et Pacte
+                </h3>
+                <p>
+                    Répondez au questionnaire pour indiquer :
+                </p>
                 <ul>
-                    <li>ce que vous avez éventuellement déjà mis en place</li>
-                    <li>ce que vous vous engagez à mettre en place dans les deux ans.</li>
+                    <li>Les actions déjà mises en place</li>
+                    <li>Les engagements pour les deux prochaines années</li>
                 </ul>
-            </p>
-            <p class="description">
-                L'objectif de notre certification est en effet de reconnaître, au-delà de votre impact, vos performances ESG actuelles et vos engagements à les améliorer à l'avenir.
-            </p>
-            <p class="description">
-                Votre score final se compose des éléments suivants et met en valeur :
+            </section>
+
+            <!-- Score final -->
+            <section class="section section-score">
+                <h3 class="section-title">
+                    <i class="icon">📊</i> Votre score final
+                </h3>
+                <p>
+                    Votre score met en valeur :
+                </p>
                 <ul>
-                    <li>l'impact de votre entreprise au travers des Objectifs de Développement Durable</li>
-                    <li>La performance ESG de vos pratiques opérationnelles</li>
-                    <li>Les engagements que vous prenez pour améliorer vos pratiques opérationnelles</li>
+                    <li>L'impact de votre entreprise à travers les ODD</li>
+                    <li>La performance ESG de vos pratiques</li>
+                    <li>Les engagements pris pour améliorer vos pratiques</li>
                 </ul>
-            </p>
-            <p class="description">
-                L'onglet Glossaire avec toutes les notions dont vous pourriez avoir besoin est à votre disposition dans le présent document.
-            </p>
-            <p class="description">
-                Nous expliquons également les Standards ESG que nous avons utilisés dans le cadre de la certification ShiftingPact : onglet "Référentiels Standards".
-            </p>
-            <p class="description">
-                Votre label ShiftingPact est agréé par la Région de Bruxelles-Capitale et vous donne accès, en tant qu'entreprise "exemplaire", à la majoration de vos subsides pour toutes les missions subsidiables à l'avenir : 
-                <a href="https://economie-emploi.brussels/primes-gerer-entreprise" target="_blank">https://economie-emploi.brussels/primes-gerer-entreprise</a>
-            </p>
-            <p class="description">
-                La qualité de votre label est garantie par un processus de vérification interne et un dialogue entre l'entreprise certifiante et le vérificateur avant l'attribution du label.
-            </p>
-            <p class="description">
-                De plus, Forum Ethibel est désigné comme auditeur externe pour effectuer des contrôles ex-post (voir "Référentiels Standards").
-            </p>
-            <p class="description">
-                Nous sommes à votre disposition si vous avez la moindre question : 
-                <a href="mailto:contact@shiftingpact.be">contact@shiftingpact.be</a>
-            </p>
+            </section>
+
+            <section class="section section-standards">
+                <h3 class="section-title">
+                    <i class="icon">📖</i> Standards ESG et Référentiels
+                </h3>
+                <p>
+                    Nous expliquons les <strong>Standards ESG</strong> utilisés dans le cadre de la certification ShiftingPact. Consultez l'onglet 
+                    <strong>"Référentiels Standards"</strong> pour plus de détails sur les méthodes et normes appliquées.
+                </p>
+            </section>
+
+            <section class="section section-label">
+                <h3 class="section-title">
+                    <i class="icon">🏆</i> Votre label ShiftingPact
+                </h3>
+                <p>
+                    Votre <strong>label ShiftingPact</strong> est <strong>agréé par la Région de Bruxelles-Capitale</strong>. En tant qu'entreprise "exemplaire", ce label vous permet de bénéficier de la majoration de vos subsides pour toutes les missions subsidiables à l'avenir.
+                </p>
+                <p>
+                    Consultez plus d'informations ici : 
+                    <a href="https://economie-emploi.brussels/primes-gerer-entreprise" target="_blank">
+                        https://economie-emploi.brussels/primes-gerer-entreprise
+                    </a>
+                </p>
+            </section>
+
+            <section class="section section-verification">
+                <h3 class="section-title">
+                    <i class="icon">✔️</i> Processus de vérification
+                </h3>
+                <p>
+                    La qualité de votre label est garantie par :
+                </p>
+                <ul>
+                    <li>Un <strong>processus de vérification interne</strong> et un dialogue avec le vérificateur avant l'attribution du label.</li>
+                    <li>Des <strong>contrôles ex-post</strong> effectués par <strong>Forum Ethibel</strong>, auditeur externe.</li>
+                </ul>
+                <p>
+                    Consultez l'onglet <strong>"Référentiels Standards"</strong> pour plus d'informations.
+                </p>
+            </section>
+
+
+            <!-- Support et contact -->
+            <section class="section section-contact">
+                <h3 class="section-title">
+                    <i class="icon">✉️</i> Besoin d'aide ?
+                </h3>
+                <p>
+                    Consultez l'onglet Glossaire pour plus d'informations ou contactez-nous à :
+                    <a href="mailto:contact@shiftingpact.be">contact@shiftingpact.be</a>
+                </p>
+            </section>
         </main>
     </div>
 </template>
+
+
 
 <style scoped>
 .company-home-page {
     font-family: 'Roboto', sans-serif;
     color: #333;
+    line-height: 1.6;
     padding: 20px;
     text-align: center;
-    background-color: #f9f9f9;
+    background-color: #f7f7f7;
 }
 
 .header {
     background-color: #007BFF;
     color: white;
-    padding: 20px 0;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .company-name {
-    margin: 0;
-    font-size: 2em; /* Reduced from 2.5em to 2em */
+    font-size: 2.2em;
     font-weight: 700;
+    margin: 0;
 }
 
 .main-content {
-    margin-top: 20px;
     text-align: left;
     background: white;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 0 auto;
 }
 
-.description {
-    font-size: 1.1em;
-    line-height: 1.8;
+.intro {
+    font-size: 1.2em;
+    font-weight: 500;
     margin-bottom: 20px;
+    color: #555;
+    text-align: center;
+}
+
+.section {
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.section-odd {
+    border-left: 5px solid #007BFF;
+}
+
+.section-esg {
+    border-left: 5px solid #4CAF50;
+}
+
+.section-score {
+    border-left: 5px solid #FFC107;
+}
+
+.section-contact {
+    border-left: 5px solid #FF5722;
+}
+
+.section-title {
+    font-size: 1.4em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+    display: flex;
+    align-items: center;
+}
+
+.icon {
+    margin-right: 10px;
+    font-size: 1.5em;
+}
+
+ul {
+    list-style-type: disc;
+    margin: 10px 0 20px 20px;
+    padding-left: 20px;
     color: #555;
 }
 
-.main-content h2 {
-    font-size: 1.5em; /* Reduced font size */
+a {
+    color: #007BFF;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.section-standards, .section-label, .section-verification {
+    background-color: #f9f9f9;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-left: 5px solid #FF9800;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #333;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.section-title .icon {
+    margin-right: 10px;
+    font-size: 1.5em;
 }
 
 ul {
@@ -128,4 +261,6 @@ a {
 a:hover {
     text-decoration: underline;
 }
+
+
 </style>
