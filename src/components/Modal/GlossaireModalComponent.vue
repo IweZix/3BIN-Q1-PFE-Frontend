@@ -16,6 +16,7 @@ export default {
       default: 'Glossaire',
     },
   },
+  
   data() {
     return {
       query: '', // Recherche de l'utilisateur

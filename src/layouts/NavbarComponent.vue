@@ -65,6 +65,7 @@ export default {
               <router-link to="/changePassword" class="nav-link">Change Password</router-link>
             </li>
             <!-- Bouton pour ouvrir le glossaire -->
+             
             <li class="nav-item">
               <button class="nav-link btn btn-link" @click="openGlossaireModal">Glossaire</button>
             </li>
