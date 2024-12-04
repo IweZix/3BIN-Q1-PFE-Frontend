@@ -6,7 +6,7 @@ import NavbarComponent from '@/layouts/NavbarComponent.vue';
 </script>
 
 <template>
-  <NavbarComponent />
+  <NavbarComponent :key="$route.fullPath" />
   <router-view />
 </template>
 
