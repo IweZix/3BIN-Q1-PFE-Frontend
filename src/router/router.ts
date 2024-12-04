@@ -8,17 +8,16 @@ import { createRouter, createWebHistory } from 'vue-router';
  */
 import Home from '../views/HomePage.vue';
 import About from '../views/AboutPage.vue';
-import CreateAdmin from '../views/CreatAdminPage.vue';
 import NotFound from '@/views/NotFoundPage.vue';
 import Login from '../views/LoginPage.vue';
 
 // ADMIN ROUTES
-import AdminHome from '../views/AdminHomePage.vue';
-
+import AdminHome from '@/views/AdminHomePage.vue';
+import ChangePassword from '@/views/ChangePasswordPage.vue';
+import AdminCreateCompany from '../views/AdminCreateCompany.vue';
+import CreateAdmin from '../views/CreatAdminPage.vue';
 // COMPANY ROUTES
 import CompanyHome from '../views/CompanyHomePage.vue';
-
-import ChangePassword from '@/views/ChangePasswordPage.vue';
 //import path from 'path';
 
 /**
@@ -49,6 +48,11 @@ const routes = [
     path: '/createAdmin',
     name: 'CreateAdmin',
     component: CreateAdmin
+  },
+  {
+    path: '/AdminCreateCompany',
+    name: 'AdminCreateCompany',
+    component: AdminCreateCompany
   },
   {
     path: '/login',
