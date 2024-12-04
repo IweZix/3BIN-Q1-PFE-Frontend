@@ -40,7 +40,9 @@ export default {
   <div class="p-4" id="navbarWrapper">
     <nav class="navbar navbar-expand-lg">
       <div class="container-fluid">
-        <router-link to="/" class="navbar-brand nav-link" id="demonopediaLogo">Vue.js</router-link>
+        <router-link to="/" class="navbar-brand nav-link" id="demonopediaLogo">
+          <img src="../assets/logo/logo_shiftingpact_vert_verteau.png" alt="Logo" class="logo" />
+        </router-link>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -79,7 +81,7 @@ export default {
 
 <style scoped>
 nav {
-  background-color: #f8f9fa;
+  background-color: #f6f6f6;
 }
 
 .navbar-icons {
@@ -92,5 +94,15 @@ nav {
   width: 24px;
   height: 24px;
   cursor: pointer;
+}
+
+.logo {
+  height: 80px;
+}
+
+.nav-link {
+  color: black;
+  font-size: 18px;
+  font-weight: 500;
 }
 </style>
