@@ -1,7 +1,6 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-// Définition des types pour les sous-catégories
 interface SubCategory {
   id: number;
   name: string;
@@ -16,11 +15,11 @@ export default defineComponent({
   name: 'LeftNavBarComponent',
   props: {
     categoryTable: {
-      type: Array as PropType<Category[]>, // Typage précis pour categoryTable
+      type: Array as PropType<Category[]>, 
       required: true,
     },
     selectedSubCategoryId: {
-      type: Number, // Typage du selectedSubCategoryId comme un number
+      type: Number, 
       required: true,
     },
   },
