@@ -2,20 +2,20 @@
 import { PropType } from 'vue';
 
 interface Question {
-  idCategory: number;      // Liste des identifiants de catégories
+  idCategory: number;      
   subCategories: number;
-  idQuestion: number;   // Liste des sous-catégories
-  nomQuestion: string;       // Intitulé de la question
-  numReponse: number[];      // Liste des identifiants des réponses possibles
-  template: string;          // Le modèle associé à la question
-  answers: Answer[];         // Liste des réponses possibles avec leurs attributs    
+  idQuestion: number;   
+  nomQuestion: string;      
+  numReponse: number[];      
+  template: string;        
+  answers: Answer[];         
 }
 
 interface Answer {
-  answer: string;            // La réponse donnée
-  comment: string;           // Commentaire associé à la réponse
-  now: boolean;              // Indication de réponse actuelle
-  twoYears: boolean;         // Indication de réponse pour dans 2 ans
+  answer: string;            
+  comment: string;           
+  now: boolean;             
+  twoYears: boolean;         
 }
 
 
@@ -30,18 +30,14 @@ export default {
   },
   methods: {
     toggleCheckbox(answer: Answer, type: 'now' | 'twoYears') {
-  // Si l'autre case est cochée, décocher cette case
   const oppositeType = type === 'now' ? 'twoYears' : 'now';
   
-  // Si l'autre case est cochée, décocher
   if (answer[oppositeType]) {
     answer[oppositeType] = false;
   }
 
-  // Mettre à jour l'état de la case à cocher
   answer[type] = !answer[type];
 
-  // Si "N/A" ou "Aucunes de ces réponses." est cochée
   if ((answer.answer === "N/A" || answer.answer === "Aucune de ces réponses." || answer.answer === "Je ne sais pas") && answer[type]) {
     const question = this.questionsTable.find(q =>
       q.answers.includes(answer)
@@ -54,7 +50,6 @@ export default {
     });
   }
 
-  // Si une autre réponse est cochée, décocher "N/A" et "Aucunes de ces réponses."
   if (answer.answer !== "N/A" && answer.answer !== "Aucune de ces réponses." && answer.answer !== "Je ne sais pas" && answer[type]) {
     const question = this.questionsTable.find(q =>
       q.answers.includes(answer)
@@ -71,17 +66,15 @@ export default {
 ,
     saveCustomAnswer(answer: Answer) {
       if (answer.answer.trim() === '') {
-        // Si le champ est vide après que l'utilisateur ait quitté le champ, on laisse vide
         answer.answer = '';
       } else {
         console.log('Réponse personnalisée sauvegardée:', answer.answer);
       }
     },
 
-    // Fonction pour sauvegarder un commentaire
     saveComment(answer: Answer) {
       if (answer.comment.trim() === '') {
-        answer.comment = ''; // Si le commentaire est vide, on laisse vide
+        answer.comment = ''; 
       } else {
         console.log('Commentaire sauvegardé:', answer.comment);
       }
@@ -152,11 +145,11 @@ export default {
 
 <style scoped>
 .question-box {
-    border: 2px solid #ccc; /* Bordure de 2px de couleur gris clair */
-    border-radius: 8px; /* Coins arrondis */
-    padding: 15px; /* Espacement interne pour aérer le contenu */
-    margin-bottom: 20px; /* Espacement entre les questions */
-    background-color: #f9f9f9; /* Couleur de fond pour chaque question */
+    border: 2px solid #ccc; 
+    border-radius: 8px; 
+    padding: 15px; 
+    margin-bottom: 20px; 
+    background-color: #f9f9f9; 
 }
 .question-container {
   font-family: Arial, sans-serif;
@@ -204,18 +197,18 @@ textarea:focus {
 }
 
 table {
-    width: 100%; /* Optionnel: définit la largeur du tableau */
-    table-layout: fixed; /* Assure une largeur fixe des colonnes */
+    width: 100%; 
+    table-layout: fixed; 
 }
 
 
 
 thead {
-    background-color: #f2f2f2; /* Optionnel: couleur d'arrière-plan pour les en-têtes */
+    background-color: #f2f2f2; 
 }
 
 tr {
-    height: 50px; /* Hauteur fixe pour les lignes */
+    height: 50px; 
 }
 
 th, td {
@@ -225,7 +218,7 @@ th, td {
 }
 
 .answers {
-    width: 40%; /* Largeur de la colonne des réponses */
+    width: 40%; 
 }
 
 .now, .twoYears {
