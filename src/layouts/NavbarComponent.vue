@@ -64,6 +64,9 @@ export default {
             <li v-if="isLoggedIn" class="nav-item">
               <router-link to="/changePassword" class="nav-link">Change Password</router-link>
             </li>
+            <li class="nav-item">
+              <router-link to="/moduleESG" class="nav-link">Module ESG</router-link>
+            </li>
           </ul>
           <div class="navbar-icons">
             <router-link v-if="!isLoggedIn" to="/login" class="nav-link">
