@@ -22,6 +22,9 @@
               <router-link to="/admin" class="nav-link">AdminHP</router-link>
             </li>
             <li class="nav-item">
+              <router-link to="/company" class="nav-link">CompanyHP</router-link>
+            </li>
+            <li class="nav-item">
               <router-link to="/changePassword" class="nav-link">changePassword</router-link>
             </li>
             <li class="nav-item">
