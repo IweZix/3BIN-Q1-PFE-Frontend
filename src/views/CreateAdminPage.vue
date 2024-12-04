@@ -3,6 +3,7 @@
  * Import of HomePage component
  */
 import { renderPageTitle } from '@/utils/render/render';
+import { registerAdmin } from '@/services/authAdminService';
 
 export default {
   /**
@@ -21,7 +22,8 @@ export default {
       errors: {
         email: '',
         password: ''
-      }
+      },
+      successMessage: ''
     };
   },
 
@@ -62,12 +64,19 @@ export default {
 
       return !this.errors.email && !this.errors.password;
     },
-    handleSubmit() {
+    async handleSubmit() {
       if (this.validateForm()) {
-        alert('Formulaire soumis avec succès !');
-        // Ajouter ici l'appel à l'API ou une autre logique.
+        try {
+          // Appel de l'API pour enregistrer un administrateur
+          const result = await registerAdmin(this.email, this.password);
+          this.successMessage = 'Administrateur créé avec succès !';
+          alert(this.successMessage);
+          console.log(result); // Log des données renvoyées par l'API
+        } catch (error) {
+          alert((error as any).message); // Affiche le message d'erreur dans une alerte
+        }
       }
-    }
+    },
   }
 };
 </script>
