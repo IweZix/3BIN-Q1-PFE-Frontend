@@ -13,6 +13,8 @@ import NotFound from '@/views/NotFoundPage.vue';
 import Login from '../views/LoginPage.vue';
 
 import ChangePassword from '@/views/ChangePasswordPage.vue';
+import Glossaire from '@/views/GlossaireModalPage.vue';
+import path from 'path';
 //import path from 'path';
 
 /**
@@ -48,6 +50,15 @@ const routes = [
     component: ChangePassword
 
   },
+  /**
+   * Define Glossaire Modal page route
+   */
+  {
+    path: '/glossaire',
+    name: 'Glossaire',
+    component: Glossaire
+  },
+
   /**
    * Define not found route
    */
