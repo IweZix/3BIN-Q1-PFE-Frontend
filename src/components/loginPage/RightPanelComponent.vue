@@ -16,7 +16,7 @@ export default defineComponent({
             try {
                 const responseAdmin = await loginAdmin(this.email, this.password);
                 if (responseAdmin?.token) {
-                    this.handleLoginSuccess(responseAdmin, 'Home');
+                    this.handleLoginSuccess(responseAdmin, 'AdminHome');
                     return;
                 }
                 
@@ -24,7 +24,7 @@ export default defineComponent({
                 try{
                     const responseCompany = await loginCompany(this.email, this.password);
                     if (responseCompany?.token) {
-                        this.handleLoginSuccess(responseCompany, 'About');
+                        this.handleLoginSuccess(responseCompany, 'CompanyHome');
                         return;
                     }
                 } catch (error) {
