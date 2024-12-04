@@ -1,7 +1,11 @@
 <script lang="ts">
 import { adminVerif } from '@/services/authAdminService';
+import GlossaireModalComponent from '@/components/Modal/GlossaireModalComponent.vue';
 export default {
   name: 'NavbarComponent',
+  components: {
+    GlossaireModalComponent,
+  },
   async mounted() {
     this.checkLoginStatus();
   },
@@ -10,6 +14,7 @@ export default {
     return {
       isLoggedIn: false,
       admin: false,
+      isGlossaireModalVisible: false, // Contrôle la visibilité du modal
     };
   },
   methods: {
@@ -31,6 +36,12 @@ export default {
           }
         } catch (error) { /* empty */ }
       }
+    },
+    openGlossaireModal() {
+      this.isGlossaireModalVisible = true;
+    },
+    closeGlossaireModal() {
+      this.isGlossaireModalVisible = false;
     },
   },
 };
@@ -59,7 +70,7 @@ export default {
               <router-link to="/AdminCreateCompany" class="nav-link">AdminCreateCompany</router-link>
             </li>
             <li class="nav-item">
-              <router-link to="/changePassword" class="nav-link">ChangePassword</router-link>
+              <router-link to="/about" class="nav-link">About</router-link>
             </li>
             <li v-if="isLoggedIn" class="nav-item">
               <router-link to="/changePassword" class="nav-link">Change Password</router-link>
@@ -79,9 +90,8 @@ export default {
         </div>
       </div>
     </nav>
-
-    <!-- Modal pour le glossaire -->
-    <GlossaireModalComponent
+     <!-- Modal pour le glossaire -->
+     <GlossaireModalComponent
       :isVisible="isGlossaireModalVisible"
       @close="closeGlossaireModal"
       title="Glossaire"
@@ -91,34 +101,6 @@ export default {
     </GlossaireModalComponent>
   </div>
 </template>
-
-
-<script lang="ts">
-import GlossaireModalComponent from '@/components/Modal/GlossaireModalComponent.vue';
-
-export default {
-  name: 'NavbarComponent',
-  components: {
-    GlossaireModalComponent,
-  },
-  data() {
-    return {
-      isGlossaireModalVisible: false, // Contrôle la visibilité du modal
-    };
-  },
-  methods: {
-    openGlossaireModal() {
-      this.isGlossaireModalVisible = true;
-    },
-    closeGlossaireModal() {
-      this.isGlossaireModalVisible = false;
-    },
-  },
-  mounted() {
-    console.log('NavbarComponent mounted');
-  },
-};
-</script>
 
 <style scoped>
 nav {
@@ -136,7 +118,6 @@ nav {
   height: 24px;
   cursor: pointer;
 }
-
 .btn {
   background: none;
   border: none;
