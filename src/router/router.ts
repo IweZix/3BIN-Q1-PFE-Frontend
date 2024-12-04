@@ -15,7 +15,7 @@ import Login from '../views/LoginPage.vue';
 import AdminHome from '@/views/AdminHomePage.vue';
 import ChangePassword from '@/views/ChangePasswordPage.vue';
 import AdminCreateCompany from '../views/AdminCreateCompany.vue';
-import CreateAdmin from '../views/CreatAdminPage.vue';
+import CreateAdmin from '../views/CreateAdminPage.vue';
 // COMPANY ROUTES
 import CompanyHome from '../views/CompanyHomePage.vue';
 //import path from 'path';
