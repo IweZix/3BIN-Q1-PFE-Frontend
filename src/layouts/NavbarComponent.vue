@@ -16,6 +16,9 @@
               <router-link to="/createAdmin" class="nav-link">CreateAdmin</router-link>
             </li>
             <li class="nav-item">
+              <router-link to="/AdminCreateCompany" class="nav-link">AdminCreateCompany</router-link>
+            </li>
+            <li class="nav-item">
               <router-link to="/about" class="nav-link">About</router-link>
             </li>
             <li class="nav-item">
