@@ -1,3 +1,30 @@
+<script lang="ts">
+
+import GetCompanyButton from '../components/buttons/GetCompanyButtonComponent.vue';
+
+export default {
+    name: 'AdminHomePage',
+    components: {
+        GetCompanyButton
+    },
+    data() {
+        return {
+            companies: [
+                { id: 1, name: 'Entreprise A', completed: true, validated: false, score: 85 },
+                { id: 2, name: 'Entreprise B', completed: false, validated: false, score: null },
+                // Ajoutez plus d'entreprises ici
+            ]
+        };
+    },
+    methods: {
+        editCompany(id) {
+            // Logique pour modifier l'entreprise
+            console.log(`Modifier l'entreprise avec l'ID: ${id}`);
+        }
+    }
+};
+</script>
+
 <template>
     <div class="admin-home-page">
         <h1>Liste des entreprises</h1>
@@ -22,39 +49,13 @@
                     </td>
                     <td>{{ company.score ?? "/" }}</td>
                     <td>
-                        <ButtonEditCompany :companyId="company.id" @edit-company="editCompany" :disabled="!company.completed" />
+                        <GetCompanyButton :companyId="company.id" @edit-company="editCompany" :disabled="!company.completed" />
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
 </template>
-
-<script>
-
-import ButtonEditCompany from '@/components/buttons/GetCompanyButtonComponent.vue';
-
-export default {
-    components: {
-        ButtonEditCompany
-    },
-    data() {
-        return {
-            companies: [
-                { id: 1, name: 'Entreprise A', completed: true, validated: false, score: 85 },
-                { id: 2, name: 'Entreprise B', completed: false, validated: false, score: null },
-                // Ajoutez plus d'entreprises ici
-            ]
-        };
-    },
-    methods: {
-        editCompany(id) {
-            // Logique pour modifier l'entreprise
-            console.log(`Modifier l'entreprise avec l'ID: ${id}`);
-        }
-    }
-};
-</script>
 
 <style scoped>
 .admin-home-page {

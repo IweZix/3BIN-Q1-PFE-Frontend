@@ -1,18 +1,47 @@
 <script lang="ts">
-export default {
+import { defineComponent } from 'vue';
+import { loginAdmin } from '@/services/authAdminService';
+import { loginCompany } from '@/services/authCompanyService';
+
+export default defineComponent({
     name: 'RightPanel',
     data() {
         return {
-            email: '',
-            password: ''
+            email: '' as string,
+            password: '' as string
         };
     },
     methods: {
-        login() {
-            alert(`Connexion avec l'email : ${this.email}`);
+        async login() {
+            try {
+                const responseAdmin = await loginAdmin(this.email, this.password);
+                if (responseAdmin?.token) {
+                    this.handleLoginSuccess(responseAdmin, 'Home');
+                    return;
+                }
+                
+            } catch (error) {
+                try{
+                    const responseCompany = await loginCompany(this.email, this.password);
+                    if (responseCompany?.token) {
+                        this.handleLoginSuccess(responseCompany, 'About');
+                        return;
+                    }
+                } catch (error) {
+                    const alert: HTMLElement | null = document.querySelector('.alert');
+                    if (alert) {
+                        alert.innerHTML = 'Invalid email or password ';
+                    }
+                }
+            }
+        },
+        handleLoginSuccess(response: any, routeName: string) {
+            localStorage.setItem('token', response.token);
+            localStorage.setItem('email', response.email);
+            this.$router.push({ name: routeName });
         }
     }
-};
+});
 </script>
 
 <template>
@@ -27,6 +56,7 @@ export default {
 
             <button class="rightButton" type="submit">Connexion</button>
         </form>
+        <div class="alert"></div>
     </div>
 </template>
 
@@ -35,13 +65,10 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    /* Centre verticalement les éléments */
     background-color: #d9d9d9;
     padding: 20px;
     border-radius: 5px;
-    /* Coins arrondis pour la droite */
     width: 50%;
-    /* Largeur des sections */
 }
 
 .right-panel h2 {
@@ -58,9 +85,7 @@ button {
     border-radius: 5px;
     cursor: pointer;
     width: auto;
-    /* Ajuste la largeur au contenu */
     align-self: center;
-    /* Aligne le bouton à gauche */
     margin-top: 2em;
 }
 
@@ -82,6 +107,10 @@ input {
     border: 1px solid;
     border-radius: 5px;
     background-color: transparent;
-    /* Fond transparent */
+}
+
+.alert {
+    color: red;
+    margin-top: 10px;
 }
 </style>

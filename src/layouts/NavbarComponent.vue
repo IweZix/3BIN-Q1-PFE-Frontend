@@ -21,18 +21,18 @@
             <li class="nav-item">
               <router-link to="/about" class="nav-link">About</router-link>
             </li>
+
             <li class="nav-item">
-              <router-link to="/admin" class="nav-link">AdminHP</router-link>
+              <router-link to="/company" class="nav-link">CompanyHP</router-link>
             </li>
             <li class="nav-item">
               <router-link to="/changePassword" class="nav-link">changePassword</router-link>
             </li>
-            <li class="nav-item">
-              <router-link to="/login" class="nav-link">Login</router-link>
-            </li>
           </ul>
           <div class="navbar-icons">
-            <img src="../assets/icons/profil-de-lutilisateur.png" alt="User Icon" class="icon" />
+            <router-link to="/login" class="nav-link">
+              <img src="../assets/icons/profil-de-lutilisateur.png" alt="User Icon" class="icon" />
+            </router-link>
             <img src="../assets/icons/se-deconnecter.png" alt="exit Icon" class="icon" />
           </div>
         </div>
