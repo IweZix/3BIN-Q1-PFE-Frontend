@@ -44,12 +44,12 @@ export default {
       selectedSubCategoryId: 0, 
       questionsTable: [
         {
-          idCategory: 1,  // Identifiant de catégorie
-          subCategories: 1,  // Identifiant de sous-catégorie
-          idQuestion: 1,  // Identifiant de question
+          idCategory: 1,  
+          subCategories: 1,  
+          idQuestion: 1,  
           nomQuestion: 'Suivez-vous la consommation d\'énergie de XXX?',
-          numReponse: [1, 2],  // Identifiants des réponses (1 = Oui, 2 = Non)
-          template: '0',  // Modèle de question
+          numReponse: [1, 2],  
+          template: '0',  
           answers: [
             {
               answer: 'Oui',
@@ -94,7 +94,7 @@ export default {
           subCategories: 1,
           idQuestion: 3, 
           nomQuestion: 'Avez-vous un contrat vert avec votre fournisseur d\'énergie ?',
-          numReponse: [1, 2, 3, 4],  // Identifiants des réponses
+          numReponse: [1, 2, 3, 4],  
           template: '1',
           answers: [
             {
@@ -351,11 +351,9 @@ export default {
  handleSave() {
     this.questionsTable.forEach(question => {
       question.answers.forEach(answer => {
-        // Vérifier si l'une des cases a été cochée
         if (answer.now || answer.twoYears) {
           console.log(`Question ID: ${question.idQuestion} - ${question.nomQuestion}`);
           
-          // Afficher la réponse cochée et si c'est "Aujourd'hui" ou "Dans 2 ans"
           if (answer.now) {
             console.log(`  Réponse cochée pour aujourd'hui: ${answer.answer}`);
           }
@@ -364,7 +362,6 @@ export default {
             console.log(`  Réponse cochée pour dans 2 ans: ${answer.answer}`);
           }
 
-          // Optionnel : afficher le commentaire
           if (answer.comment) {
             console.log(`  Commentaire: ${answer.comment}`);
           }
@@ -407,9 +404,9 @@ export default {
 <style>
 .leftNavbarComponent {
   position: sticky;
-  width: 250px;  /* Ajuste la largeur selon tes besoins */
-  height: 100%;  /* Elle prendra toute la hauteur de la section parent */
-  z-index: 1000;  /* Assure-toi qu'elle soit au-dessus des autres éléments */
+  width: 250px;  
+  height: 100%;  
+  z-index: 1000;  
 
 }
 

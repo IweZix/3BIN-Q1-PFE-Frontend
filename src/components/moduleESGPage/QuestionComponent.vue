@@ -202,7 +202,6 @@ table {
 }
 
 
-
 thead {
     background-color: #f2f2f2; 
 }
