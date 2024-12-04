@@ -59,10 +59,14 @@ export default {
               <router-link to="/AdminCreateCompany" class="nav-link">AdminCreateCompany</router-link>
             </li>
             <li class="nav-item">
-              <router-link to="/about" class="nav-link">About</router-link>
+              <router-link to="/changePassword" class="nav-link">ChangePassword</router-link>
             </li>
             <li v-if="isLoggedIn" class="nav-item">
               <router-link to="/changePassword" class="nav-link">Change Password</router-link>
+            </li>
+            <!-- Bouton pour ouvrir le glossaire -->
+            <li class="nav-item">
+              <button class="nav-link btn btn-link" @click="openGlossaireModal">Glossaire</button>
             </li>
           </ul>
           <div class="navbar-icons">
@@ -74,8 +78,46 @@ export default {
         </div>
       </div>
     </nav>
+
+    <!-- Modal pour le glossaire -->
+    <GlossaireModalComponent
+      :isVisible="isGlossaireModalVisible"
+      @close="closeGlossaireModal"
+      title="Glossaire"
+    >
+      <template #default>
+      </template>
+    </GlossaireModalComponent>
   </div>
 </template>
+
+
+<script lang="ts">
+import GlossaireModalComponent from '@/components/Modal/GlossaireModalComponent.vue';
+
+export default {
+  name: 'NavbarComponent',
+  components: {
+    GlossaireModalComponent,
+  },
+  data() {
+    return {
+      isGlossaireModalVisible: false, // Contrôle la visibilité du modal
+    };
+  },
+  methods: {
+    openGlossaireModal() {
+      this.isGlossaireModalVisible = true;
+    },
+    closeGlossaireModal() {
+      this.isGlossaireModalVisible = false;
+    },
+  },
+  mounted() {
+    console.log('NavbarComponent mounted');
+  },
+};
+</script>
 
 <style scoped>
 nav {
@@ -92,5 +134,14 @@ nav {
   width: 24px;
   height: 24px;
   cursor: pointer;
+}
+
+.btn {
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+  cursor: pointer;
+  text-decoration: none;
 }
 </style>
