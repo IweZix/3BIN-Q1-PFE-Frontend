@@ -56,6 +56,6 @@ export default defineComponent({
 <style scoped>
 .grayed-out {
   color: #bbb;
-  pointer-events: none; /* Empêche de cliquer sur la sous-catégorie grisée */
+  pointer-events: none; 
 }
 </style>
