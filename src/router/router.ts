@@ -11,6 +11,7 @@ import About from '../views/AboutPage.vue';
 import CreateAdmin from '../views/CreatAdminPage.vue';
 import NotFound from '@/views/NotFoundPage.vue';
 import Login from '../views/LoginPage.vue';
+import ModuleESG from '../views/ModuleESGPage.vue';
 
 import ChangePassword from '@/views/ChangePasswordPage.vue';
 //import path from 'path';
@@ -46,6 +47,12 @@ const routes = [
     path: '/changePassword',
     name: 'ChangePassword',
     component: ChangePassword
+
+  },
+  {
+    path: '/moduleESG',
+    name: 'ModuleESG',
+    component: ModuleESG
 
   },
   /**

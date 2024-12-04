@@ -24,6 +24,9 @@
             <li class="nav-item">
               <router-link to="/login" class="nav-link">Login</router-link>
             </li>
+            <li class="nav-item">
+              <router-link to="/moduleESG" class="nav-link">Module ESG</router-link>
+            </li>
           </ul>
           <div class="navbar-icons">
             <img src="../assets/icons/profil-de-lutilisateur.png" alt="User Icon" class="icon" />
