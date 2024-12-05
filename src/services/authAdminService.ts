@@ -27,10 +27,9 @@ export const adminVerif = async (token: string) => {
         // erreur silencieuse
     }
 };
-export const registerAdmin = async (email: string, password: string) => {
-    const name = 'frontHardCodeName';
+export const registerAdmin = async (adminName: String, email: string, password: string) => {
     try {
-        const response = await axios.post(`${API_URL}/register-admin`, { name, email, password });
+        const response = await axios.post(`${API_URL}/register-admin`, {adminName, email, password });
         return response.data; // Retourne les données de l'API
     } catch (error) {
         // Gestion des erreurs

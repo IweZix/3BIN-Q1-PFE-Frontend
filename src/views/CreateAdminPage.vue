@@ -7,11 +7,13 @@ export default {
   name: 'CreateAdmin',
   data() {
     return {
+      adminName: '',
       email: '',
       password: '',
       isPasswordVisible: true,
       passwordError: null as string | null,
       errors: {
+        adminName: '',
         email: '',
         password: ''
       },
@@ -44,8 +46,14 @@ export default {
       return !errorMessage;
     },
     validateForm() {
+      this.errors.adminName = '';
       this.errors.email = '';
       this.errors.password = '';
+
+      const adminNameRegex = /^[A-Z][a-z]*$/;
+      if (!adminNameRegex.test(this.adminName)) {
+        this.errors.adminName = 'Veuillez entrer un nom valide avec comme premier lettre une majuscule.';
+      }
 
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(this.email)) {
@@ -54,12 +62,12 @@ export default {
 
       this.validatePassword(this.password);
 
-      return !this.errors.email && !this.passwordError;
+      return !this.errors.adminName && !this.errors.email && !this.passwordError;
     },
     async handleSubmit() {
       if (this.validateForm()) {
         try {
-          const result = await registerAdmin(this.email, this.password);
+          const result = await registerAdmin(this.adminName, this.email, this.password);
           this.successMessage = 'Administrateur créé avec succès !';
           alert(this.successMessage);
           console.log(result);
@@ -78,6 +86,19 @@ export default {
     <div class="card">
       <h1>Création d'un administrateur</h1>
       <form @submit.prevent="handleSubmit">
+        <div class="form-group">
+          <label for="adminName">Name :</label>
+          <input
+            id="adminName"
+            type="text"
+            placeholder="Nom de l'utilisateur"
+            v-model="adminName"
+            aria-describedby="adminName-error"
+            :class="{ 'error-border': errors.adminName }"
+            required
+          />
+          <p id="adminName-error" v-if="errors.adminName" class="error-message">{{ errors.adminName }}</p>
+        </div>
         <div class="form-group">
           <label for="email">Email :</label>
           <input
