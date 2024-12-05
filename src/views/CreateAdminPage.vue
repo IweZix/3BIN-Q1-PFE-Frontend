@@ -52,7 +52,7 @@ export default {
 
       const adminNameRegex = /^[A-Z][a-z]*$/;
       if (!adminNameRegex.test(this.adminName)) {
-        this.errors.email = 'Veuillez entrer un nom valide avec comme premier lettre une majuscule.';
+        this.errors.adminName = 'Veuillez entrer un nom valide avec comme premier lettre une majuscule.';
       }
 
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -92,7 +92,7 @@ export default {
             id="adminName"
             type="text"
             placeholder="Nom de l'utilisateur"
-            v-model="email"
+            v-model="adminName"
             aria-describedby="adminName-error"
             :class="{ 'error-border': errors.adminName }"
             required
