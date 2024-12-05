@@ -73,6 +73,8 @@ export default {
           console.log(result);
           // redirect to 
         } catch (error) {
+          console.log(error);
+          
           alert((error as any).message);
         }
       }
