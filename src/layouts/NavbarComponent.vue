@@ -1,5 +1,6 @@
 <script lang="ts">
-import { adminVerif } from '@/services/authAdminService';
+import { adminVerif, checkPasswordUpdated } from '@/services/authAdminService';
+import { checkPasswordUpdatedCompany } from '@/services/authCompanyService';
 import GlossaireModalComponent from '@/components/Modal/GlossaireModalComponent.vue';
 export default {
   name: 'NavbarComponent',
@@ -8,12 +9,14 @@ export default {
   },
   async mounted() {
     await this.checkLoginStatus();
+    
   },
   
   data() {
     return {
       isLoggedIn: false,
       admin: false,
+      isPasswordUpdated: false,
       path: '/login',
       isGlossaireModalVisible: false, // Contrôle la visibilité du modal
     };
@@ -37,15 +40,32 @@ export default {
           if (verifAdmin) {
             this.admin = true;
           }
+          await this.checkIfPasswordUpdated();
         } catch (error) {
-          console.error(error);
+          // Erreur silencieuse, ne rien faire
         }
       }
       this.redirectPath(); // Détermine le chemin après la vérification
     },
+    async checkIfPasswordUpdated() {
+      const email = localStorage.getItem('email');
+      if (email) {
+        if (this.admin) {
+          this.isPasswordUpdated = await checkPasswordUpdated(email);
+        } else {
+          this.isPasswordUpdated = await checkPasswordUpdatedCompany(email);
+        }
+      }
+      console.log(this.isPasswordUpdated);
+    },
     redirectPath() {
       if (this.isLoggedIn) {
-        this.path = this.admin ? '/admin' : '/company';
+        if (this.isPasswordUpdated){
+          this.path = this.admin ? '/admin' : '/company';
+        }else{
+          this.path = '/changePassword';
+        }
+        
       } else {
         this.path = '/login';
       }
@@ -78,19 +98,19 @@ export default {
               <!-- Utilise path pour la redirection -->
               <router-link :to="path" class="nav-link">Home</router-link>
             </li>
-            <li v-if="isLoggedIn && admin" class="nav-item">
+            <li v-if="isLoggedIn && admin && isPasswordUpdated" class="nav-item">
               <router-link to="/createAdmin" class="nav-link">CreateAdmin</router-link>
             </li>
-            <li v-if="isLoggedIn && admin" class="nav-item">
+            <li v-if="isLoggedIn && admin && isPasswordUpdated" class="nav-item">
               <router-link to="/AdminCreateCompany" class="nav-link">AdminCreateCompany</router-link>
             </li>
-            <li class="nav-item">
+            <li v-if="isPasswordUpdated" class="nav-item">
               <router-link to="/about" class="nav-link">About</router-link>
             </li>
             <li v-if="isLoggedIn" class="nav-item">
               <router-link to="/changePassword" class="nav-link">Change Password</router-link>
             </li>
-            <li class="nav-item">
+            <li v-if="isLoggedIn && !admin && isPasswordUpdated" class="nav-item">
               <router-link to="/moduleESG" class="nav-link">Module ESG</router-link>
             </li>
             <!-- Bouton pour ouvrir le glossaire -->
