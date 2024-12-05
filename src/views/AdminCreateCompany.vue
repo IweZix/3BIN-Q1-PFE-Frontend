@@ -2,6 +2,7 @@
 import { renderPageTitle } from '@/utils/render/render';
 import { registerCompany } from '@/services/authCompanyService';
 import { generateRandomPassword } from '@/utils/passwordUtils';
+import { getTemplates } from '@/services/templatesService';
 
 
 export default {
@@ -12,7 +13,7 @@ export default {
       email: '',
       password: '',
       templates: [], // Liste des templates sélectionnés
-      availableTemplates: ['ALL', 'OWNED FACILITY', 'WORKERS', 'PRODUIT', 'FACILITY'], // Liste des options
+      availableTemplates: [], // Liste des options
       isPasswordVisible: true,
       errors: {
         companyName: '',
@@ -23,8 +24,13 @@ export default {
       successMessage: ''
     };
   },
-  mounted() {
+  async mounted() {
     renderPageTitle('CreateCompany');
+    try {
+      this.availableTemplates = await getTemplates();
+    } catch (error) {
+      console.error('Failed to fetch templates', error);
+    }
   },
   methods: {
     togglePasswordVisibility() {
@@ -152,10 +158,10 @@ export default {
                 <label>
                   <input 
                     type="checkbox" 
-                    :value="template" 
+                    :value="template._id" 
                     v-model="templates"
                   />
-                  {{ template }}
+                  {{ template.templateName }}
                 </label>
               </li>
             </ul>
