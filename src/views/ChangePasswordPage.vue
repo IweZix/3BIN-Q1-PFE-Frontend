@@ -1,6 +1,7 @@
 <script lang="ts">
 import { renderPageTitle } from '@/utils/render/render';
 import ChangePasswordPageInputComponent from '@/components/ChangePasswordPage/ChangePasswordPageInputComponent.vue';
+import { changepasswordCompany } from '@/services/authCompanyService'; // Import the API function
 
 export default {
   name: 'ChangePasswordPage',
@@ -21,7 +22,9 @@ export default {
     renderPageTitle('Change Password');
   },
   methods: {
-    changePassword() {
+    async changePassword() {
+      console.log("dans la méthode changePassword");
+      
       this.errorMessage = '';
       this.successMessage = '';
 
@@ -29,23 +32,20 @@ export default {
         this.errorMessage = 'Tous les champs sont obligatoires.';
         return;
       }
-
-      if (!this.isPasswordValid) {
-        this.errorMessage = 'Veuillez corriger les erreurs dans votre mot de passe.';
-        return;
-      }
-
       if (this.password !== this.confirmPassword) {
         this.errorMessage = 'Les mots de passe ne correspondent pas.';
         return;
       }
+      console.log("juste avant l'appel à l'API");
+      try {
+        await changepasswordCompany(localStorage.getItem('token'), this.password);
+        // Appel à l'API pour changer le mot de passe
+        this.successMessage = 'Votre mot de passe a été changé avec succès.';
+      } catch (error) {
+        this.errorMessage = 'Une erreur est survenue lors du changement de mot de passe.';
+      }
+    },
 
-      // Appel à l'API pour changer le mot de passe
-      this.successMessage = 'Votre mot de passe a été changé avec succès.';
-    },
-    handlePasswordCheck(isValid: boolean) {
-      this.isPasswordValid = isValid;
-    },
   },
 };
 </script>
@@ -64,7 +64,6 @@ export default {
           :confirmPassword="confirmPassword"
           @update:password="password = $event"
           @update:confirmPassword="confirmPassword = $event"
-          @checkPassword="handlePasswordCheck"
         />
       </div>
 
