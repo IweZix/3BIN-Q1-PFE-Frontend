@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { loginAdmin } from '@/services/authAdminService';
-import { loginCompany } from '@/services/authCompanyService';
+import { loginAdmin, checkPasswordUpdated } from '@/services/authAdminService';
+import { loginCompany, checkPasswordUpdatedCompany } from '@/services/authCompanyService';
 
 export default defineComponent({
     name: 'RightPanel',
@@ -16,15 +16,14 @@ export default defineComponent({
             try {
                 const responseAdmin = await loginAdmin(this.email, this.password);
                 if (responseAdmin?.token) {
-                    this.handleLoginSuccess(responseAdmin, 'AdminHome');
+                    await this.handleLoginSuccess(responseAdmin, 'AdminHome', true);
                     return;
                 }
-                
             } catch (error) {
-                try{
+                try {
                     const responseCompany = await loginCompany(this.email, this.password);
                     if (responseCompany?.token) {
-                        this.handleLoginSuccess(responseCompany, 'CompanyHome');
+                        await this.handleLoginSuccess(responseCompany, 'CompanyHome', false);
                         localStorage.setItem('company', JSON.stringify(responseCompany));
                         return;
                     }
@@ -36,10 +35,22 @@ export default defineComponent({
                 }
             }
         },
-        handleLoginSuccess(response: any, routeName: string) {
+        async handleLoginSuccess(response: any, routeName: string, isAdmin: boolean) {
             localStorage.setItem('token', response.token);
             localStorage.setItem('email', response.email);
-            this.$router.push({ name: routeName });
+
+            let isPasswordUpdated = false;
+            if (isAdmin) {
+                isPasswordUpdated = await checkPasswordUpdated(response.email);
+            } else {
+                isPasswordUpdated = await checkPasswordUpdatedCompany(response.email);
+            }
+
+            if (!isPasswordUpdated) {
+                this.$router.push({ name: 'ChangePassword' });
+            } else {
+                this.$router.push({ name: routeName });
+            }
         }
     }
 });
