@@ -110,7 +110,7 @@ export default {
             <li v-if="isLoggedIn" class="nav-item">
               <router-link to="/changePassword" class="nav-link">Change Password</router-link>
             </li>
-            <li class="nav-item">
+            <li v-if="isLoggedIn && !admin && isPasswordUpdated" class="nav-item">
               <router-link to="/moduleESG" class="nav-link">Module ESG</router-link>
             </li>
             <!-- Bouton pour ouvrir le glossaire -->
