@@ -21,7 +21,7 @@ export default {
       this.isLoggedIn = false;
       this.admin = false;
       this.path = '/login'; // Réinitialise le chemin
-      this.$router.push({ name: 'Home' });
+      this.$router.push({ name: 'Login' });
     },
     async checkLoginStatus() {
       const token = localStorage.getItem('token');
