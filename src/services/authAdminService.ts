@@ -4,8 +4,8 @@ const API_URL = 'http://localhost:3000/authAdmin';
 
 const axiosInstance = axios.create();
 axiosInstance.interceptors.response.use(
-    response => response,
-    error => {
+    (    response: any) => response,
+    (    error: { response: { status: number; }; }) => {
       // Gérer les erreurs de manière silencieuse
       if (error.response && error.response.status === 401) {
         // Erreur 401 (Unauthorized), ne rien faire
@@ -21,7 +21,13 @@ export const loginAdmin = async (email: string, password: string) => {
 };
 export const adminVerif = async (token: string) => {
     try {
-        const response = await axiosInstance.post(`${API_URL}/verify-admin`, { token });
+        const response = await axiosInstance.post(`${API_URL}/verify-admin`, { }, 
+        {
+            headers: {
+                Authorization: `${token}`,
+            },
+        }
+        );
         return response.data;
     } catch (error) {
         // erreur silencieuse
@@ -31,7 +37,7 @@ export const registerAdmin = async (adminName: String, email: string, password: 
     try {
         const response = await axios.post(`${API_URL}/register-admin`, {name: adminName, email, password });
         return response.data; // Retourne les données de l'API
-    } catch (error) {
+    } catch (error: Error | any) {
         // Gestion des erreurs
         if (axios.isAxiosError(error) && error.response) {
             throw new Error(error.response.data.message || 'Erreur lors de l\'enregistrement de l\'administrateur.');
