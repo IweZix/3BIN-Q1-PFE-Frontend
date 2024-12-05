@@ -184,17 +184,17 @@ export default {
   </div>
 
    <div class="navigation-buttons">
-      <button 
+      <button type="button" class="btn btn-primary"
         @click="prevQuestion" 
         :disabled="currentIndex === 0"
       >
-        Précédent
+        <
       </button>
-      <button 
+      <button type="button" class="btn btn-primary" 
         @click="nextListQuestion" 
         :disabled="currentIndex === questionsTable.length - 1"
       >
-        Suivant
+        >
       </button>
     </div>
 </template>
@@ -283,5 +283,9 @@ th, td {
     width: 20%; 
     text-align: center; 
    
+}
+
+button {
+  margin-left: 10px;
 }
 </style>

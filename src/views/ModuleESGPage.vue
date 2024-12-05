@@ -45,9 +45,6 @@ export default {
     },
   
   methods: {
-  handleCancel() {
-    console.log("Modifications annulées");
-  },
 
   selectSubCategory(id: number) {
       this.selectedSubCategoryId = id;
@@ -69,10 +66,7 @@ export default {
     <div class="col-9">
       <QuestionComponent  />
 
-      <div class="mt-3 d-flex justify-content-end">
-        <button class="btn btn-secondary me-2" @click="handleCancel">Annuler</button>
-       
-      </div>
+      
     </div>
   </div>
 </template>
