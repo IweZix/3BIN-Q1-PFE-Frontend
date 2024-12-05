@@ -1,58 +1,39 @@
 <script lang="ts">
-/**
- * Import of HomePage component
- */
 import { renderPageTitle } from '@/utils/render/render';
+import { registerCompany } from '@/services/authCompanyService';
+import { generateRandomPassword } from '@/utils/passwordUtils';
 
 export default {
-  /**
-   * Name of the component
-   */
-  name: 'AdminCreateCompany',
-
-  /**
-   * Data of the component
-   */
+  name: 'CreateCompany',
   data() {
     return {
       companyName: '',
       email: '',
       password: '',
-      isPasswordVisible: false,
+      templates: [], // Liste des templates sélectionnés
+      availableTemplates: ['ALL', 'OWNED FACILITY', 'WORKERS', 'PRODUIT', 'FACILITY'], // Liste des options
+      isPasswordVisible: true,
       errors: {
         companyName: '',
         email: '',
-        password: ''
-      }
+        password: '',
+        templates: ''
+      },
+      successMessage: ''
     };
   },
-
-  /**
-   * Mounted lifecycle hook
-   * This function is called when the component is mounted
-   */
   mounted() {
     renderPageTitle('CreateCompany');
   },
-
-  /**
-   * Methods of the component
-   */
   methods: {
-    revealOrHidePassword() {
+    togglePasswordVisibility() {
       this.isPasswordVisible = !this.isPasswordVisible;
-    },
-    generateRandomPassword() {
-      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$!';
-      this.password = Array(12)
-        .fill('')
-        .map(() => chars.charAt(Math.floor(Math.random() * chars.length)))
-        .join('');
     },
     validateForm() {
       this.errors.companyName = '';
       this.errors.email = '';
       this.errors.password = '';
+      this.errors.templates = '';
 
       if (this.companyName.trim() === '') {
         this.errors.companyName = 'Veuillez entrer un nom d\'entreprise.';
@@ -67,27 +48,43 @@ export default {
         this.errors.password = 'Le mot de passe doit contenir au moins 8 caractères.';
       }
 
-      return !this.errors.companyName && !this.errors.email && !this.errors.password;
-    },
-    handleSubmit() {
-      if (this.validateForm()) {
-        alert('Entreprise créée avec succès !');
-        // Ajouter ici l'appel à l'API ou une autre logique.
+      if (this.templates.length === 0) {
+        this.errors.templates = 'Veuillez sélectionner au moins un template.';
       }
+
+      return !this.errors.companyName && !this.errors.email && !this.errors.password && !this.errors.templates;
+    },
+    async handleSubmit() {
+      if (this.validateForm()) {
+        try {
+          await registerCompany(
+            this.companyName,
+            this.email,
+            this.password,
+            this.templates
+          );
+          this.successMessage = 'Entreprise créée avec succès !';
+        } catch (error: any) {
+          if (error.response && error.response.status === 409) {
+            this.errors.email = 'Cet email est déjà utilisé.';
+          }
+        }
+      }
+    },
+    generateRandomPassword() {
+      this.password = generateRandomPassword();
     }
   }
 };
 </script>
 
 <template>
-  <div class="container">
-    <header>
+  <div class="create-company-page">
+    <div class="card">
       <h1>Création d'une entreprise</h1>
-    </header>
-    <main>
       <form @submit.prevent="handleSubmit">
         <div class="form-group">
-          <label for="company-name">Nom :</label>
+          <label for="company-name">Nom <span class="required">*</span> :</label>
           <input 
             id="company-name" 
             type="text" 
@@ -101,7 +98,7 @@ export default {
         </div>
 
         <div class="form-group">
-          <label for="email">Email :</label>
+          <label for="email">Email <span class="required">*</span> :</label>
           <input 
             id="email" 
             type="text" 
@@ -115,7 +112,7 @@ export default {
         </div>
 
         <div class="form-group">
-          <label for="password">Mot de passe :</label>
+          <label for="password">Mot de passe <span class="required">*</span> :</label>
           <div class="password-group">
             <input 
               :type="isPasswordVisible ? 'text' : 'password'"
@@ -126,72 +123,105 @@ export default {
               :class="{ 'error-border': errors.password }"
               required
             />
-            <button type="button" @click="revealOrHidePassword">
+            <button
+              type="button"
+              @click="togglePasswordVisibility"
+              class="toggle-visibility-btn"
+              aria-label="Afficher ou masquer le mot de passe"
+            >
               {{ isPasswordVisible ? 'Masquer' : 'Afficher' }}
             </button>
-            <button type="button" class="refresh-button" @click="generateRandomPassword">🔄</button>
+            <button
+              type="button"
+              class="refresh-button"
+              @click="generateRandomPassword"
+              aria-label="Générer un nouveau mot de passe"
+            >
+              🔄
+            </button>
           </div>
           <p id="password-error" v-if="errors.password" class="error-message">{{ errors.password }}</p>
         </div>
 
-        <button 
-          type="submit" 
-          class="submit-button"
-        >
+        <div class="form-group">
+          <label for="templates">Templates disponibles <span class="required">*</span> :</label>
+          <div class="checkbox-list">
+            <ul>
+              <li v-for="(template, index) in availableTemplates" :key="index" class="template-option">
+                <label>
+                  <input 
+                    type="checkbox" 
+                    :value="template" 
+                    v-model="templates"
+                  />
+                  {{ template }}
+                </label>
+              </li>
+            </ul>
+          </div>
+          <p id="templates-error" class="error-message" v-if="!templates.length">
+            Veuillez sélectionner au moins un template.
+          </p>
+        </div>
+
+        <button type="submit" class="btn-primary">
           Créer
         </button>
+
+        <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
       </form>
-    </main>
+    </div>
   </div>
 </template>
 
+
+
 <style scoped>
-/* Container and Layout */
-.container {
+.create-company-page {
   display: flex;
-  flex-direction: column;
-  min-height: 10vh;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  padding: 20px;
+  background-color: #f5f5f5;
 }
 
-header {
-  padding: 1%;
+.card {
+  background-color: #faf5dc;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+  width: 100%;
   text-align: center;
 }
 
-main {
-  flex-grow: 1;
+form {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-
-/* Form Styles */
-form {
-  background-color: #f9f9f9;
-  padding: 10%;
-  border-radius: 8%;
-  box-shadow: 0 4% 8% rgba(0, 117, 90, 0.1);
-  width: 75%;
 }
 
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  text-align: left;
 }
 
 label {
-  display: block;
-  margin-bottom: 5px;
+  font-size: 16px;
   font-weight: bold;
+  margin-bottom: 5px;
+}
+
+label .required {
+  color: red;
 }
 
 input {
   width: 100%;
-  padding: 1%;
+  padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 4%;
-  box-sizing: border-box;
+  border-radius: 5px;
+  font-size: 14px;
 }
 
 input.error-border {
@@ -201,36 +231,61 @@ input.error-border {
 .password-group {
   display: flex;
   align-items: center;
+  gap: 10px;
 }
-
-.password-group input {
-  flex: 1;
+.toggle-visibility-btn {
+  position: absolute;
+  right: 90px; /* Distance du bord droit */
+  top: 320px; /* Centre verticalement */
+  background: none; /* Suppression du fond */
+  border: none; /* Suppression de la bordure */
+  font-size: 18px; /* Taille de l'icône */
+  cursor: pointer;
+  user-select: none; /* Empêche la sélection du texte */
+  color: #666; /* Couleur du bouton */
+  padding: 0;
 }
 
 .refresh-button {
-  margin-left: 5px;
-  padding: 1%;
+  background: none;
   border: none;
-  background: #ddd;
-  border-radius: 4px;
+  font-size: 14px;
   cursor: pointer;
+  padding: 5px 10px;
+  color: #666;
+  border-radius: 5px;
+  background-color: #f0f0f0;
 }
 
-.submit-button {
-  width: 100%;
-  padding: 10px;
+.refresh-button:hover,
+.toggle-visibility-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.template-option {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.template-option input {
+  margin-right: 10px;
+}
+
+.btn-primary {
+  padding: 10px 20px;
   background-color: #007BFF;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
   font-weight: bold;
+  margin-top: 20px;
 }
 
-.submit-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
+.btn-primary:hover {
+  background-color: #0056b3;
 }
 
 .error-message {
@@ -238,4 +293,44 @@ input.error-border {
   font-size: 12px;
   margin-top: 5px;
 }
+
+.success-message {
+  color: green;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.checkbox-list {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  max-height: 200px; /* Limite la hauteur de la liste */
+  padding: 10px;
+  background-color: #f9f9f9;
+}
+
+.checkbox-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.checkbox-list label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.checkbox-list label {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espace entre la checkbox et le texte */
+  cursor: pointer;
+  white-space: nowrap; /* Empêche le retour à la ligne */
+}
+
+.template-option {
+  display: flex;
+  align-items: center;
+}
+
 </style>

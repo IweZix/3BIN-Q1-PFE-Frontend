@@ -1,6 +1,7 @@
 <script lang="ts">
 import { renderPageTitle } from '@/utils/render/render';
 import { registerAdmin } from '@/services/authAdminService';
+import { generateRandomPassword } from '@/utils/passwordUtils';
 
 export default {
   name: 'CreateAdmin',
@@ -8,7 +9,7 @@ export default {
     return {
       email: '',
       password: '',
-      isPasswordVisible: false,
+      isPasswordVisible: true,
       passwordError: null as string | null,
       errors: {
         email: '',
@@ -25,19 +26,8 @@ export default {
       this.isPasswordVisible = !this.isPasswordVisible;
     },
     generateRandomPassword() {
-      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-      const numbers = '0123456789';
-      const specialChars = '!@#$%&*?';
-      
-      let password = Array(6)
-      .fill('')
-      .map(() => chars.charAt(Math.floor(Math.random() * chars.length)))
-      .join('');
-      
-      password += numbers.charAt(Math.floor(Math.random() * numbers.length));
-      password += specialChars.charAt(Math.floor(Math.random() * specialChars.length));
-      
-      this.password = password.split('').sort(() => 0.5 - Math.random()).join('');
+      this.password = generateRandomPassword();
+      this.validatePassword(this.password);
     },
     validatePassword(password: string) {
       let errorMessage = '';
@@ -73,6 +63,7 @@ export default {
           this.successMessage = 'Administrateur créé avec succès !';
           alert(this.successMessage);
           console.log(result);
+          // redirect to 
         } catch (error) {
           alert((error as any).message);
         }
@@ -157,7 +148,7 @@ export default {
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  max-width: 600px;
+  max-width: 500px;
   width: 100%;
   text-align: center;
 }
