@@ -274,7 +274,7 @@ input.error-border {
 
 .btn-primary {
   padding: 10px 20px;
-  background-color: #007BFF;
+  background-color: #013238;
   color: white;
   border: none;
   border-radius: 5px;
@@ -285,7 +285,7 @@ input.error-border {
 }
 
 .btn-primary:hover {
-  background-color: #0056b3;
+  background-color: #876cc7;
 }
 
 .error-message {
