@@ -29,7 +29,7 @@ export const adminVerif = async (token: string) => {
 };
 export const registerAdmin = async (adminName: String, email: string, password: string) => {
     try {
-        const response = await axios.post(`${API_URL}/register-admin`, {adminName, email, password });
+        const response = await axios.post(`${API_URL}/register-admin`, {name: adminName, email, password });
         return response.data; // Retourne les données de l'API
     } catch (error) {
         // Gestion des erreurs
