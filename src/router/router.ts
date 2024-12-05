@@ -6,8 +6,6 @@ import { createRouter, createWebHistory } from 'vue-router';
 /**
  * Import views
  */
-import Home from '../views/HomePage.vue';
-import About from '../views/AboutPage.vue';
 import NotFound from '@/views/NotFoundPage.vue';
 import Login from '../views/LoginPage.vue';
 import ModuleESG from '../views/ModuleESGPage.vue';
@@ -16,6 +14,7 @@ import ChangePassword from '@/views/ChangePasswordPage.vue';
 
 // ADMIN ROUTES
 import AdminHome from '@/views/AdminHomePage.vue';
+import AdminCreateCredentials from '@/views/AdminCreateCredentials.vue';
 import AdminCreateCompany from '../views/AdminCreateCompany.vue';
 import CreateAdmin from '../views/CreateAdminPage.vue';
 // COMPANY ROUTES
@@ -26,25 +25,16 @@ import CompanyHome from '../views/CompanyHomePage.vue';
  * Define routes
  */
 const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    component: About
-  },
+  /* routes for admin */
   {
     path: '/admin',
     name: 'AdminHome',
     component: AdminHome
   },
   {
-    path: '/company',
-    name: 'CompanyHome',
-    component: CompanyHome
+    path: '/createCredentials',
+    name: 'CreateCredentials',
+    component: AdminCreateCredentials
   },
   {
     path: '/createAdmin',
@@ -52,18 +42,21 @@ const routes = [
     component: CreateAdmin
   },
   {
-    path: '/AdminCreateCompany',
-    name: 'AdminCreateCompany',
+    path: '/createCompany',
+    name: 'CreateCompany',
     component: AdminCreateCompany
+  },
+  /* routes for company */
+  {
+    path: '/company',
+    name: 'CompanyHome',
+    component: CompanyHome
   },
   {
     path: '/login',
     name: 'Login',
     component: Login
   },
-  /**
-   * Define change password route
-   */
   {
     path: '/changePassword',
     name: 'ChangePassword',

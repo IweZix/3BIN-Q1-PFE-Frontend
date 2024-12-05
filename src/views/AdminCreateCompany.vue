@@ -2,7 +2,7 @@
 import { renderPageTitle } from '@/utils/render/render';
 import { registerCompany } from '@/services/authCompanyService';
 import { generateRandomPassword } from '@/utils/passwordUtils';
-
+import { getTemplates } from '@/services/templatesService';
 
 export default {
   name: 'CreateCompany',
@@ -11,8 +11,8 @@ export default {
       companyName: '',
       email: '',
       password: '',
-      templates: [], // Liste des templates sélectionnés
-      availableTemplates: ['ALL', 'OWNED FACILITY', 'WORKERS', 'PRODUIT', 'FACILITY'], // Liste des options
+      templates: [],
+      availableTemplates: [],
       isPasswordVisible: true,
       errors: {
         companyName: '',
@@ -20,11 +20,17 @@ export default {
         password: '',
         templates: ''
       },
-      successMessage: ''
+      successMessage: '',
+      credentials: {email:'', password:''} // Objet pour stocker les credentials créés
     };
   },
-  mounted() {
+  async mounted() {
     renderPageTitle('CreateCompany');
+    try {
+      this.availableTemplates = await getTemplates();
+    } catch (error) {
+      console.error('Failed to fetch templates', error);
+    }
   },
   methods: {
     togglePasswordVisibility() {
@@ -58,12 +64,19 @@ export default {
     async handleSubmit() {
       if (this.validateForm()) {
         try {
-          await registerCompany(
+          const response = await registerCompany(
             this.companyName,
             this.email,
             this.password,
             this.templates
           );
+
+          // Stockage des credentials après la création réussie
+          this.credentials = {
+            email: response.email,
+            password: this.password
+          };
+
           this.successMessage = 'Entreprise créée avec succès !';
         } catch (error: any) {
           if (error.response && error.response.status === 409) {
@@ -74,6 +87,11 @@ export default {
     },
     generateRandomPassword() {
       this.password = generateRandomPassword();
+    },
+    copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Copié dans le presse-papier !');
+      });
     }
   }
 };
@@ -152,10 +170,10 @@ export default {
                 <label>
                   <input 
                     type="checkbox" 
-                    :value="template" 
+                    :value="template._id" 
                     v-model="templates"
                   />
-                  {{ template }}
+                  {{ template.templateName }}
                 </label>
               </li>
             </ul>
@@ -168,11 +186,19 @@ export default {
         <button type="submit" class="btn-primary">
           Créer
         </button>
-
-        <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
       </form>
+        <!-- Section pour afficher les credentials -->
+      <div v-if="credentials" class="credentials-section">
+        <h2>Credentials générés</h2>
+        <p>Email : {{ credentials.email }}</p>
+        <p>Mot de passe : {{ credentials.password }}</p>
+        <button @click="copyToClipboard(`${credentials.email} : ${credentials.password}`)">
+          Copier les credentials
+        </button>
+        <p class="success-message">{{ successMessage }}</p>
+      </div>
     </div>
-  </div>
+    </div>
 </template>
 
 
@@ -332,6 +358,39 @@ input.error-border {
 .template-option {
   display: flex;
   align-items: center;
+}
+
+.credentials-section {
+  margin-top: 20px;
+  text-align: left;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.credentials-section h2 {
+  margin-bottom: 10px;
+}
+
+.credentials-section p {
+  margin: 5px 0;
+  font-size: 16px;
+}
+
+.credentials-section button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.credentials-section button:hover {
+  background-color: #0056b3;
 }
 
 </style>

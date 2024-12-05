@@ -98,14 +98,8 @@ export default {
               <!-- Utilise path pour la redirection -->
               <router-link :to="path" class="nav-link">Home</router-link>
             </li>
-            <li v-if="isLoggedIn && admin && isPasswordUpdated" class="nav-item">
-              <router-link to="/createAdmin" class="nav-link">CreateAdmin</router-link>
-            </li>
-            <li v-if="isLoggedIn && admin && isPasswordUpdated" class="nav-item">
-              <router-link to="/AdminCreateCompany" class="nav-link">AdminCreateCompany</router-link>
-            </li>
-            <li v-if="isPasswordUpdated" class="nav-item">
-              <router-link to="/about" class="nav-link">About</router-link>
+            <li v-if="isLoggedIn && admin" class="nav-item">
+              <router-link to="/createCredentials" class="nav-link">Créer un compte</router-link>
             </li>
             <li v-if="isLoggedIn" class="nav-item">
               <router-link to="/changePassword" class="nav-link">Change Password</router-link>
