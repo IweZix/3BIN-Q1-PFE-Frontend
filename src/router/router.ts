@@ -10,10 +10,10 @@ import Home from '../views/HomePage.vue';
 import About from '../views/AboutPage.vue';
 import NotFound from '@/views/NotFoundPage.vue';
 import Login from '../views/LoginPage.vue';
+import ChangePassword from '@/views/ChangePasswordPage.vue';
 
 // ADMIN ROUTES
 import AdminHome from '@/views/AdminHomePage.vue';
-import ChangePassword from '@/views/ChangePasswordPage.vue';
 import AdminCreateCompany from '../views/AdminCreateCompany.vue';
 import CreateAdmin from '../views/CreateAdminPage.vue';
 // COMPANY ROUTES

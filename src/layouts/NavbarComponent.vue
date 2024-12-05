@@ -7,13 +7,14 @@ export default {
     GlossaireModalComponent,
   },
   async mounted() {
-    this.checkLoginStatus();
+    await this.checkLoginStatus();
   },
   
   data() {
     return {
       isLoggedIn: false,
       admin: false,
+      path: '/login',
       isGlossaireModalVisible: false, // Contrôle la visibilité du modal
     };
   },
@@ -24,7 +25,8 @@ export default {
       localStorage.removeItem('company');
       this.isLoggedIn = false;
       this.admin = false;
-      this.$router.push({ name: 'Home' });
+      this.path = '/login'; // Réinitialise le chemin
+      this.$router.push({ name: 'Login' });
     },
     async checkLoginStatus() {
       const token = localStorage.getItem('token');
@@ -35,7 +37,17 @@ export default {
           if (verifAdmin) {
             this.admin = true;
           }
-        } catch (error) { /* empty */ }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+      this.redirectPath(); // Détermine le chemin après la vérification
+    },
+    redirectPath() {
+      if (this.isLoggedIn) {
+        this.path = this.admin ? '/admin' : '/company';
+      } else {
+        this.path = '/login';
       }
     },
     openGlossaireModal() {
@@ -48,11 +60,14 @@ export default {
 };
 </script>
 
+
 <template>
   <div class="p-4" id="navbarWrapper">
     <nav class="navbar navbar-expand-lg">
       <div class="container-fluid">
-        <router-link to="/" class="navbar-brand nav-link" id="demonopediaLogo">Vue.js</router-link>
+        <router-link :to="path" class="navbar-brand nav-link" id="demonopediaLogo">
+          <img src="../assets/logo/logo_shiftingpact_vert_verteau.png" alt="Logo" class="logo" />
+        </router-link>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -60,14 +75,13 @@ export default {
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <router-link v-if="!isLoggedIn" to="/" class="nav-link">Home</router-link>
-              <router-link v-if="isLoggedIn && admin" to="/admin" class="nav-link">Home</router-link>
-              <router-link v-if="isLoggedIn && !admin" to="/company" class="nav-link">Home</router-link>
+              <!-- Utilise path pour la redirection -->
+              <router-link :to="path" class="nav-link">Home</router-link>
             </li>
             <li v-if="isLoggedIn && admin" class="nav-item">
               <router-link to="/createAdmin" class="nav-link">CreateAdmin</router-link>
             </li>
-            <li class="nav-item">
+            <li v-if="isLoggedIn && admin" class="nav-item">
               <router-link to="/AdminCreateCompany" class="nav-link">AdminCreateCompany</router-link>
             </li>
             <li class="nav-item">
@@ -83,6 +97,7 @@ export default {
             </li>
           </ul>
           <div class="navbar-icons">
+            <!-- Icône pour se connecter ou se déconnecter -->
             <router-link v-if="!isLoggedIn" to="/login" class="nav-link">
               <img src="../assets/icons/profil-de-lutilisateur.png" alt="User Icon" class="icon" />
             </router-link>
@@ -105,7 +120,7 @@ export default {
 
 <style scoped>
 nav {
-  background-color: #f8f9fa;
+  background-color: #f6f6f6;
 }
 
 .navbar-icons {
@@ -119,6 +134,16 @@ nav {
   height: 24px;
   cursor: pointer;
 }
+
+.logo {
+  height: 80px;
+}
+
+.nav-link {
+  color: black;
+  font-size: 18px;
+  font-weight: 500;
+}
 .btn {
   background: none;
   border: none;
@@ -126,5 +151,6 @@ nav {
   color: inherit;
   cursor: pointer;
   text-decoration: none;
+
 }
 </style>

@@ -66,7 +66,7 @@ export default defineComponent({
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color: #d9d9d9;
+    background-color: #f1e8cb;
     padding: 20px;
     border-radius: 5px;
     width: 50%;
@@ -79,7 +79,7 @@ export default defineComponent({
 }
 
 button {
-    background-color: #808080;
+    background-color: #013238;
     color: white;
     border: none;
     padding: 10px;
@@ -91,7 +91,7 @@ button {
 }
 
 button:hover {
-    background-color: #666666;
+    background-color: #666666 ;
 }
 
 form {
@@ -107,7 +107,7 @@ input {
     padding: 10px;
     border: 1px solid;
     border-radius: 5px;
-    background-color: transparent;
+    background-color: white;
 }
 
 .alert {
