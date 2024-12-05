@@ -21,3 +21,14 @@ export const registerCompany = async (name:string, email:string, password:string
         }
     }
 };
+
+const verifyPasswordUpdated = async (email: string): Promise<boolean> => {
+    const response = await axios.post(`${API_URL}/verify-password-updated`, { email });
+    return response.data;
+};
+
+
+export const checkPasswordUpdatedCompany = async (email: string) => {
+    const isUpdated = await verifyPasswordUpdated(email);
+    return isUpdated;
+};
