@@ -1,5 +1,6 @@
 <script lang="ts">
 import { adminVerif, checkPasswordUpdated } from '@/services/authAdminService';
+import { checkPasswordUpdatedCompany } from '@/services/authCompanyService';
 import GlossaireModalComponent from '@/components/Modal/GlossaireModalComponent.vue';
 export default {
   name: 'NavbarComponent',

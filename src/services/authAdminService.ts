@@ -20,8 +20,12 @@ export const loginAdmin = async (email: string, password: string) => {
     return response.data;
 };
 export const adminVerif = async (token: string) => {
-    const response = await axios.post(`${API_URL}/verify-admin`, { token });
-    return response.data;
+    try {
+        const response = await axiosInstance.post(`${API_URL}/verify-admin`, { token });
+        return response.data;
+    } catch (error) {
+        // erreur silencieuse
+    }
 };
 export const registerAdmin = async (email: string, password: string) => {
     const name = 'frontHardCodeName';
