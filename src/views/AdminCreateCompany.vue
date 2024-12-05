@@ -12,7 +12,7 @@ export default {
       email: '',
       password: '',
       templates: [],
-      availableTemplates: [],
+      availableTemplates: [{ _id: '', templateName: '' }],
       isPasswordVisible: true,
       errors: {
         companyName: '',
@@ -88,7 +88,7 @@ export default {
     generateRandomPassword() {
       this.password = generateRandomPassword();
     },
-    copyToClipboard(text) {
+    copyToClipboard(text = '') {
       navigator.clipboard.writeText(text).then(() => {
         alert('Copié dans le presse-papier !');
       });
@@ -200,8 +200,6 @@ export default {
     </div>
     </div>
 </template>
-
-
 
 <style scoped>
 .create-company-page {
