@@ -2,6 +2,19 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:3000/authAdmin';
 
+const axiosInstance = axios.create();
+axiosInstance.interceptors.response.use(
+    response => response,
+    error => {
+      // Gérer les erreurs de manière silencieuse
+      if (error.response && error.response.status === 401) {
+        // Erreur 401 (Unauthorized), ne rien faire
+        return Promise.resolve({ data: false });
+      }
+      return Promise.reject(error);
+    }
+  );
+
 export const loginAdmin = async (email: string, password: string) => {
     const response = await axios.post(`${API_URL}/login-admin`, { email, password });
     return response.data;
@@ -11,8 +24,9 @@ export const adminVerif = async (token: string) => {
     return response.data;
 };
 export const registerAdmin = async (email: string, password: string) => {
+    const name = 'frontHardCodeName';
     try {
-        const response = await axios.post(`${API_URL}/register-admin`, { email, password });
+        const response = await axios.post(`${API_URL}/register-admin`, { name, email, password });
         return response.data; // Retourne les données de l'API
     } catch (error) {
         // Gestion des erreurs
@@ -22,4 +36,14 @@ export const registerAdmin = async (email: string, password: string) => {
             throw new Error('Impossible de se connecter au serveur.');
         }
     }
+};
+const verifyPasswordUpdated = async (email: string): Promise<boolean> => {
+    const response = await axios.post(`${API_URL}/verify-password-updated`, { email });
+    return response.data;
+};
+
+
+export const checkPasswordUpdated = async (email: string) => {
+    const isUpdated = await verifyPasswordUpdated(email);
+    return isUpdated;
 };
