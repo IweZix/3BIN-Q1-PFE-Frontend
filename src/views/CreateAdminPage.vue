@@ -1,24 +1,15 @@
 <script lang="ts">
-/**
- * Import of HomePage component
- */
 import { renderPageTitle } from '@/utils/render/render';
 import { registerAdmin } from '@/services/authAdminService';
 
 export default {
-  /**
-   * Name of the component
-   */
   name: 'CreateAdmin',
-
-  /**
-   * Data of the component
-   */
   data() {
     return {
       email: '',
       password: '',
       isPasswordVisible: false,
+      passwordError: null as string | null,
       errors: {
         email: '',
         password: ''
@@ -26,28 +17,41 @@ export default {
       successMessage: ''
     };
   },
-
-  /**
-   * Mounted lifecycle hook
-   * This function is called when the component is mounted
-   */
   mounted() {
     renderPageTitle('CreateAdmin');
   },
-
-  /**
-   * Methods of the component
-   */
   methods: {
-    revealOrHidePassword() {
+    togglePasswordVisibility() {
       this.isPasswordVisible = !this.isPasswordVisible;
     },
     generateRandomPassword() {
-      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$!';
-      this.password = Array(12)
-        .fill('')
-        .map(() => chars.charAt(Math.floor(Math.random() * chars.length)))
-        .join('');
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+      const numbers = '0123456789';
+      const specialChars = '!@#$%&*?';
+      
+      let password = Array(6)
+      .fill('')
+      .map(() => chars.charAt(Math.floor(Math.random() * chars.length)))
+      .join('');
+      
+      password += numbers.charAt(Math.floor(Math.random() * numbers.length));
+      password += specialChars.charAt(Math.floor(Math.random() * specialChars.length));
+      
+      this.password = password.split('').sort(() => 0.5 - Math.random()).join('');
+    },
+    validatePassword(password: string) {
+      let errorMessage = '';
+
+      if (password.length < 8) {
+        errorMessage = 'Le mot de passe doit contenir au moins 8 caractères.';
+      }
+      if (!/[A-Z]/.test(password)) {
+        errorMessage = 'Le mot de passe doit contenir au moins une majuscule.';
+      }
+
+      this.passwordError = errorMessage;
+      this.errors.password = errorMessage;
+      return !errorMessage;
     },
     validateForm() {
       this.errors.email = '';
@@ -58,22 +62,19 @@ export default {
         this.errors.email = 'Veuillez entrer un email valide.';
       }
 
-      if (this.password.length < 8) {
-        this.errors.password = 'Le mot de passe doit contenir au moins 8 caractères.';
-      }
+      this.validatePassword(this.password);
 
-      return !this.errors.email && !this.errors.password;
+      return !this.errors.email && !this.passwordError;
     },
     async handleSubmit() {
       if (this.validateForm()) {
         try {
-          // Appel de l'API pour enregistrer un administrateur
           const result = await registerAdmin(this.email, this.password);
           this.successMessage = 'Administrateur créé avec succès !';
           alert(this.successMessage);
-          console.log(result); // Log des données renvoyées par l'API
+          console.log(result);
         } catch (error) {
-          alert((error as any).message); // Affiche le message d'erreur dans une alerte
+          alert((error as any).message);
         }
       }
     },
@@ -82,15 +83,15 @@ export default {
 </script>
 
 <template>
-  <div class="container">
-    <main>
+  <div class="create-admin-page">
+    <div class="card">
       <h1>Création d'un administrateur</h1>
       <form @submit.prevent="handleSubmit">
         <div class="form-group">
           <label for="email">Email :</label>
-          <input 
-            id="email" 
-            type="text" 
+          <input
+            id="email"
+            type="text"
             placeholder="Email de l'utilisateur"
             v-model="email"
             aria-describedby="email-error"
@@ -103,76 +104,86 @@ export default {
         <div class="form-group">
           <label for="password">Mot de passe :</label>
           <div class="password-group">
-            <input 
+            <input
               :type="isPasswordVisible ? 'text' : 'password'"
               id="password"
               placeholder="Mot de passe"
               v-model="password"
               aria-describedby="password-error"
               :class="{ 'error-border': errors.password }"
+              @input="validatePassword(password)"
               required
             />
-            <button type="button" @click="revealOrHidePassword">
+            <button
+              type="button"
+              @click="togglePasswordVisibility"
+              class="toggle-visibility-btn"
+              aria-label="Afficher ou masquer le mot de passe"
+            >
               {{ isPasswordVisible ? 'Masquer' : 'Afficher' }}
             </button>
-            <button type="button" class="refresh-button" @click="generateRandomPassword">🔄</button>
+            <button
+              type="button"
+              class="refresh-button"
+              @click="generateRandomPassword"
+            >
+              🔄
+            </button>
           </div>
-          <p id="password-error" v-if="errors.password" class="error-message">{{ errors.password }}</p>
+          <p id="password-error" v-if="passwordError" class="error-message">{{ passwordError }}</p>
         </div>
 
-        <button 
-          type="submit" 
-          class="submit-button"
-        >
+        <button type="submit" class="btn btn-primary">
           Créer
         </button>
+
+        <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
       </form>
-    </main>
+    </div>
   </div>
 </template>
 
 <style scoped>
-/* Container and Layout */
-.container {
+/* Global styles */
+.create-admin-page {
   display: flex;
-  flex-direction: column;
-  min-height: 10vh;
-}
-
-main {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  height: 80vh;
 }
 
+.card {
+  background-color: #faf5dc;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+}
 
-/* Form Styles */
 form {
-  background-color: #f9f9f9;
-  padding: 10%;
-  border-radius: 8%;
-  box-shadow: 0 4% 8% rgba(0, 117, 90, 0.1);
-  width: 75%;
+  display: flex;
+  flex-direction: column;
 }
 
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  text-align: left;
 }
 
 label {
-  display: block;
-  margin-bottom: 5px;
+  font-size: 14px;
   font-weight: bold;
+  margin-bottom: 5px;
 }
 
 input {
   width: 100%;
-  padding: 8px;
+  padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
+  border-radius: 5px;
+  font-size: 14px;
 }
 
 input.error-border {
@@ -182,41 +193,68 @@ input.error-border {
 .password-group {
   display: flex;
   align-items: center;
+  gap: 10px;
 }
 
-.password-group input {
-  flex: 1;
+.password-group {
+  position: relative; /* Nécessaire pour positionner le bouton "Afficher" à l'intérieur */
+  display: flex;
+  align-items: center; /* Aligne le contenu verticalement */
 }
+.password-group input {
+  flex-grow: 1; /* Permet au champ de saisie de prendre tout l'espace disponible */
+}
+
+
+.toggle-visibility-btn {
+  position: absolute;
+  right: 65px; /* Distance du bord droit */
+  top: 50%; /* Centre verticalement */
+  transform: translateY(-50%);
+  background: none; /* Suppression du fond */
+  border: none; /* Suppression de la bordure */
+  font-size: 18px; /* Taille de l'icône */
+  cursor: pointer;
+  user-select: none; /* Empêche la sélection du texte */
+  color: #666; /* Couleur du bouton */
+  padding: 0;
+}
+
 
 .refresh-button {
-  margin-left: 5px;
-  padding: 8px;
-  border: none;
-  background: #ddd;
-  border-radius: 4px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
   cursor: pointer;
 }
 
-.submit-button {
-  width: 100%;
-  padding: 10px;
-  background-color: #007BFF;
+.refresh-button:hover {
+  background-color: #e0e0e0;
+}
+
+.btn-primary {
+  padding: 10px 20px;
+  background-color: #013238;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
 }
 
-.submit-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
+.btn-primary:hover {
+  background-color: #004d00;
 }
 
 .error-message {
   color: red;
   font-size: 12px;
   margin-top: 5px;
+}
+
+.success-message {
+  color: green;
+  font-size: 14px;
+  margin-top: 10px;
 }
 </style>
