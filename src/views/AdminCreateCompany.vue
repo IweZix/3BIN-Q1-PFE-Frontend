@@ -3,6 +3,7 @@ import { renderPageTitle } from '@/utils/render/render';
 import { registerCompany } from '@/services/authCompanyService';
 import { generateRandomPassword } from '@/utils/passwordUtils';
 
+
 export default {
   name: 'CreateCompany',
   data() {
