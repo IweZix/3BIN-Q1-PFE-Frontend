@@ -127,13 +127,13 @@ export default {
 </script>
 
 <template>
- 
+
 
   <div class="question-container" v-if="questionsTable.length > 0">
     <div v-for="(question, index) in questionsTable[currentIndex].questionsList" :key="index" class="question-box">
       <h2>Question {{ index + 1 }}</h2>
       <h5>{{ question.txt }}</h5>
-      
+
       <table class="table">
         <thead>
           <tr>
@@ -157,25 +157,14 @@ export default {
               </div>
             </td>
             <td class="now">
-              <input 
-                type="checkbox" 
-                :checked="answer.isNow" 
-                @change="toggleCheckbox(answer, 'isNow')" 
-              />
+              <input type="checkbox" :checked="answer.isNow" @change="toggleCheckbox(answer, 'isNow')" />
             </td>
             <td class="twoYears">
-              <input 
-                type="checkbox" 
-                :checked="answer.is2Years" 
-                @change="toggleCheckbox(answer, 'is2Years')" 
-              />
+              <input type="checkbox" :checked="answer.is2Years" @change="toggleCheckbox(answer, 'is2Years')" />
             </td>
             <td class="commentaire">
-              <textarea 
-                v-model="answer.comment" 
-                placeholder="Ajouter un commentaire"
-                @blur="saveComment(answer)" 
-              ></textarea>
+              <textarea v-model="answer.comment" placeholder="Ajouter un commentaire"
+                @blur="saveComment(answer)"></textarea>
             </td>
           </tr>
         </tbody>
@@ -183,21 +172,25 @@ export default {
     </div>
   </div>
 
-   <div class="navigation-buttons">
-      <button type="button" class="btn btn-primary"
-        @click="prevQuestion" 
-        :disabled="currentIndex === 0"
-      >
-        <
+  <div class="navigation-buttons d-flex align-items-center justify-content-between">
+    
+    <div>
+      <button type="button" class="btn btn-primary me-2" @click="prevQuestion" :disabled="currentIndex === 0">
+        &lt;
       </button>
-      <button type="button" class="btn btn-primary" 
-        @click="nextListQuestion" 
-        :disabled="currentIndex === questionsTable.length - 1"
-      >
-        >
+      <button type="button" class="btn btn-primary" @click="nextListQuestion"
+        :disabled="currentIndex === questionsTable.length - 1">
+        &gt;
       </button>
     </div>
+
+    <div class="d-flex">
+      <button class="btn btn-primary me-2">Enregistrer</button>
+      <button class="btn btn-secondary">Annuler</button>
+    </div>
+  </div>
 </template>
+
 
 
 
