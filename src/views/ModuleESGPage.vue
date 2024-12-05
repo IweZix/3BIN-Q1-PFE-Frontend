@@ -71,9 +71,6 @@ export default {
   </div>
 </template>
 
-
-
-
 <style>
 .leftNavbarComponent {
   position: sticky;
