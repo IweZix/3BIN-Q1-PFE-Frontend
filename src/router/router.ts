@@ -6,8 +6,6 @@ import { createRouter, createWebHistory } from 'vue-router';
 /**
  * Import views
  */
-import Home from '../views/HomePage.vue';
-import About from '../views/AboutPage.vue';
 import NotFound from '@/views/NotFoundPage.vue';
 import Login from '../views/LoginPage.vue';
 import ChangePassword from '@/views/ChangePasswordPage.vue';
@@ -24,16 +22,6 @@ import CompanyHome from '../views/CompanyHomePage.vue';
  * Define routes
  */
 const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    component: About
-  },
   {
     path: '/admin',
     name: 'AdminHome',
