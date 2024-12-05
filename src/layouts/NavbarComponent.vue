@@ -1,7 +1,11 @@
 <script lang="ts">
 import { adminVerif } from '@/services/authAdminService';
+import GlossaireModalComponent from '@/components/Modal/GlossaireModalComponent.vue';
 export default {
   name: 'NavbarComponent',
+  components: {
+    GlossaireModalComponent,
+  },
   async mounted() {
     this.checkLoginStatus();
   },
@@ -10,6 +14,7 @@ export default {
     return {
       isLoggedIn: false,
       admin: false,
+      isGlossaireModalVisible: false, // Contrôle la visibilité du modal
     };
   },
   methods: {
@@ -32,6 +37,12 @@ export default {
           }
         } catch (error) { /* empty */ }
       }
+    },
+    openGlossaireModal() {
+      this.isGlossaireModalVisible = true;
+    },
+    closeGlossaireModal() {
+      this.isGlossaireModalVisible = false;
     },
   },
 };
@@ -65,6 +76,11 @@ export default {
             <li v-if="isLoggedIn" class="nav-item">
               <router-link to="/changePassword" class="nav-link">Change Password</router-link>
             </li>
+            <!-- Bouton pour ouvrir le glossaire -->
+             
+            <li class="nav-item">
+              <button class="nav-link btn btn-link" @click="openGlossaireModal">Glossaire</button>
+            </li>
           </ul>
           <div class="navbar-icons">
             <router-link v-if="!isLoggedIn" to="/login" class="nav-link">
@@ -75,6 +91,15 @@ export default {
         </div>
       </div>
     </nav>
+     <!-- Modal pour le glossaire -->
+     <GlossaireModalComponent
+      :isVisible="isGlossaireModalVisible"
+      @close="closeGlossaireModal"
+      title="Glossaire"
+    >
+      <template #default>
+      </template>
+    </GlossaireModalComponent>
   </div>
 </template>
 
@@ -93,5 +118,13 @@ nav {
   width: 24px;
   height: 24px;
   cursor: pointer;
+}
+.btn {
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+  cursor: pointer;
+  text-decoration: none;
 }
 </style>

@@ -17,7 +17,7 @@ export default {
         };
     },
     methods: {
-        editCompany(id) {
+        editCompany(id: number) {
             // Logique pour modifier l'entreprise
             console.log(`Modifier l'entreprise avec l'ID: ${id}`);
         }
