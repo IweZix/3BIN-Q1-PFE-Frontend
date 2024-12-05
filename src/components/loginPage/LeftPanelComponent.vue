@@ -23,7 +23,7 @@ export default {
     flex-direction: column;
     justify-content: center;
     /* Centre verticalement les éléments */
-    background-color: #F1EFE9;
+    background-color: #e7c560a8;
     padding: 50px;
     border-radius: 5px 0 0 5px;
     /* Coins arrondis pour la gauche */

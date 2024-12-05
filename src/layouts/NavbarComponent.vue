@@ -3,13 +3,14 @@ import { adminVerif } from '@/services/authAdminService';
 export default {
   name: 'NavbarComponent',
   async mounted() {
-    this.checkLoginStatus();
+    await this.checkLoginStatus();
   },
   
   data() {
     return {
       isLoggedIn: false,
       admin: false,
+      path: '/login',
     };
   },
   methods: {
@@ -19,6 +20,7 @@ export default {
       localStorage.removeItem('company');
       this.isLoggedIn = false;
       this.admin = false;
+      this.path = '/login'; // Réinitialise le chemin
       this.$router.push({ name: 'Home' });
     },
     async checkLoginStatus() {
@@ -30,18 +32,29 @@ export default {
           if (verifAdmin) {
             this.admin = true;
           }
-        } catch (error) { /* empty */ }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+      this.redirectPath(); // Détermine le chemin après la vérification
+    },
+    redirectPath() {
+      if (this.isLoggedIn) {
+        this.path = this.admin ? '/admin' : '/company';
+      } else {
+        this.path = '/login';
       }
     },
   },
 };
 </script>
 
+
 <template>
   <div class="p-4" id="navbarWrapper">
     <nav class="navbar navbar-expand-lg">
       <div class="container-fluid">
-        <router-link to="/" class="navbar-brand nav-link" id="demonopediaLogo">
+        <router-link :to="path" class="navbar-brand nav-link" id="demonopediaLogo">
           <img src="../assets/logo/logo_shiftingpact_vert_verteau.png" alt="Logo" class="logo" />
         </router-link>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -51,14 +64,13 @@ export default {
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <router-link v-if="!isLoggedIn" to="/" class="nav-link">Home</router-link>
-              <router-link v-if="isLoggedIn && admin" to="/admin" class="nav-link">Home</router-link>
-              <router-link v-if="isLoggedIn && !admin" to="/company" class="nav-link">Home</router-link>
+              <!-- Utilise path pour la redirection -->
+              <router-link :to="path" class="nav-link">Home</router-link>
             </li>
             <li v-if="isLoggedIn && admin" class="nav-item">
               <router-link to="/createAdmin" class="nav-link">CreateAdmin</router-link>
             </li>
-            <li class="nav-item">
+            <li v-if="isLoggedIn && admin" class="nav-item">
               <router-link to="/AdminCreateCompany" class="nav-link">AdminCreateCompany</router-link>
             </li>
             <li class="nav-item">
@@ -69,6 +81,7 @@ export default {
             </li>
           </ul>
           <div class="navbar-icons">
+            <!-- Icône pour se connecter ou se déconnecter -->
             <router-link v-if="!isLoggedIn" to="/login" class="nav-link">
               <img src="../assets/icons/profil-de-lutilisateur.png" alt="User Icon" class="icon" />
             </router-link>
