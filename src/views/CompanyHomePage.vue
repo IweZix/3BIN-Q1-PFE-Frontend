@@ -7,7 +7,8 @@ export default {
         };
     },
     mounted() {
-        const storedCompanyName = localStorage.getItem('companyName');
+        const storedCompany = localStorage.getItem('company');
+        const storedCompanyName = storedCompany ? JSON.parse(storedCompany).name : null;
         if (storedCompanyName) {
             this.companyName = storedCompanyName;
         } else {
@@ -127,7 +128,7 @@ export default {
 
 <style scoped>
 .company-home-page {
-    font-family: 'Roboto', sans-serif;
+
     color: #333;
     line-height: 1.6;
     padding: 20px;
@@ -136,7 +137,7 @@ export default {
 }
 
 .header {
-    background-color: #007BFF;
+    background-color: #013238;
     color: white;
     padding: 20px;
     margin-bottom: 20px;

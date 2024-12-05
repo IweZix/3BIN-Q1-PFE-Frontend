@@ -42,8 +42,8 @@ export default {
       let errorMessage = '';
 
       // Vérification de la longueur
-      if (input.length < 6) {
-        errorMessage = 'Le mot de passe doit contenir au moins 6 caractères.';
+      if (input.length < 8) {
+        errorMessage = 'Le mot de passe doit contenir au moins 8 caractères.';
       }
 
       // Vérification de la présence d'une majuscule

@@ -1,114 +1,168 @@
 <script lang="ts">
-/**
- * Import of AboutPage component
- */
 import { renderPageTitle } from '@/utils/render/render';
-
 import ChangePasswordPageInputComponent from '@/components/ChangePasswordPage/ChangePasswordPageInputComponent.vue';
-// import AuthenticatedUser from '@/types/AuthenticatedUser';
-
 
 export default {
-  /**
-   * Name of the component
-   */
   name: 'ChangePasswordPage',
   components: {
     ChangePasswordPageInputComponent
   },
   data() {
     return {
-      // user: AuthenticatedUser
-      user : '',
-      password : '',
-      confirmPassword : '',
-      isPasswordValid: false
+      user: '',
+      password: '',
+      confirmPassword: '',
+      isPasswordValid: false,
+      errorMessage: '',
+      successMessage: '',
     };
   },
-
-  /**
-   * Mounted lifecycle hook
-   * This function is called when the component is mounted
-   */
   mounted() {
     renderPageTitle('Change Password');
   },
-
   methods: {
-    /**
-     * Function to change the password
-     */
     changePassword() {
-      // Vérification si le mot de passe est valide
-      if (!this.isPasswordValid) {
-        alert('Veuillez corriger les erreurs de mot de passe.');
-        return; // On arrête la fonction si le mot de passe est invalide
-      }
+      this.errorMessage = '';
+      this.successMessage = '';
 
-      if (this.password === '' || this.confirmPassword === '') {
-        // Display an error message
-        alert('Veuillez remplir tous les champs');
+      if (!this.password || !this.confirmPassword) {
+        this.errorMessage = 'Tous les champs sont obligatoires.';
         return;
       }
-      // Check if the password and the confirm password are the same
-      if (this.password === this.confirmPassword) {
-        // Call the API to change the password
-        // this.$api.auth.changePassword(this.user.id, this.password)
-        //   .then(() => {
-        //     // Redirect to the login page
-        //     this.$router.push({ name: 'login' });
-        //   })
-        //   .catch((error) => {
-        //     // Display an error message
-        //     this.$toast.error(error.message);
-        //   });
-        alert('Mot de passe changé avec succès');
-      } 
-      else {
-        alert('Les mots de passe ne correspondent pas');
+
+      if (!this.isPasswordValid) {
+        this.errorMessage = 'Veuillez corriger les erreurs dans votre mot de passe.';
+        return;
       }
+
+      if (this.password !== this.confirmPassword) {
+        this.errorMessage = 'Les mots de passe ne correspondent pas.';
+        return;
+      }
+
+      // Appel à l'API pour changer le mot de passe
+      this.successMessage = 'Votre mot de passe a été changé avec succès.';
     },
     handlePasswordCheck(isValid: boolean) {
-      this.isPasswordValid = isValid; 
+      this.isPasswordValid = isValid;
     },
-    
   },
 };
-
 </script>
 
 <template>
-  <div class="text-center my-4 title-search">
-    <h1 class="title">Veuillez changer votre mot de passe</h1>
-  </div>
-  <div>
-    <ChangePasswordPageInputComponent
-      :password="password"
-      :confirmPassword="confirmPassword"
-      @update:password="password = $event"
-      @update:confirmPassword="confirmPassword = $event"
-      @checkPassword="handlePasswordCheck"
-    />
-  </div>
-  <div class="text-center my-4">
-    <button @click="changePassword" class="btn btn-primary" id="button">Changer le mot de passe</button>  
-  </div>
-  <div>
-    <p>*champs obligatoires</p>
-  </div>
+  <div class="change-password-page">
+    <div class="card">
+      <div class="header">
+        <h1>Changer votre mot de passe</h1>
+        <p>Pour des raisons de sécurité, veuillez utiliser un mot de passe fort.</p>
+      </div>
 
+      <div class="form">
+        <ChangePasswordPageInputComponent
+          :password="password"
+          :confirmPassword="confirmPassword"
+          @update:password="password = $event"
+          @update:confirmPassword="confirmPassword = $event"
+          @checkPassword="handlePasswordCheck"
+        />
+      </div>
+
+      <div class="feedback">
+        <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+        <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
+      </div>
+
+      <div class="actions">
+        <button @click="changePassword" class="btn btn-primary">Confirmer</button>
+      </div>
+
+      <div class="note">
+        <p>* Tous les champs sont obligatoires</p>
+      </div>
+    </div>
+  </div>
 </template>
 
-<style>
 
-.title {
-  margin-top: 60px;
-  margin-bottom: 70px;
+<style scoped>
+.change-password-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
 }
 
-#button {
+.card {
+  background-color: #fde7917c; 
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre subtile */
+  max-width: 600px;
+  width: 100%;
+}
+
+.header {
   text-align: center;
-  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
+.header h1 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.header p {
+  font-size: 16px;
+  color: #666;
+}
+
+.form {
+  margin-bottom: 20px;
+}
+
+.feedback {
+  margin-bottom: 20px;
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  text-align: center;
+}
+
+.success-message {
+  color: green;
+  font-size: 14px;
+  text-align: center;
+}
+
+.actions {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.actions .btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: #013238;
+  color: white;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #004d00;
+}
+
+.note {
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+}
 </style>

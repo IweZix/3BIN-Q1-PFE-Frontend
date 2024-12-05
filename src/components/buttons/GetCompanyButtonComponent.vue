@@ -28,7 +28,7 @@ export default {
 
 <style scoped>
 button {
-    background-color: #4CAF50;
+    background-color: #013238;
     color: white;
     border: none;
     padding: 5px 10px;
