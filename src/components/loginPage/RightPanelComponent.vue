@@ -107,7 +107,7 @@ input {
     padding: 10px;
     border: 1px solid;
     border-radius: 5px;
-    background-color: transparent;
+    background-color: white;
 }
 
 .alert {
