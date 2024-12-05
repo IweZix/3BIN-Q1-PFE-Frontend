@@ -8,7 +8,9 @@ import { createRouter, createWebHistory } from 'vue-router';
  */
 import NotFound from '@/views/NotFoundPage.vue';
 import Login from '../views/LoginPage.vue';
+import ModuleESG from '../views/ModuleESGPage.vue';
 import ChangePassword from '@/views/ChangePasswordPage.vue';
+
 
 // ADMIN ROUTES
 import AdminHome from '@/views/AdminHomePage.vue';
@@ -59,6 +61,12 @@ const routes = [
     path: '/changePassword',
     name: 'ChangePassword',
     component: ChangePassword
+
+  },
+  {
+    path: '/moduleESG',
+    name: 'ModuleESG',
+    component: ModuleESG
 
   },
   /**
