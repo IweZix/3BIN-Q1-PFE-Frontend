@@ -56,3 +56,21 @@ export const checkPasswordUpdated = async (email: string) => {
     const isUpdated = await verifyPasswordUpdated(email);
     return isUpdated;
 };
+
+export const updatePasswordAdmin = async (token: string, password: string) => {
+    try {
+      const response = await axiosInstance.patch(`${API_URL}/update-password`, { password }, {
+        headers: {
+          Authorization: `${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            throw new Error(error.response.data.message || 'Erreur lors de la mise à jour du mot de passe.');
+        } else {
+            throw new Error('Impossible de se connecter au serveur.');
+        }
+    }
+  };
+  

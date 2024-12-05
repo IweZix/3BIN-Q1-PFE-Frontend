@@ -1,7 +1,8 @@
 <script lang="ts">
 import { renderPageTitle } from '@/utils/render/render';
 import ChangePasswordPageInputComponent from '@/components/ChangePasswordPage/ChangePasswordPageInputComponent.vue';
-import { changepasswordCompany } from '@/services/authCompanyService'; // Import the API function
+import { changepasswordCompany } from '@/services/authCompanyService';
+import { updatePasswordAdmin } from '@/services/authAdminService';
 
 export default {
   name: 'ChangePasswordPage',
@@ -23,26 +24,35 @@ export default {
   },
   methods: {
     async changePassword() {
-      console.log("dans la méthode changePassword");
       
       this.errorMessage = '';
       this.successMessage = '';
-
-      if (!this.password || !this.confirmPassword) {
-        this.errorMessage = 'Tous les champs sont obligatoires.';
-        return;
-      }
       if (this.password !== this.confirmPassword) {
         this.errorMessage = 'Les mots de passe ne correspondent pas.';
         return;
       }
-      console.log("juste avant l'appel à l'API");
       try {
-        await changepasswordCompany(localStorage.getItem('token'), this.password);
-        // Appel à l'API pour changer le mot de passe
-        this.successMessage = 'Votre mot de passe a été changé avec succès.';
+        const token = localStorage.getItem('token');
+        if (token) {
+          const responseAdmin = await updatePasswordAdmin(token, this.password);
+          if (responseAdmin) {
+            this.successMessage = 'Votre mot de passe a été changé avec succès.';
+            return;
+          }
+          try {
+            const responseCompany = await changepasswordCompany(token, this.password);
+            if (responseCompany) {
+              this.successMessage = 'Votre mot de passe a été changé avec succès.';
+              return;
+            }
+          } catch (error) {
+            this.errorMessage = 'Une erreur s\'est produite lors de la modification de votre mot de passe.';
+          }
+        } else {
+          this.errorMessage = 'Token non trouvé.';
+        }
       } catch (error) {
-        this.errorMessage = 'Une erreur est survenue lors du changement de mot de passe.';
+        this.errorMessage = 'Une erreur s\'est produite lors de la modification de votre mot de passe.';
       }
     },
 

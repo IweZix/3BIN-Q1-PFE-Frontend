@@ -35,16 +35,18 @@ export const checkPasswordUpdatedCompany = async (email: string) => {
 
 
 export const changepasswordCompany = async (token: string, password: string) => {
-    console.log(token);
-    console.log(password);
-    
-    
-    const response = await axios.patch(`${API_URL}/updatePassword`, { password }, {
-        headers: {
-            Authorization: `${token}`,
-        },
-    });
-    console.log(response.data);
-    
-    return response.data;
+    try {
+        const response = await axios.patch(`${API_URL}/updatePassword`, { password }, {
+            headers: {
+                Authorization: `${token}`,
+            },
+        });
+        return response.data;
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            throw new Error(error.response.data.message || 'Erreur lors de la mise à jour du mot de passe.');
+        } else {
+            throw new Error('Impossible de se connecter au serveur.');
+        }
+    }
 }
