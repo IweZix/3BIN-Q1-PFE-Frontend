@@ -1,8 +1,13 @@
-<script>
+<script lang="ts">
+import { renderPageTitle } from '@/utils/render/render';
+
 export default {
-    name: 'AdminCreateCredentials',
+    name: 'CreateCredentials',
+    mounted() {
+        renderPageTitle('CreateCredentials');
+    },
     methods: {
-        navigateTo(option) {
+        navigateTo(option : string) {
             if (option === 'option1') {
                 this.$router.push('/createAdmin');
             } else if (option === 'option2') {

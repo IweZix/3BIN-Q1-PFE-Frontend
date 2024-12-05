@@ -12,7 +12,7 @@ import ChangePassword from '@/views/ChangePasswordPage.vue';
 
 // ADMIN ROUTES
 import AdminHome from '@/views/AdminHomePage.vue';
-import AdminCreateCredentials from '../views/AdminCreateCredentials.vue';
+import AdminCreateCredentials from '@/views/AdminCreateCredentials.vue';
 import AdminCreateCompany from '../views/AdminCreateCompany.vue';
 import CreateAdmin from '../views/CreateAdminPage.vue';
 // COMPANY ROUTES
@@ -31,7 +31,7 @@ const routes = [
   },
   {
     path: '/createCredentials',
-    name: 'AdminCreateCredentials',
+    name: 'CreateCredentials',
     component: AdminCreateCredentials
   },
   {
@@ -40,8 +40,8 @@ const routes = [
     component: CreateAdmin
   },
   {
-    path: '/CreateCompany',
-    name: 'AdminCreateCompany',
+    path: '/createCompany',
+    name: 'CreateCompany',
     component: AdminCreateCompany
   },
   /* routes for company */
