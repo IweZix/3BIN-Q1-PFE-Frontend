@@ -2,7 +2,7 @@
  * Import vue-router
  */
 import { createRouter, createWebHistory } from 'vue-router';
-import { adminVerif } from '@/services/auth.service';
+import { adminVerif } from '../services/authAdminService';
 
 /**
  * Import views
