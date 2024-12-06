@@ -3,6 +3,7 @@ import { renderPageTitle } from '@/utils/render/render';
 import ChangePasswordPageInputComponent from '@/components/ChangePasswordPage/ChangePasswordPageInputComponent.vue';
 import { changepasswordCompany } from '@/services/authCompanyService';
 import { updatePasswordAdmin } from '@/services/authAdminService';
+import { adminVerif } from '@/services/authAdminService';
 
 export default {
   name: 'ChangePasswordPage',
@@ -11,10 +12,8 @@ export default {
   },
   data() {
     return {
-      user: '',
       password: '',
       confirmPassword: '',
-      isPasswordValid: false,
       errorMessage: '',
       successMessage: '',
     };
@@ -24,41 +23,71 @@ export default {
   },
   methods: {
     async changePassword() {
-      
       this.errorMessage = '';
       this.successMessage = '';
+
       if (this.password !== this.confirmPassword) {
         this.errorMessage = 'Les mots de passe ne correspondent pas.';
         return;
       }
+
       try {
         const token = localStorage.getItem('token');
-        if (token) {
-          const responseAdmin = await updatePasswordAdmin(token, this.password);
-          if (responseAdmin) {
-            this.successMessage = 'Votre mot de passe a été changé avec succès.';
-            return;
-          }
+        if (!token) {
+          this.errorMessage = 'Token non trouvé, veuillez vous reconnecter.';
+          return;
+        }
+
+        let isAdmin = false;
+        try {
+          const response = await adminVerif(token);
+          isAdmin = response?.isAdmin || false;
+        } catch (error) {
+          console.warn('Erreur lors de la vérification admin', error);
+        }
+
+        let isPasswordChanged = false;
+
+        if (isAdmin) {
           try {
-            const responseCompany = await changepasswordCompany(token, this.password);
-            if (responseCompany) {
+            const responseAdmin = await updatePasswordAdmin(token, this.password);
+            if (responseAdmin) {
+              isPasswordChanged = true;
               this.successMessage = 'Votre mot de passe a été changé avec succès.';
+              this.$router.push({ name: 'AdminHome' });
               return;
             }
           } catch (error) {
-            this.errorMessage = 'Une erreur s\'est produite lors de la modification de votre mot de passe.';
+            console.warn('Échec de la mise à jour Admin', error);
           }
         } else {
-          this.errorMessage = 'Token non trouvé.';
+          try {
+            const responseCompany = await changepasswordCompany(token, this.password);
+            if (responseCompany) {
+              isPasswordChanged = true;
+              this.successMessage = 'Votre mot de passe a été changé avec succès.';
+              this.$router.push({ name: 'CompanyHome' });
+              return;
+            }
+          } catch (error) {
+            console.warn('Échec de la mise à jour Company', error);
+          }
+        }
+
+        if (isPasswordChanged) {
+          this.successMessage = 'Votre mot de passe a été changé avec succès, mais un problème est survenu lors de la redirection.';
+        } else {
+          this.errorMessage = 'Erreur : impossible de changer le mot de passe.';
         }
       } catch (error) {
+        console.error('Erreur inattendue :', error);
         this.errorMessage = 'Une erreur s\'est produite lors de la modification de votre mot de passe.';
       }
     },
-
   },
 };
 </script>
+
 
 <template>
   <div class="change-password-page">
