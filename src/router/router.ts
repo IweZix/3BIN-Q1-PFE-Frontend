@@ -1,7 +1,18 @@
+/**
+ * Import vue-router
+ */
 import { createRouter, createWebHistory } from 'vue-router';
+import { adminVerif } from '@/services/auth.service';
+
+/**
+ * Import views
+ */
 import NotFound from '@/views/NotFoundPage.vue';
 import Login from '../views/LoginPage.vue';
 import ChangePassword from '@/views/ChangePasswordPage.vue';
+
+
+// ADMIN ROUTES
 import AdminHome from '@/views/AdminHomePage.vue';
 import AdminCreateCredentials from '@/views/AdminCreateCredentials.vue';
 import AdminCreateCompany from '../views/AdminCreateCompany.vue';
@@ -11,11 +22,17 @@ import TemplateEdit from '../views/manageAll/AdminTemplateEdit.vue';
 import TemplateAdd from '../views/manageAll/AdminTemplateAdd.vue';
 import GroupIssueEdit from '../views/manageAll/AdminGroupIssueEdit.vue';
 import GroupIssueAdd from '../views/manageAll/AdminGroupIssueAdd.vue';
+
+/* routes for company */
 import CompanyHome from '../views/CompanyHomePage.vue';
 import ModuleESG from '../views/ModuleESGPage.vue';
-import { adminVerif } from '@/services/authAdminService';
+//import path from 'path';
 
+/**
+ * Define routes
+ */
 const routes = [
+  /* routes for admin */
   {
     path: '/admin',
     name: 'AdminHome',
@@ -94,6 +111,9 @@ const routes = [
   }
 ];
 
+/**
+ * Create router
+ */
 const router = createRouter({
   history: createWebHistory(),
   routes
