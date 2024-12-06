@@ -3,6 +3,7 @@ import test from 'node:test';
 import { PropType } from 'vue';
 import { getAllQuestions } from '@/services/moduleESGService';
 import { log } from 'console';
+import {answerForm} from '@/services/authCompanyService';
 
 interface ListQuestions {
    issue_id: number;
@@ -32,6 +33,7 @@ export default {
     return {
       questionsTable: [] as ListQuestions[],  // Initialisation de questionsTable
       currentIndex: 0, 
+      successSaveMessage: '',
     };
   },
 
@@ -114,13 +116,43 @@ export default {
     }
   },
 
-    saveCustomAnswer(answer: Answer) {
-      if (answer.txt_answer.trim() === '') {
-        answer.txt_answer = '';
-      } else {
-        console.log('Réponse personnalisée sauvegardée:', answer.txt_answer);
+    async saveResponses() {
+    if (this.questionsTable.length > 0) {
+      const token = localStorage.getItem('token'); 
+      
+      const listQuestions = this.questionsTable[this.currentIndex].questionsList.map((question) => ({
+        questionText: question.txt,
+        answers: question.responsesList.map((answer) => ({
+          text: answer.txt_answer,
+          isNow: answer.isNow,
+          is2Years: answer.is2Years,
+          comment: answer.comment,
+        })),
+      }));
+
+      try {
+        if (token) {
+          const response = await answerForm(token, { listQuestions });
+          this.successSaveMessage = 'Réponse enregistrée !';
+        } else {
+          console.error('Token is null');
+        }
+        console.log('Réponses sauvegardées avec succès :', listQuestions);
+      } catch (error) {
+        console.error('Erreur lors de la sauvegarde des réponses :', error
+        );
       }
-    },
+    }
+  },
+  async handleNext() {
+  await this.saveResponses(); 
+  if (this.successSaveMessage) {
+    alert(this.successSaveMessage); 
+  }
+  this.nextListQuestion();   
+ },
+
+
 
     saveComment(answer: Answer) {
       if (answer.comment.trim() === '') {
@@ -185,19 +217,34 @@ export default {
   <div class="navigation-buttons d-flex align-items-center justify-content-between">
     
     <div>
-      <button type="button" class="btn btn-primary me-2" @click="prevQuestion" :disabled="currentIndex === 0">
-        &lt;
-      </button>
-      <button type="button" class="btn btn-primary" @click="nextListQuestion"
-        :disabled="currentIndex === questionsTable.length - 1">
-        &gt;
-      </button>
-    </div>
+  <button 
+    type="button" 
+    class="btn btn-primary me-2" 
+    @click="prevQuestion" 
+    :disabled="currentIndex === 0">
+    &lt;
+  </button>
+  <button 
+    type="button" 
+    class="btn btn-primary" 
+    @click="handleNext"
+    :disabled="currentIndex === questionsTable.length - 1">
+    &gt;
+  </button>
+</div>
 
-    <div class="d-flex">
-      <button class="btn btn-primary me-2">Enregistrer</button>
-      <button class="btn btn-secondary">Annuler</button>
-    </div>
+<div class="d-flex">
+  <button 
+    class="btn btn-primary me-2" 
+    @click="saveResponses">
+    Enregistrer
+  </button>
+  <button 
+    class="btn btn-secondary" >
+    Annuler
+  </button>
+</div>
+
   </div>
 </template>
 
