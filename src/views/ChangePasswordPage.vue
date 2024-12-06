@@ -41,7 +41,7 @@ export default {
         let isAdmin = false;
         try {
           const response = await adminVerif(token);
-          isAdmin = response?.isAdmin || false;
+          isAdmin = response!=undefined;
         } catch (error) {
           console.warn('Erreur lors de la vérification admin', error);
         }

@@ -81,7 +81,10 @@ export default {
       answer[type] = !answer[type];
   
       // Gérer les cas particuliers : "N/A", "Aucune de ces réponses.", "Je ne sais pas"
-      if ((answer.txt_answer === "N/A" || answer.txt_answer === "Aucune de ces réponses." || answer.txt_answer === "Je ne sais pas" || answer.txt_answer === "Non" || answer.txt_answer === "Oui") && answer[type]) {
+      if ((answer.txt_answer === "N/A" || answer.txt_answer === "Aucune de ces réponses." 
+        || answer.txt_answer === "Je ne sais pas" || answer.txt_answer === "Non" 
+        || answer.txt_answer === "Oui" || answer.txt_answer === "Autre : veuillez expliquer dans les commentaires"
+        || answer.txt_answer === "N/A - Cette question n'est pas pertinente pour mon activité" ) && answer[type]) {
         // Désactiver toutes les autres réponses dans la même question
         currentQuestion.responsesList.forEach(ans => {
           if (ans !== answer) {
@@ -92,9 +95,16 @@ export default {
       }
   
       // Si la réponse n'est pas "N/A", "Aucune de ces réponses." ou "Je ne sais pas", désactiver ces options si la réponse est cochée
-      if (answer.txt_answer !== "N/A" && answer.txt_answer !== "Aucune de ces réponses." && answer.txt_answer !== "Je ne sais pas" && (answer.txt_answer === "Non" || answer.txt_answer === "Oui") && answer[type]) {
+      if (answer.txt_answer !== "N/A" && answer.txt_answer !== "Aucune de ces réponses." 
+       && answer.txt_answer !== "Je ne sais pas" && answer.txt_answer !== "Non" 
+       && answer.txt_answer !== "Oui" && answer.txt_answer !== "Autre : veuillez expliquer dans les commentaires" 
+       && answer.txt_answer !== "N/A - Cette question n'est pas pertinente pour mon activité" && answer[type]) {
+
         const specialAnswers = currentQuestion.responsesList.filter(ans =>
-          ans.txt_answer === "N/A" || ans.txt_answer === "Aucune de ces réponses." || ans.txt_answer === "Je ne sais pas" || ans.txt_answer === "Non" || ans.txt_answer === "Oui"
+          ans.txt_answer === "N/A" || ans.txt_answer === "Aucune de ces réponses." 
+          || ans.txt_answer === "Je ne sais pas" || ans.txt_answer === "Non" 
+          || ans.txt_answer === "Oui" || ans.txt_answer === "Autre : veuillez expliquer dans les commentaires"
+          || ans.txt_answer === "N/A - Cette question n'est pas pertinente pour mon activité"
         );
         specialAnswers.forEach(specialAnswer => {
           specialAnswer.isNow = false;
