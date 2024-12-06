@@ -2,6 +2,7 @@
  * Import vue-router
  */
 import { createRouter, createWebHistory } from 'vue-router';
+import { adminVerif } from '../services/authAdminService';
 
 /**
  * Import views
@@ -113,9 +114,27 @@ const routes = [
 /**
  * Create router
  */
-export default createRouter({
-  // Add history to router
+const router = createRouter({
   history: createWebHistory(),
-  // Give routes
   routes
 });
+
+router.beforeEach(async (to, from, next) => {
+  const token = localStorage.getItem('token');
+  if (to.path.startsWith('/admin') || to.path.startsWith('/createCredentials') || to.path.startsWith('/createCompany') || to.path.startsWith('/createAdmin') || to.path.startsWith('/manageAll') || to.path.startsWith('/admin/template') || to.path.startsWith('/admin/add-template') || to.path.startsWith('/admin/group-issue') || to.path.startsWith('/admin/add-group-issue')) {
+    if (token) {
+      const isAdmin = await adminVerif(token);
+      if (isAdmin) {
+        next();
+      } else {
+        next({ name: 'NotFound' });
+      }
+    } else {
+      next({ name: 'NotFound' });
+    }
+  } else {
+    next();
+  }
+});
+
+export default router;
