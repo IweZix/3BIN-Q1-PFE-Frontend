@@ -16,20 +16,82 @@ import ModuleESG from '../views/ModuleESGPage.vue';
 import { adminVerif } from '@/services/authAdminService';
 
 const routes = [
-  { path: '/admin', name: 'AdminHome', component: AdminHome },
-  { path: '/createCredentials', name: 'CreateCredentials', component: AdminCreateCredentials },
-  { path: '/createAdmin', name: 'CreateAdmin', component: CreateAdmin },
-  { path: '/createCompany', name: 'CreateCompany', component: AdminCreateCompany },
-  { path: '/manageAll', name: 'ManageAll', component: ManageAll },
-  { path: '/admin/template/:id', name: 'TemplateEdit', component: TemplateEdit },
-  { path: '/admin/add-template', name: 'TemplateAdd', component: TemplateAdd },
-  { path: '/admin/group-issue/:id', name: 'GroupIssueEdit', component: GroupIssueEdit },
-  { path: '/admin/add-group-issue', name: 'GroupIssueAdd', component: GroupIssueAdd },
-  { path: '/company', name: 'CompanyHome', component: CompanyHome },
-  { path: '/moduleESG', name: 'ModuleESG', component: ModuleESG },
-  { path: '/login', name: 'Login', component: Login },
-  { path: '/changePassword', name: 'ChangePassword', component: ChangePassword },
-  { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound }
+  {
+    path: '/admin',
+    name: 'AdminHome',
+    component: AdminHome
+  },
+  {
+    path: '/createCredentials',
+    name: 'CreateCredentials',
+    component: AdminCreateCredentials
+  },
+  {
+    path: '/createAdmin',
+    name: 'CreateAdmin',
+    component: CreateAdmin
+  },
+  {
+    path: '/createCompany',
+    name: 'CreateCompany',
+    component: AdminCreateCompany
+  },
+  {
+    path: '/manageAll',
+    name: 'ManageAll',
+    component: ManageAll
+  },
+  {
+    path: '/admin/template/:id',
+    name: 'TemplateEdit',
+    component: TemplateEdit
+  },
+  {
+    path: '/admin/add-template',
+    name: 'TemplateAdd',
+    component: TemplateAdd
+  },
+  {
+    path: '/admin/group-issue/:id',
+    name: 'GroupIssueEdit',
+    component: GroupIssueEdit
+  },
+  {
+    path: '/admin/add-group-issue',
+    name: 'GroupIssueAdd',
+    component: GroupIssueAdd
+  },
+  /* routes for company */
+  {
+    path: '/company',
+    name: 'CompanyHome',
+    component: CompanyHome
+  },
+  {
+    path: '/moduleESG',
+    name: 'ModuleESG',
+    component: ModuleESG
+
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
+  },
+  {
+    path: '/changePassword',
+    name: 'ChangePassword',
+    component: ChangePassword
+
+  },
+  /**
+   * Define not found route
+   */
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: NotFound
+  }
 ];
 
 const router = createRouter({
