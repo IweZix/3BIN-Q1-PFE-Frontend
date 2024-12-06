@@ -2,30 +2,30 @@
  * Import vue-router
  */
 import { createRouter, createWebHistory } from 'vue-router';
-import { adminVerif } from '../services/authAdminService';
+import { adminVerif } from '@/services/authAdminService';
 
 /**
  * Import views
  */
 import NotFound from '@/views/NotFoundPage.vue';
-import Login from '../views/LoginPage.vue';
+import Login from '@/views/LoginPage.vue';
 import ChangePassword from '@/views/ChangePasswordPage.vue';
 
 
 // ADMIN ROUTES
 import AdminHome from '@/views/AdminHomePage.vue';
 import AdminCreateCredentials from '@/views/AdminCreateCredentials.vue';
-import AdminCreateCompany from '../views/AdminCreateCompany.vue';
-import CreateAdmin from '../views/CreateAdminPage.vue';
+import AdminCreateCompany from '@/views/AdminCreateCompany.vue';
+import CreateAdmin from '@/views/CreateAdminPage.vue';
 import ManageAll from '@/views/manageAll/AdminManageAll.vue';
-import TemplateEdit from '../views/manageAll/AdminTemplateEdit.vue';
-import TemplateAdd from '../views/manageAll/AdminTemplateAdd.vue';
-import GroupIssueEdit from '../views/manageAll/AdminGroupIssueEdit.vue';
-import GroupIssueAdd from '../views/manageAll/AdminGroupIssueAdd.vue';
+import TemplateEdit from '@/views/manageAll/AdminTemplateEdit.vue';
+import TemplateAdd from '@/views/manageAll/AdminTemplateAdd.vue';
+import GroupIssueEdit from '@/views/manageAll/AdminGroupIssueEdit.vue';
+import GroupIssueAdd from '@/views/manageAll/AdminGroupIssueAdd.vue';
 
 /* routes for company */
-import CompanyHome from '../views/CompanyHomePage.vue';
-import ModuleESG from '../views/ModuleESGPage.vue';
+import CompanyHome from '@/views/CompanyHomePage.vue';
+import ModuleESG from '@/views/ModuleESGPage.vue';
 //import path from 'path';
 
 /**
