@@ -3,8 +3,8 @@
 export default {
     name: 'GetCompanyButton',
     props: {
-        companyId: {
-            type: Number,
+        companyEmail: {
+            type: String,
             required: true
         },
         disabled: {
@@ -15,7 +15,7 @@ export default {
     methods: {
         handleClick() {
             if (!this.disabled) {
-                this.$emit('edit-company', this.companyId);
+                this.$emit('edit-company', this.companyEmail);
             }
         }
     }
@@ -23,7 +23,7 @@ export default {
 </script>
 
 <template>
-    <button @click="handleClick" :disabled="disabled">Visualiser</button>
+    <button @click="handleClick" :disabled="disabled">Valider</button>
 </template>
 
 <style scoped>

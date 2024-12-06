@@ -1,25 +1,36 @@
 <script lang="ts">
 
-import GetCompanyButton from '@/components/buttons/GetCompanyButtonComponent.vue';
+import GetScoringCompanyButton from '@/components/buttons/GetScoringButtonComponent.vue';
+import ValidatebyCompanyButton from '@/components/buttons/ValidatebyCompanyButtonComponent.vue';
 
 export default {
     name: 'AdminHomePage',
     components: {
-        GetCompanyButton
+        GetScoringCompanyButton,
+        ValidatebyCompanyButton
     },
     data() {
         return {
             companies: [
-                { id: 1, name: 'Entreprise A', completed: true, validated: false, score: 85 },
-                { id: 2, name: 'Entreprise B', completed: false, validated: false, score: null },
+                { id: 1, name: 'Entreprise A', email: "contact@email.com", isCompleted: true, isValidated: false, score: 85 },
+                { id: 2, name: 'Entreprise B', email: "test@test.com", isCompleted: false, isValidated: false, score: null },
+                { id: 3, name: 'Entreprise C', email: "contact@steam.com", isCompleted: true, isValidated: true, score: 92 },
                 // Ajoutez plus d'entreprises ici
             ]
         };
     },
     methods: {
-        editCompany(id: number) {
+        validateCompanyForm(id: number) {
             // Logique pour modifier l'entreprise
             console.log(`Modifier l'entreprise avec l'ID: ${id}`);
+
+        },
+        getScoringCompany(id: number) {
+            // Logique pour obtenir le score de l'entreprise
+            console.log(`Obtenir le score de l'entreprise avec l'ID: ${id}`);
+        },
+        shouldShowButtons(company: { isCompleted: boolean, isValidated: boolean }) {
+            return company.isCompleted && !company.isValidated;
         }
     }
 };
@@ -44,23 +55,31 @@ export default {
                         <td>{{ company.name }}</td>
                         <td>
                             <span 
-                                :class="{'badge': true, 'badge-green': company.completed, 'badge-red': !company.completed}">
-                                {{ company.completed ? 'Oui' : 'Non' }}
+                                :class="{'badge': true, 'badge-green': company.isCompleted, 'badge-red': !company.isCompleted}">
+                                {{ company.isCompleted ? 'Oui' : 'Non' }}
                             </span>
                         </td>
                         <td>
                             <span 
-                                :class="{'badge': true, 'badge-green': company.validated, 'badge-red': !company.validated}">
-                                {{ company.validated ? 'Oui' : 'Non' }}
+                                :class="{'badge': true, 'badge-green': company.isValidated, 'badge-red': !company.isValidated}">
+                                {{ company.isValidated ? 'Oui' : 'Non' }}
                             </span>
                         </td>
                         <td>{{ company.score ?? "/" }}</td>
-                        <td>
-                            <GetCompanyButton 
-                                :companyId="company.id" 
-                                @edit-company="editCompany" 
-                                :disabled="!company.completed"
-                                :title="company.completed ? 'Visualiser réponses de l\'entreprise' : 'Terminer avant d\'éditer'" 
+                        <td v-if="!company.isValidated">
+                            <ValidatebyCompanyButton 
+                                :companyEmail="company.email" 
+                                @edit-company="validateCompanyForm" 
+                                :disabled="!company.isCompleted"
+                                :title="company.isCompleted ? 'Valider réponses de l\'entreprise' : 'Terminer avant d\'éditer'" 
+                            />
+                        </td>
+                        <td v-if="company.isValidated">
+                            <GetScoringCompanyButton 
+                                :companyEmail="company.email" 
+                                @edit-company="getScoringCompany" 
+                                :disabled="!company.isValidated"
+                                :title="company.isValidated ? 'Visualiser réponses de l\'entreprise' : 'Terminer avant d\'éditer'" 
                             />
                         </td>
                     </tr>

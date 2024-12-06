@@ -68,7 +68,7 @@ export default {
           <tr v-for="template in templates" :key="template.id">
             <td>{{ template.templateName }}</td>
             <td>
-              <button @click="editTemplate(template.id)">Modifier</button>
+              <button @click="editTemplate(template._id)">Modifier</button>
             </td>
           </tr>
         </tbody>
