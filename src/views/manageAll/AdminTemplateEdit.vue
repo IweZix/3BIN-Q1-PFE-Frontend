@@ -51,7 +51,7 @@ export default {
       <div class="form-group">
         <label for="template-name">Nom du Template :</label>
         <input
-          id="template-name"
+          id="_id"
           type="text"
           v-model="templateName"
           placeholder="Nom du Template"
