@@ -1,6 +1,6 @@
 <script lang="ts">
-import LeftPanel from '../components/loginPage/LeftPanelComponent.vue';
-import RightPanel from '../components/loginPage/RightPanelComponent.vue';
+import LeftPanel from '@/components/loginPage/LeftPanelComponent.vue';
+import RightPanel from '@/components/loginPage/RightPanelComponent.vue';
 
 export default {
   name: 'LoginPage',

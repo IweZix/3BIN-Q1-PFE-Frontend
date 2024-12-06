@@ -1,6 +1,6 @@
 <script lang="ts">
 
-import GetCompanyButton from '../components/buttons/GetCompanyButtonComponent.vue';
+import GetCompanyButton from '@/components/buttons/GetCompanyButtonComponent.vue';
 
 export default {
     name: 'AdminHomePage',
