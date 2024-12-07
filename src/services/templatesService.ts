@@ -16,10 +16,11 @@ export const getTemplates = async () => {
     }
 };
 
-export const createTemplate = async (name: string) => {
+export const createTemplate = async (templateName: string) => {
     try {
-        const template = { name };
-        const response = await axios.post(`${API_URL}/create`, template);
+        const response = await axios.post(`${API_URL}/create-template`, {
+            templateName,
+        });
         return response.data;
     } catch (error) {
         // Gestion des erreurs

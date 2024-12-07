@@ -20,7 +20,7 @@ export default {
         }
 
         // Appel du service pour créer le template
-        await createTemplate({ name: this.templateName });
+        await createTemplate(this.templateName);
 
         // Réinitialisation des champs et affichage du message de succès
         this.successMessage = 'Template créé avec succès !';
@@ -55,7 +55,7 @@ export default {
           required
         />
       </div>
-      <button type="submit" class="btn-primary">Créer</button>
+      <button v-on:click="" type="submit" class="btn-primary">Créer</button>
     </form>
   </div>
 </template>

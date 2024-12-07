@@ -28,6 +28,7 @@ export const adminVerif = async (token: string) => {
             },
         }
         );
+        
         return response.data;
     } catch (error) {
         // erreur silencieuse
