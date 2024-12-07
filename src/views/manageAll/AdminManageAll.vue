@@ -2,6 +2,7 @@
 import { getTemplates } from '@/services/templatesService';
 import { getGroupIssues } from '@/services/groupIssuesService';
 import { getIssues } from '@/services/issuesService';
+import { deleteTemplate } from '@/services/templatesService';
 
 export default {
   name: 'ManageAll',
@@ -41,6 +42,16 @@ export default {
     },
     viewIssues(groupIssueId) {
       this.$router.push(`/admin/issues/${groupIssueId}`);
+    },
+    async deleteTemplate(templateId) {
+      if (confirm('Êtes-vous sûr de vouloir supprimer ce template ?')) {
+        try {
+          await deleteTemplate(templateId);
+          this.templates = this.templates.filter(template => template._id !== templateId);
+        } catch (error) {
+          this.errorMessage = 'Erreur lors de la suppression du template.';
+        }
+      }
     }
   }
 };
@@ -69,6 +80,7 @@ export default {
             <td>{{ template.templateName }}</td>
             <td>
               <button @click="editTemplate(template._id)">Modifier</button>
+              <button @click="deleteTemplate(template._id)">Supprimer</button>
             </td>
           </tr>
         </tbody>

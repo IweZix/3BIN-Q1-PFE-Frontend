@@ -20,7 +20,7 @@ export default {
         }
 
         // Appel du service pour créer le template
-        await createTemplate({ name: this.templateName });
+        await createTemplate(this.templateName);
 
         // Réinitialisation des champs et affichage du message de succès
         this.successMessage = 'Template créé avec succès !';

@@ -16,10 +16,11 @@ export const getTemplates = async () => {
     }
 };
 
-export const createTemplate = async (name: string) => {
+export const createTemplate = async (templateName: string) => {
     try {
-        const template = { name };
-        const response = await axios.post(`${API_URL}/create`, template);
+        const response = await axios.post(`${API_URL}/create-template`, {
+            templateName,
+        });
         return response.data;
     } catch (error) {
         // Gestion des erreurs
@@ -45,10 +46,11 @@ export const getTemplateById = async (id: number) => {
     }
 };
 
-export const updateTemplate = async (id: number, name: string) => {
+export const updateTemplate = async (id: number, newTemplateName: string) => {
     try {
-        const template = { name };
-        const response = await axios.put(`${API_URL}/update/${id}`, template);
+        const response = await axios.put(`${API_URL}/patch-templateName/${id}`, {
+            newTemplateName,
+        });
         return response.data;
     } catch (error) {
         // Gestion des erreurs
@@ -59,3 +61,16 @@ export const updateTemplate = async (id: number, name: string) => {
         }
     }
 };
+
+export const deleteTemplate = async (id: number) => {
+    try {
+        await axios.delete(`${API_URL}/delete-template/${id}`);
+    } catch (error) {
+        // Gestion des erreurs
+        if (axios.isAxiosError(error) && error.response) {
+            throw new Error(error.response.data.message || 'Erreur lors de la suppression du template.');
+        } else {
+            throw new Error('Impossible de se connecter au serveur.');
+        }
+    }
+}
