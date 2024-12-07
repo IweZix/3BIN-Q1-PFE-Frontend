@@ -55,7 +55,7 @@ export default {
           required
         />
       </div>
-      <button v-on:click="" type="submit" class="btn-primary">Créer</button>
+      <button type="submit" class="btn-primary">Créer</button>
     </form>
   </div>
 </template>

@@ -46,10 +46,11 @@ export const getTemplateById = async (id: number) => {
     }
 };
 
-export const updateTemplate = async (id: number, name: string) => {
+export const updateTemplate = async (id: number, newTemplateName: string) => {
     try {
-        const template = { name };
-        const response = await axios.put(`${API_URL}/update/${id}`, template);
+        const response = await axios.put(`${API_URL}/patch-templateName/${id}`, {
+            newTemplateName,
+        });
         return response.data;
     } catch (error) {
         // Gestion des erreurs
