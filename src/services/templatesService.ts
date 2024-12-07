@@ -61,3 +61,16 @@ export const updateTemplate = async (id: number, newTemplateName: string) => {
         }
     }
 };
+
+export const deleteTemplate = async (id: number) => {
+    try {
+        await axios.delete(`${API_URL}/delete-template/${id}`);
+    } catch (error) {
+        // Gestion des erreurs
+        if (axios.isAxiosError(error) && error.response) {
+            throw new Error(error.response.data.message || 'Erreur lors de la suppression du template.');
+        } else {
+            throw new Error('Impossible de se connecter au serveur.');
+        }
+    }
+}
