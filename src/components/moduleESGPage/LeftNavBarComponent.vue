@@ -1,57 +1,69 @@
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { PropType } from 'vue';
+import { getGroupIssues } from '@/services/groupIssuesService';
+import { getIssues } from '@/services/issuesService';
 
-interface SubCategory {
-  id: number;
+interface GroupIssue {
   name: string;
 }
 
-interface Category {
-  category: string;
-  subCategories: SubCategory[];
+interface Issue {
+  _id: number;
+  name: string;
+  group_id: number;
 }
 
-export default defineComponent({
+export default {
   name: 'LeftNavBarComponent',
-  props: {
-    categoryTable: {
-      type: Array as PropType<Category[]>, 
-      required: true,
-    },
-    selectedSubCategoryId: {
-      type: Number, 
-      required: true,
-    },
+  data() {
+    return {
+      groupIssues: [] as GroupIssue[],
+      issue : [] as Issue[],
+    };
   },
+
   methods: {
-    selectSubCategory(id: number) {
-      this.$emit('selectSubCategory', id);
+    async loadIssues() {
+      try {
+        const groupIssuesResponse = await getGroupIssues();
+        const issuesResponse = await getIssues();
+
+        const groupIssuesData: GroupIssue[] = groupIssuesResponse as GroupIssue[];
+        const issuesData: Issue[] = issuesResponse as Issue[];
+        this.groupIssues = groupIssuesData;
+        this.issue = issuesData;
+        
+      } catch (error) {
+        console.error('Erreur lors de la récupération des données :', error);
+      }
     },
   },
-});
+
+
+mounted() {
+  this.loadIssues();
+},
+};
 </script>
-
-
 
 <template>
   <div>
     <ul>
-      <li v-for="(categoryItem, index) in categoryTable" :key="index">
-        <strong>{{ categoryItem.category }}</strong>
+      
+      <li v-for="(groupItem, index) in groupIssues" :key="index">
+        <strong>{{ groupItem.name }}</strong> 
+
         <ul>
-          <li
-            v-for="sub in categoryItem.subCategories"
-            :key="sub.id"
-            @click="selectSubCategory(sub.id)"
-            :class="{ 'grayed-out': sub.id === selectedSubCategoryId }"
-          >
-            {{ sub.name }}
+          <li v-for="(issue, idx) in issue.filter(issue => issue.group_id === (groupIssues.indexOf(groupItem) + 1))" :key="idx">
+            {{ issue.name }}
           </li>
         </ul>
       </li>
     </ul>
   </div>
 </template>
+
+
 
 <style scoped>
 .grayed-out {

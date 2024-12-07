@@ -1,10 +1,11 @@
-import axios from "axios";
+import axios from 'axios';
 
-const API_URL = "http://localhost:3000/groupIssues";
+const API_URL = 'http://localhost:3000/groupIssue';
 
 export const getGroupIssues = async () => {
-  const response = await axios.get(`${API_URL}/`);
+  const response = await axios.get(`${API_URL}`);
   return response.data;
+  
 };
 
 export const getGroupIssueById = async (id: string) => {

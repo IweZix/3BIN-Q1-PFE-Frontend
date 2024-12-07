@@ -3,6 +3,7 @@ import test from 'node:test';
 import { PropType } from 'vue';
 import { getAllQuestions } from '@/services/moduleESGService';
 import { log } from 'console';
+import {answerForm} from '@/services/authCompanyService';
 
 interface ListQuestions {
    issue_id: number;
@@ -32,6 +33,7 @@ export default {
     return {
       questionsTable: [] as ListQuestions[],  // Initialisation de questionsTable
       currentIndex: 0, 
+      successSaveMessage: '',
     };
   },
 
@@ -81,7 +83,10 @@ export default {
       answer[type] = !answer[type];
   
       // Gérer les cas particuliers : "N/A", "Aucune de ces réponses.", "Je ne sais pas"
-      if ((answer.txt_answer === "N/A" || answer.txt_answer === "Aucune de ces réponses." || answer.txt_answer === "Je ne sais pas" || answer.txt_answer === "Non" || answer.txt_answer === "Oui") && answer[type]) {
+      if ((answer.txt_answer === "N/A" || answer.txt_answer === "Aucune de ces réponses." 
+        || answer.txt_answer === "Je ne sais pas" || answer.txt_answer === "Non" 
+        || answer.txt_answer === "Oui" || answer.txt_answer === "Autre : veuillez expliquer dans les commentaires"
+        || answer.txt_answer === "N/A - Cette question n'est pas pertinente pour mon activité" ) && answer[type]) {
         // Désactiver toutes les autres réponses dans la même question
         currentQuestion.responsesList.forEach(ans => {
           if (ans !== answer) {
@@ -92,9 +97,16 @@ export default {
       }
   
       // Si la réponse n'est pas "N/A", "Aucune de ces réponses." ou "Je ne sais pas", désactiver ces options si la réponse est cochée
-      if (answer.txt_answer !== "N/A" && answer.txt_answer !== "Aucune de ces réponses." && answer.txt_answer !== "Je ne sais pas" && (answer.txt_answer === "Non" || answer.txt_answer === "Oui") && answer[type]) {
+      if (answer.txt_answer !== "N/A" && answer.txt_answer !== "Aucune de ces réponses." 
+       && answer.txt_answer !== "Je ne sais pas" && answer.txt_answer !== "Non" 
+       && answer.txt_answer !== "Oui" && answer.txt_answer !== "Autre : veuillez expliquer dans les commentaires" 
+       && answer.txt_answer !== "N/A - Cette question n'est pas pertinente pour mon activité" && answer[type]) {
+
         const specialAnswers = currentQuestion.responsesList.filter(ans =>
-          ans.txt_answer === "N/A" || ans.txt_answer === "Aucune de ces réponses." || ans.txt_answer === "Je ne sais pas" || ans.txt_answer === "Non" || ans.txt_answer === "Oui"
+          ans.txt_answer === "N/A" || ans.txt_answer === "Aucune de ces réponses." 
+          || ans.txt_answer === "Je ne sais pas" || ans.txt_answer === "Non" 
+          || ans.txt_answer === "Oui" || ans.txt_answer === "Autre : veuillez expliquer dans les commentaires"
+          || ans.txt_answer === "N/A - Cette question n'est pas pertinente pour mon activité"
         );
         specialAnswers.forEach(specialAnswer => {
           specialAnswer.isNow = false;
@@ -104,13 +116,41 @@ export default {
     }
   },
 
-    saveCustomAnswer(answer: Answer) {
-      if (answer.txt_answer.trim() === '') {
-        answer.txt_answer = '';
-      } else {
-        console.log('Réponse personnalisée sauvegardée:', answer.txt_answer);
+    async saveResponses() {
+    if (this.questionsTable.length > 0) {
+      const token = localStorage.getItem('token'); 
+      
+      const listQuestions = this.questionsTable[this.currentIndex].questionsList.map((question) => ({
+        questionText: question.txt,
+        answers: question.responsesList.map((answer) => ({
+          text: answer.txt_answer,
+          isNow: answer.isNow,
+          is2Years: answer.is2Years,
+          comment: answer.comment,
+        })),
+      }));
+
+      try {
+        if (token) {
+          const response = await answerForm(token, { listQuestions });
+          this.successSaveMessage = 'Réponse enregistrée !';
+          alert(this.successSaveMessage); 
+        } else {
+          console.error('Token is null');
+        }
+        console.log('Réponses sauvegardées avec succès :', listQuestions);
+      } catch (error) {
+        console.error('Erreur lors de la sauvegarde des réponses :', error
+        );
       }
-    },
+    }
+  },
+  async handleNext() {
+  await this.saveResponses(); 
+  this.nextListQuestion();   
+ },
+
+
 
     saveComment(answer: Answer) {
       if (answer.comment.trim() === '') {
@@ -127,13 +167,13 @@ export default {
 </script>
 
 <template>
- 
+
 
   <div class="question-container" v-if="questionsTable.length > 0">
     <div v-for="(question, index) in questionsTable[currentIndex].questionsList" :key="index" class="question-box">
       <h2>Question {{ index + 1 }}</h2>
       <h5>{{ question.txt }}</h5>
-      
+
       <table class="table">
         <thead>
           <tr>
@@ -157,25 +197,14 @@ export default {
               </div>
             </td>
             <td class="now">
-              <input 
-                type="checkbox" 
-                :checked="answer.isNow" 
-                @change="toggleCheckbox(answer, 'isNow')" 
-              />
+              <input type="checkbox" :checked="answer.isNow" @change="toggleCheckbox(answer, 'isNow')" />
             </td>
             <td class="twoYears">
-              <input 
-                type="checkbox" 
-                :checked="answer.is2Years" 
-                @change="toggleCheckbox(answer, 'is2Years')" 
-              />
+              <input type="checkbox" :checked="answer.is2Years" @change="toggleCheckbox(answer, 'is2Years')" />
             </td>
             <td class="commentaire">
-              <textarea 
-                v-model="answer.comment" 
-                placeholder="Ajouter un commentaire"
-                @blur="saveComment(answer)" 
-              ></textarea>
+              <textarea v-model="answer.comment" placeholder="Ajouter un commentaire"
+                @blur="saveComment(answer)"></textarea>
             </td>
           </tr>
         </tbody>
@@ -183,21 +212,41 @@ export default {
     </div>
   </div>
 
-   <div class="navigation-buttons">
-      <button type="button" class="btn btn-primary"
-        @click="prevQuestion" 
-        :disabled="currentIndex === 0"
-      >
-        <
-      </button>
-      <button type="button" class="btn btn-primary" 
-        @click="nextListQuestion" 
-        :disabled="currentIndex === questionsTable.length - 1"
-      >
-        >
-      </button>
-    </div>
+  <div class="navigation-buttons d-flex align-items-center justify-content-between">
+    
+    <div>
+  <button 
+    type="button" 
+    class="btn btn-primary me-2" 
+    @click="prevQuestion" 
+    :disabled="currentIndex === 0">
+    &lt;
+  </button>
+  <button 
+    type="button" 
+    class="btn btn-primary" 
+    @click="handleNext"
+    :disabled="currentIndex === questionsTable.length - 1">
+    &gt;
+  </button>
+</div>
+
+<div class="d-flex">
+  
+  <button 
+    class="btn btn-primary me-2" 
+    @click="saveResponses">
+    Enregistrer
+  </button>
+  <button 
+    class="btn btn-secondary" >
+    Annuler
+  </button>
+</div>
+
+  </div>
 </template>
+
 
 
 
