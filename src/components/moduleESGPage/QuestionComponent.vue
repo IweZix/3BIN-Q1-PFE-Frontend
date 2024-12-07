@@ -134,6 +134,7 @@ export default {
         if (token) {
           const response = await answerForm(token, { listQuestions });
           this.successSaveMessage = 'Réponse enregistrée !';
+          alert(this.successSaveMessage); 
         } else {
           console.error('Token is null');
         }
@@ -146,9 +147,6 @@ export default {
   },
   async handleNext() {
   await this.saveResponses(); 
-  if (this.successSaveMessage) {
-    alert(this.successSaveMessage); 
-  }
   this.nextListQuestion();   
  },
 
@@ -234,6 +232,7 @@ export default {
 </div>
 
 <div class="d-flex">
+  
   <button 
     class="btn btn-primary me-2" 
     @click="saveResponses">
