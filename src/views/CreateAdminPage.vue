@@ -52,7 +52,8 @@ export default {
 
       const adminNameRegex = /^[A-Z][a-z]*$/;
       if (!adminNameRegex.test(this.adminName)) {
-        this.errors.adminName = 'Veuillez entrer un nom valide avec comme premier lettre une majuscule.';
+        this.errors.adminName =
+          'Veuillez entrer un nom valide avec comme premier lettre une majuscule.';
       }
 
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -71,14 +72,14 @@ export default {
           this.successMessage = 'Administrateur créé avec succès !';
           alert(this.successMessage);
           console.log(result);
-          // redirect to 
+          // redirect to
         } catch (error) {
           console.log(error);
-          
+
           alert((error as any).message);
         }
       }
-    },
+    }
   }
 };
 </script>
@@ -99,7 +100,9 @@ export default {
             :class="{ 'error-border': errors.adminName }"
             required
           />
-          <p id="adminName-error" v-if="errors.adminName" class="error-message">{{ errors.adminName }}</p>
+          <p id="adminName-error" v-if="errors.adminName" class="error-message">
+            {{ errors.adminName }}
+          </p>
         </div>
         <div class="form-group">
           <label for="email">Email :</label>
@@ -136,20 +139,12 @@ export default {
             >
               {{ isPasswordVisible ? 'Masquer' : 'Afficher' }}
             </button>
-            <button
-              type="button"
-              class="refresh-button"
-              @click="generateRandomPassword"
-            >
-              🔄
-            </button>
+            <button type="button" class="refresh-button" @click="generateRandomPassword">🔄</button>
           </div>
           <p id="password-error" v-if="passwordError" class="error-message">{{ passwordError }}</p>
         </div>
 
-        <button type="submit" class="btn btn-primary">
-          Créer
-        </button>
+        <button type="submit" class="btn btn-primary">Créer</button>
 
         <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
       </form>
@@ -219,7 +214,6 @@ input.error-border {
   flex-grow: 1; /* Permet au champ de saisie de prendre tout l'espace disponible */
 }
 
-
 .toggle-visibility-btn {
   position: absolute;
   right: 65px; /* Distance du bord droit */
@@ -233,7 +227,6 @@ input.error-border {
   color: #666; /* Couleur du bouton */
   padding: 0;
 }
-
 
 .refresh-button {
   background-color: #f0f0f0;

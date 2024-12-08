@@ -1,17 +1,17 @@
 <script lang="ts">
 import { adminVerif, checkPasswordUpdated } from '@/services/authAdminService';
-import { checkPasswordUpdatedCompany } from '@/services/authCompanyService';
+import { checkFormCompletedESG, checkPasswordUpdatedCompany } from '@/services/authCompanyService';
 import GlossaireModalComponent from '@/components/Modal/GlossaireModalComponent.vue';
 export default {
   name: 'NavbarComponent',
   components: {
-    GlossaireModalComponent,
+    GlossaireModalComponent
   },
   async mounted() {
     await this.checkLoginStatus();
-    
+    await this.checkIsFormCompletedESG();
   },
-  
+
   data() {
     return {
       isLoggedIn: false,
@@ -19,6 +19,7 @@ export default {
       isPasswordUpdated: false,
       path: '/login',
       isGlossaireModalVisible: false, // Contrôle la visibilité du modal
+      formCompletedESG: false
     };
   },
   methods: {
@@ -47,6 +48,13 @@ export default {
       }
       this.redirectPath(); // Détermine le chemin après la vérification
     },
+    async checkIsFormCompletedESG() {
+      const token = localStorage.getItem('token');
+      if (token) {
+        this.formCompletedESG = !!(await checkFormCompletedESG(token));
+      }
+    },
+
     async checkIfPasswordUpdated() {
       const email = localStorage.getItem('email');
       if (email) {
@@ -60,12 +68,11 @@ export default {
     },
     redirectPath() {
       if (this.isLoggedIn) {
-        if (this.isPasswordUpdated){
+        if (this.isPasswordUpdated) {
           this.path = this.admin ? '/admin' : '/company';
-        }else{
+        } else {
           this.path = '/changePassword';
         }
-        
       } else {
         this.path = '/login';
       }
@@ -75,11 +82,10 @@ export default {
     },
     closeGlossaireModal() {
       this.isGlossaireModalVisible = false;
-    },
-  },
+    }
+  }
 };
 </script>
-
 
 <template>
   <div class="p-4" id="navbarWrapper">
@@ -88,8 +94,15 @@ export default {
         <router-link :to="path" class="navbar-brand nav-link" id="demonopediaLogo">
           <img src="../assets/logo/logo_shiftingpact_vert_verteau.png" alt="Logo" class="logo" />
         </router-link>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -107,7 +120,10 @@ export default {
             <li v-if="isLoggedIn && !isPasswordUpdated" class="nav-item">
               <router-link to="/changePassword" class="nav-link">Change Password</router-link>
             </li>
-            <li v-if="isLoggedIn && !admin && isPasswordUpdated" class="nav-item">
+            <li
+              v-if="isLoggedIn && !admin && isPasswordUpdated && !formCompletedESG"
+              class="nav-item"
+            >
               <router-link to="/moduleESG" class="nav-link">Module ESG</router-link>
             </li>
             <!-- Bouton pour ouvrir le glossaire -->
@@ -120,19 +136,24 @@ export default {
             <router-link v-if="!isLoggedIn" to="/login" class="nav-link">
               <img src="../assets/icons/profil-de-lutilisateur.png" alt="User Icon" class="icon" />
             </router-link>
-            <img v-if="isLoggedIn" src="../assets/icons/se-deconnecter.png" alt="exit Icon" class="icon" @click="logout" />
+            <img
+              v-if="isLoggedIn"
+              src="../assets/icons/se-deconnecter.png"
+              alt="exit Icon"
+              class="icon"
+              @click="logout"
+            />
           </div>
         </div>
       </div>
     </nav>
-     <!-- Modal pour le glossaire -->
-     <GlossaireModalComponent
+    <!-- Modal pour le glossaire -->
+    <GlossaireModalComponent
       :isVisible="isGlossaireModalVisible"
       @close="closeGlossaireModal"
       title="Glossaire"
     >
-      <template #default>
-      </template>
+      <template #default> </template>
     </GlossaireModalComponent>
   </div>
 </template>
@@ -170,6 +191,5 @@ nav {
   color: inherit;
   cursor: pointer;
   text-decoration: none;
-
 }
 </style>

@@ -11,7 +11,6 @@ import NotFound from '@/views/NotFoundPage.vue';
 import Login from '@/views/LoginPage.vue';
 import ChangePassword from '@/views/ChangePasswordPage.vue';
 
-
 // ADMIN ROUTES
 import AdminHome from '@/views/AdminHomePage.vue';
 import AdminCreateCredentials from '@/views/AdminCreateCredentials.vue';
@@ -23,6 +22,7 @@ import TemplateAdd from '@/views/manageAll/AdminTemplateAdd.vue';
 import GroupIssueEdit from '@/views/manageAll/AdminGroupIssueEdit.vue';
 import GroupIssueAdd from '@/views/manageAll/AdminGroupIssueAdd.vue';
 import DetailsScoringCompany from '@/views/scoring/DetailsScoringCompany.vue';
+import AdminValitedForm from '@/views/manageAll/AdminValitedForm.vue';
 
 /* routes for company */
 import CompanyHome from '@/views/CompanyHomePage.vue';
@@ -84,6 +84,11 @@ const routes = [
     name: 'scoringCompany',
     component: DetailsScoringCompany
   },
+  {
+    path: '/answerFormUser/:email',
+    name: 'answerFormUser',
+    component: AdminValitedForm
+  },
   /* routes for company */
   {
     path: '/company',
@@ -94,7 +99,6 @@ const routes = [
     path: '/moduleESG',
     name: 'ModuleESG',
     component: ModuleESG
-
   },
   {
     path: '/login',
@@ -105,7 +109,6 @@ const routes = [
     path: '/changePassword',
     name: 'ChangePassword',
     component: ChangePassword
-
   },
   /**
    * Define not found route
@@ -127,7 +130,17 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const token = localStorage.getItem('token');
-  if (to.path.startsWith('/admin') || to.path.startsWith('/createCredentials') || to.path.startsWith('/createCompany') || to.path.startsWith('/createAdmin') || to.path.startsWith('/manageAll') || to.path.startsWith('/admin/template') || to.path.startsWith('/admin/add-template') || to.path.startsWith('/admin/group-issue') || to.path.startsWith('/admin/add-group-issue')) {
+  if (
+    to.path.startsWith('/admin') ||
+    to.path.startsWith('/createCredentials') ||
+    to.path.startsWith('/createCompany') ||
+    to.path.startsWith('/createAdmin') ||
+    to.path.startsWith('/manageAll') ||
+    to.path.startsWith('/admin/template') ||
+    to.path.startsWith('/admin/add-template') ||
+    to.path.startsWith('/admin/group-issue') ||
+    to.path.startsWith('/admin/add-group-issue')
+  ) {
     if (token) {
       const isAdmin = await adminVerif(token);
       if (isAdmin) {
@@ -141,8 +154,7 @@ router.beforeEach(async (to, from, next) => {
   } else {
     if (token == null && to.path != '/login') {
       next({ name: 'Login' });
-    }else
-    next();
+    } else next();
   }
 });
 

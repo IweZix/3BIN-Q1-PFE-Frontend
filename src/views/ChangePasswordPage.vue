@@ -15,7 +15,7 @@ export default {
       password: '',
       confirmPassword: '',
       errorMessage: '',
-      successMessage: '',
+      successMessage: ''
     };
   },
   mounted() {
@@ -41,7 +41,7 @@ export default {
         let isAdmin = false;
         try {
           const response = await adminVerif(token);
-          if(response!=undefined && response){
+          if (response != undefined && response) {
             isAdmin = true;
           }
         } catch (error) {
@@ -77,19 +77,20 @@ export default {
         }
 
         if (isPasswordChanged) {
-          this.successMessage = 'Votre mot de passe a été changé avec succès, mais un problème est survenu lors de la redirection.';
+          this.successMessage =
+            'Votre mot de passe a été changé avec succès, mais un problème est survenu lors de la redirection.';
         } else {
           this.errorMessage = 'Erreur : impossible de changer le mot de passe.';
         }
       } catch (error) {
         console.error('Erreur inattendue :', error);
-        this.errorMessage = 'Une erreur s\'est produite lors de la modification de votre mot de passe.';
+        this.errorMessage =
+          "Une erreur s'est produite lors de la modification de votre mot de passe.";
       }
-    },
-  },
+    }
+  }
 };
 </script>
-
 
 <template>
   <div class="change-password-page">
@@ -124,7 +125,6 @@ export default {
   </div>
 </template>
 
-
 <style scoped>
 .change-password-page {
   display: flex;
@@ -134,7 +134,7 @@ export default {
 }
 
 .card {
-  background-color: #fde7917c; 
+  background-color: #fde7917c;
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre subtile */

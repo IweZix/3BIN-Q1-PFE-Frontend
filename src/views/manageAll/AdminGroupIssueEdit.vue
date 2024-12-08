@@ -88,22 +88,14 @@ export default {
           <div class="issue-list">
             <div v-for="issue in availableIssues" :key="issue.id" class="issue-item">
               <label>
-                <input
-                  type="checkbox"
-                  :value="issue.id"
-                  v-model="selectedIssues"
-                />
+                <input type="checkbox" :value="issue.id" v-model="selectedIssues" />
                 {{ issue.name }}
               </label>
             </div>
           </div>
         </div>
 
-        <button
-          type="submit"
-          class="btn-primary"
-          :disabled="isLoading || errorMessage"
-        >
+        <button type="submit" class="btn-primary" :disabled="isLoading || errorMessage">
           Enregistrer
         </button>
       </form>
@@ -136,7 +128,7 @@ label {
   margin-bottom: 5px;
 }
 
-input[type="text"] {
+input[type='text'] {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;

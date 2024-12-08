@@ -1,5 +1,4 @@
 <script lang="ts">
-import { PropType } from 'vue';
 import { getGroupIssues } from '@/services/groupIssuesService';
 import { getIssues } from '@/services/issuesService';
 
@@ -18,7 +17,7 @@ export default {
   data() {
     return {
       groupIssues: [] as GroupIssue[],
-      issue : [] as Issue[],
+      issue: [] as Issue[]
     };
   },
 
@@ -32,29 +31,31 @@ export default {
         const issuesData: Issue[] = issuesResponse as Issue[];
         this.groupIssues = groupIssuesData;
         this.issue = issuesData;
-        
       } catch (error) {
         console.error('Erreur lors de la récupération des données :', error);
       }
-    },
+    }
   },
 
-
-mounted() {
-  this.loadIssues();
-},
+  mounted() {
+    this.loadIssues();
+  }
 };
 </script>
 
 <template>
   <div>
     <ul>
-      
       <li v-for="(groupItem, index) in groupIssues" :key="index">
-        <strong>{{ groupItem.name }}</strong> 
+        <strong>{{ groupItem.name }}</strong>
 
         <ul>
-          <li v-for="(issue, idx) in issue.filter(issue => issue.group_id === (groupIssues.indexOf(groupItem) + 1))" :key="idx">
+          <li
+            v-for="(issue, idx) in issue.filter(
+              (issue) => issue.group_id === groupIssues.indexOf(groupItem) + 1
+            )"
+            :key="idx"
+          >
             {{ issue.name }}
           </li>
         </ul>
@@ -63,11 +64,9 @@ mounted() {
   </div>
 </template>
 
-
-
 <style scoped>
 .grayed-out {
   color: #bbb;
-  pointer-events: none; 
+  pointer-events: none;
 }
 </style>

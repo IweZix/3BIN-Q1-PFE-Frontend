@@ -50,13 +50,7 @@ export default {
     <form @submit.prevent="saveTemplate">
       <div class="form-group">
         <label for="template-name">Nom du Template :</label>
-        <input
-          id="_id"
-          type="text"
-          v-model="templateName"
-          placeholder="Nom du Template"
-          required
-        />
+        <input id="_id" type="text" v-model="templateName" placeholder="Nom du Template" required />
       </div>
       <button type="submit" class="btn-primary">Enregistrer</button>
     </form>

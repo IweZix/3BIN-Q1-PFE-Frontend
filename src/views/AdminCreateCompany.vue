@@ -21,7 +21,7 @@ export default {
         templates: ''
       },
       successMessage: '',
-      credentials: {email:'', password:''} // Objet pour stocker les credentials créés
+      credentials: { email: '', password: '' } // Objet pour stocker les credentials créés
     };
   },
   async mounted() {
@@ -43,7 +43,7 @@ export default {
       this.errors.templates = '';
 
       if (this.companyName.trim() === '') {
-        this.errors.companyName = 'Veuillez entrer un nom d\'entreprise.';
+        this.errors.companyName = "Veuillez entrer un nom d'entreprise.";
       }
 
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -59,7 +59,12 @@ export default {
         this.errors.templates = 'Veuillez sélectionner au moins un template.';
       }
 
-      return !this.errors.companyName && !this.errors.email && !this.errors.password && !this.errors.templates;
+      return (
+        !this.errors.companyName &&
+        !this.errors.email &&
+        !this.errors.password &&
+        !this.errors.templates
+      );
     },
     async handleSubmit() {
       if (this.validateForm()) {
@@ -104,23 +109,25 @@ export default {
       <form @submit.prevent="handleSubmit">
         <div class="form-group">
           <label for="company-name">Nom <span class="required">*</span> :</label>
-          <input 
-            id="company-name" 
-            type="text" 
+          <input
+            id="company-name"
+            type="text"
             placeholder="Nom de l'entreprise"
             v-model="companyName"
             aria-describedby="company-name-error"
             :class="{ 'error-border': errors.companyName }"
             required
           />
-          <p id="company-name-error" v-if="errors.companyName" class="error-message">{{ errors.companyName }}</p>
+          <p id="company-name-error" v-if="errors.companyName" class="error-message">
+            {{ errors.companyName }}
+          </p>
         </div>
 
         <div class="form-group">
           <label for="email">Email <span class="required">*</span> :</label>
-          <input 
-            id="email" 
-            type="text" 
+          <input
+            id="email"
+            type="text"
             placeholder="Email de l'entreprise"
             v-model="email"
             aria-describedby="email-error"
@@ -133,7 +140,7 @@ export default {
         <div class="form-group">
           <label for="password">Mot de passe <span class="required">*</span> :</label>
           <div class="password-group">
-            <input 
+            <input
               :type="isPasswordVisible ? 'text' : 'password'"
               id="password"
               placeholder="Mot de passe généré"
@@ -159,20 +166,22 @@ export default {
               🔄
             </button>
           </div>
-          <p id="password-error" v-if="errors.password" class="error-message">{{ errors.password }}</p>
+          <p id="password-error" v-if="errors.password" class="error-message">
+            {{ errors.password }}
+          </p>
         </div>
 
         <div class="form-group">
           <label for="templates">Templates disponibles <span class="required">*</span> :</label>
           <div class="checkbox-list">
             <ul>
-              <li v-for="(template, index) in availableTemplates" :key="index" class="template-option">
+              <li
+                v-for="(template, index) in availableTemplates"
+                :key="index"
+                class="template-option"
+              >
                 <label>
-                  <input 
-                    type="checkbox" 
-                    :value="template._id" 
-                    v-model="templates"
-                  />
+                  <input type="checkbox" :value="template._id" v-model="templates" />
                   {{ template.templateName }}
                 </label>
               </li>
@@ -183,11 +192,9 @@ export default {
           </p>
         </div>
 
-        <button type="submit" class="btn-primary">
-          Créer
-        </button>
+        <button type="submit" class="btn-primary">Créer</button>
       </form>
-        <!-- Section pour afficher les credentials -->
+      <!-- Section pour afficher les credentials -->
       <div v-if="credentials" class="credentials-section">
         <h2>Credentials générés</h2>
         <p>Email : {{ credentials.email }}</p>
@@ -198,7 +205,7 @@ export default {
         <p class="success-message">{{ successMessage }}</p>
       </div>
     </div>
-    </div>
+  </div>
 </template>
 
 <style scoped>
@@ -390,5 +397,4 @@ input.error-border {
 .credentials-section button:hover {
   background-color: #0056b3;
 }
-
 </style>

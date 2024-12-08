@@ -1,39 +1,39 @@
 <script lang="ts">
-import test from 'node:test';
-import { PropType } from 'vue';
-import { getAllQuestions } from '@/services/moduleESGService';
-import { log } from 'console';
-import {answerForm} from '@/services/authCompanyService';
+import {
+  answerForm,
+  answerFormCompleted,
+  getAnswerForm,
+  getNAList
+} from '@/services/authCompanyService';
 
 interface ListQuestions {
-   issue_id: number;
+  issue_id: number;
   questionsList: Question[];
 }
 
-interface Question {     
-  txt: string;   
-  responsesList: Answer[];      
+interface Question {
+  txt: string;
+  responsesList: Answer[];
 }
 
 interface Answer {
   template: number;
-  txt_answer : string;
-  comment: string;          
-  isNow: boolean;             
-  is2Years: boolean; 
-  scoreNow : number;
-  score2 : number;        
+  txt_answer: string;
+  comment: string;
+  isNow: boolean;
+  is2years: boolean;
+  scoreNow: number;
+  score2: number;
 }
-
-
 
 export default {
   name: 'QuestionComponent',
   data() {
     return {
-      questionsTable: [] as ListQuestions[],  // Initialisation de questionsTable
-      currentIndex: 0, 
+      questionsTable: [] as ListQuestions[], // Initialisation de questionsTable
+      currentIndex: 0,
       successSaveMessage: '',
+      questionNA: [] as ListQuestions[]
     };
   },
 
@@ -41,21 +41,24 @@ export default {
     async loadQuestions() {
       try {
         // Récupérer les questions depuis l'API
-         this.currentIndex = 0;
-        const response = await getAllQuestions();
-        const essaiData: ListQuestions[] = response as ListQuestions[];
-        this.questionsTable = essaiData;  // Mettre les questions dans questionsTable
-       
+        this.currentIndex = 0;
+        const token = localStorage.getItem('token');
+        if (!token) {
+          this.$router.push({ name: 'LoginPage' });
+        } else {
+          const response = await getAnswerForm(token);
+          this.questionsTable = response as ListQuestions[];
+
+          const responseNA = await getNAList(token);
+          this.questionNA = responseNA as ListQuestions[];
+        }
       } catch (error) {
         console.error('Erreur lors du chargement des questions:', error);
       }
     },
     nextListQuestion() {
-      if (this.currentIndex < this.questionsTable.length ) {
-        console.log(this.currentIndex, 'avant');
+      if (this.currentIndex < this.questionsTable.length) {
         this.currentIndex++;
-        console.log(this.currentIndex, 'après');
-
       }
     },
     prevQuestion() {
@@ -65,112 +68,132 @@ export default {
     },
 
     // Méthode pour gérer le changement d'état des cases à cocher (isNow / is2Years)
-    toggleCheckbox(answer: Answer, type: 'isNow' | 'is2Years') {
-    const oppositeType = type === 'isNow' ? 'is2Years' : 'isNow';
-    
-    // Trouver la question correspondante dans la liste actuelle
-    const currentQuestion = this.questionsTable[this.currentIndex].questionsList.find(q =>
-      q.responsesList.includes(answer)
-    );
+    toggleCheckbox(answer: Answer, type: 'isNow' | 'is2years') {
+      const oppositeType = type === 'isNow' ? 'is2years' : 'isNow';
 
-    if (currentQuestion) {
-      // Si la réponse a déjà l'état opposé activé, on le désactive
-      if (answer[oppositeType]) {
-        answer[oppositeType] = false;
-      }
-  
-      // Inverser l'état de la réponse (cocher/décocher)
-      answer[type] = !answer[type];
-  
-      // Gérer les cas particuliers : "N/A", "Aucune de ces réponses.", "Je ne sais pas"
-      if ((answer.txt_answer === "N/A" || answer.txt_answer === "Aucune de ces réponses." 
-        || answer.txt_answer === "Je ne sais pas" || answer.txt_answer === "Non" 
-        || answer.txt_answer === "Oui" || answer.txt_answer === "Autre : veuillez expliquer dans les commentaires"
-        || answer.txt_answer === "N/A - Cette question n'est pas pertinente pour mon activité" ) && answer[type]) {
-        // Désactiver toutes les autres réponses dans la même question
-        currentQuestion.responsesList.forEach(ans => {
-          if (ans !== answer) {
-            ans.isNow = false;
-            ans.is2Years = false;
-          }
-        });
-      }
-  
-      // Si la réponse n'est pas "N/A", "Aucune de ces réponses." ou "Je ne sais pas", désactiver ces options si la réponse est cochée
-      if (answer.txt_answer !== "N/A" && answer.txt_answer !== "Aucune de ces réponses." 
-       && answer.txt_answer !== "Je ne sais pas" && answer.txt_answer !== "Non" 
-       && answer.txt_answer !== "Oui" && answer.txt_answer !== "Autre : veuillez expliquer dans les commentaires" 
-       && answer.txt_answer !== "N/A - Cette question n'est pas pertinente pour mon activité" && answer[type]) {
+      // Trouver la question correspondante dans la liste actuelle
+      const currentQuestion = this.questionsTable[this.currentIndex].questionsList.find((q) =>
+        q.responsesList.includes(answer)
+      );
 
-        const specialAnswers = currentQuestion.responsesList.filter(ans =>
-          ans.txt_answer === "N/A" || ans.txt_answer === "Aucune de ces réponses." 
-          || ans.txt_answer === "Je ne sais pas" || ans.txt_answer === "Non" 
-          || ans.txt_answer === "Oui" || ans.txt_answer === "Autre : veuillez expliquer dans les commentaires"
-          || ans.txt_answer === "N/A - Cette question n'est pas pertinente pour mon activité"
-        );
-        specialAnswers.forEach(specialAnswer => {
-          specialAnswer.isNow = false;
-          specialAnswer.is2Years = false;
-        });
+      if (currentQuestion) {
+        // Si la réponse a déjà l'état opposé activé, on le désactive
+        if (answer[oppositeType]) {
+          answer[oppositeType] = false;
+        }
+
+        // Inverser l'état de la réponse (cocher/décocher)
+        answer[type] = !answer[type];
+
+        // Gérer les cas particuliers : "N/A", "Aucune de ces réponses.", "Je ne sais pas"
+        if (
+          (answer.txt_answer === 'N/A' ||
+            answer.txt_answer === 'Aucune de ces réponses.' ||
+            answer.txt_answer === 'Je ne sais pas' ||
+            answer.txt_answer === 'Non' ||
+            answer.txt_answer === 'Oui' ||
+            answer.txt_answer === 'Autre : veuillez expliquer dans les commentaires' ||
+            answer.txt_answer === "N/A - Cette question n'est pas pertinente pour mon activité") &&
+          answer[type]
+        ) {
+          // Désactiver toutes les autres réponses dans la même question
+          currentQuestion.responsesList.forEach((ans) => {
+            if (ans !== answer) {
+              ans.isNow = false;
+              ans.is2years = false;
+            }
+          });
+        }
+
+        // Si la réponse n'est pas "N/A", "Aucune de ces réponses." ou "Je ne sais pas", désactiver ces options si la réponse est cochée
+        if (
+          answer.txt_answer !== 'N/A' &&
+          answer.txt_answer !== 'Aucune de ces réponses.' &&
+          answer.txt_answer !== 'Je ne sais pas' &&
+          answer.txt_answer !== 'Non' &&
+          answer.txt_answer !== 'Oui' &&
+          answer.txt_answer !== 'Autre : veuillez expliquer dans les commentaires' &&
+          answer.txt_answer !== "N/A - Cette question n'est pas pertinente pour mon activité" &&
+          answer[type]
+        ) {
+          const specialAnswers = currentQuestion.responsesList.filter(
+            (ans) =>
+              ans.txt_answer === 'N/A' ||
+              ans.txt_answer === 'Aucune de ces réponses.' ||
+              ans.txt_answer === 'Je ne sais pas' ||
+              ans.txt_answer === 'Non' ||
+              ans.txt_answer === 'Oui' ||
+              ans.txt_answer === 'Autre : veuillez expliquer dans les commentaires' ||
+              ans.txt_answer === "N/A - Cette question n'est pas pertinente pour mon activité"
+          );
+          specialAnswers.forEach((specialAnswer) => {
+            specialAnswer.isNow = false;
+            specialAnswer.is2years = false;
+          });
+        }
       }
-    }
-  },
+    },
 
     async saveResponses() {
-    if (this.questionsTable.length > 0) {
-      const token = localStorage.getItem('token'); 
-      
-      const listQuestions = this.questionsTable[this.currentIndex].questionsList.map((question) => ({
-        questionText: question.txt,
-        answers: question.responsesList.map((answer) => ({
-          text: answer.txt_answer,
-          isNow: answer.isNow,
-          is2Years: answer.is2Years,
-          comment: answer.comment,
-        })),
-      }));
+      if (this.questionsTable.length > 0) {
+        const token = localStorage.getItem('token');
 
-      try {
-        if (token) {
-          const response = await answerForm(token, { listQuestions });
-          this.successSaveMessage = 'Réponse enregistrée !';
-          alert(this.successSaveMessage); 
-        } else {
-          console.error('Token is null');
+        try {
+          if (token) {
+            await answerForm(token, { questions: this.questionsTable });
+            this.successSaveMessage = 'Réponse enregistrée !';
+            alert(this.successSaveMessage);
+          } else {
+            console.error('Token is null');
+          }
+        } catch (error) {
+          alert('Erreur lors de la sauvegarde des réponses');
         }
-        console.log('Réponses sauvegardées avec succès :', listQuestions);
-      } catch (error) {
-        console.error('Erreur lors de la sauvegarde des réponses :', error
-        );
       }
-    }
-  },
-  async handleNext() {
-  await this.saveResponses(); 
-  this.nextListQuestion();   
- },
+    },
+    async handleNext() {
+      await this.saveResponses();
+      this.nextListQuestion();
+    },
 
-
+    async completedForm() {
+      if (this.questionsTable.length > 0) {
+        const token = localStorage.getItem('token');
+        try {
+          if (token) {
+            await answerFormCompleted(token, { questions: this.questionsTable });
+            this.successSaveMessage =
+              "Formulaire envoyé en attente d'évaluation, merci de votre temps !";
+            alert(this.successSaveMessage);
+            this.$router.push({ name: 'CompanyHome' });
+          } else {
+            alert("Vous n'êtes pas connecté");
+          }
+        } catch (error) {
+          alert('Erreur lors de la soumission du formulaire');
+        }
+      }
+    },
 
     saveComment(answer: Answer) {
       if (answer.comment.trim() === '') {
-        answer.comment = ''; 
-      } else {
-        console.log('Commentaire sauvegardé:', answer.comment);
+        answer.comment = '';
       }
-    },
+    }
   },
   mounted() {
-    this.loadQuestions(); 
-  },
+    this.loadQuestions();
+  }
 };
 </script>
 
 <template>
-
-
   <div class="question-container" v-if="questionsTable.length > 0">
-    <div v-for="(question, index) in questionsTable[currentIndex].questionsList" :key="index" class="question-box">
+    <div
+      v-for="(question, index) in questionsTable[currentIndex].questionsList"
+      :key="index"
+      class="question-box"
+    >
       <h2>Question {{ index + 1 }}</h2>
       <h5>{{ question.txt }}</h5>
 
@@ -179,14 +202,15 @@ export default {
           <tr>
             <th scope="col" class="answers"></th>
             <th scope="col" class="now">
-              Cochez à côté des pratiques <br> que vous mettez en place <br><b>aujourd'hui</b>
+              Cochez à côté des pratiques <br />
+              que vous mettez en place <br /><b>aujourd'hui</b>
             </th>
             <th scope="col" class="twoYears">
-              Cochez à côté des pratiques <br> que vous vous engagez à <br> mettre en place dans les <br><b>2 ans</b>
+              Cochez à côté des pratiques <br />
+              que vous vous engagez à <br />
+              mettre en place dans les <br /><b>2 ans</b>
             </th>
-            <th scope="col" class="commentaire">
-              Commentaires
-            </th>
+            <th scope="col" class="commentaire">Commentaires</th>
           </tr>
         </thead>
         <tbody>
@@ -197,14 +221,25 @@ export default {
               </div>
             </td>
             <td class="now">
-              <input type="checkbox" :checked="answer.isNow" @change="toggleCheckbox(answer, 'isNow')" />
+              <input
+                type="checkbox"
+                :checked="answer.isNow"
+                @change="toggleCheckbox(answer, 'isNow')"
+              />
             </td>
             <td class="twoYears">
-              <input type="checkbox" :checked="answer.is2Years" @change="toggleCheckbox(answer, 'is2Years')" />
+              <input
+                type="checkbox"
+                :checked="answer.is2years"
+                @change="toggleCheckbox(answer, 'is2years')"
+              />
             </td>
             <td class="commentaire">
-              <textarea v-model="answer.comment" placeholder="Ajouter un commentaire"
-                @blur="saveComment(answer)"></textarea>
+              <textarea
+                v-model="answer.comment"
+                placeholder="Ajouter un commentaire"
+                @blur="saveComment(answer)"
+              ></textarea>
             </td>
           </tr>
         </tbody>
@@ -212,52 +247,54 @@ export default {
     </div>
   </div>
 
+  <div class="question-container" v-if="questionNA.length > 0">
+    <h1>Liste des questions ne vous concernant pas</h1>
+    <div
+      v-for="(question, index) in questionNA[currentIndex].questionsList"
+      :key="index"
+      class="question-box"
+    >
+      <h2>Question {{ index + 1 }}</h2>
+      <h5>{{ question.txt }}</h5>
+    </div>
+  </div>
+
   <div class="navigation-buttons d-flex align-items-center justify-content-between">
-    
     <div>
-  <button 
-    type="button" 
-    class="btn btn-primary me-2" 
-    @click="prevQuestion" 
-    :disabled="currentIndex === 0">
-    &lt;
-  </button>
-  <button 
-    type="button" 
-    class="btn btn-primary" 
-    @click="handleNext"
-    :disabled="currentIndex === questionsTable.length - 1">
-    &gt;
-  </button>
-</div>
+      <button
+        type="button"
+        class="btn btn-primary me-2"
+        @click="prevQuestion"
+        :disabled="currentIndex === 0"
+      >
+        &lt;
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        @click="handleNext"
+        :disabled="currentIndex === questionsTable.length - 1"
+      >
+        &gt;
+      </button>
+    </div>
 
-<div class="d-flex">
-  
-  <button 
-    class="btn btn-primary me-2" 
-    @click="saveResponses">
-    Enregistrer
-  </button>
-  <button 
-    class="btn btn-secondary" >
-    Annuler
-  </button>
-</div>
-
+    <div class="d-flex">
+      <button class="btn btn-primary me-2" @click="saveResponses">Enregistrer</button>
+      <button class="btn btn-secondary me-2" @click="completedForm">
+        Soummettre le formulaire pour évaluation
+      </button>
+    </div>
   </div>
 </template>
 
-
-
-
-
 <style scoped>
 .question-box {
-    border: 2px solid #ccc; 
-    border-radius: 8px; 
-    padding: 15px; 
-    margin-bottom: 20px; 
-    background-color: #f9f9f9; 
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 20px;
+  background-color: #f9f9f9;
 }
 .question-container {
   font-family: Arial, sans-serif;
@@ -281,7 +318,7 @@ h2 {
   gap: 10px;
 }
 
-input[type="checkbox"] {
+input[type='checkbox'] {
   width: 20px;
   height: 20px;
 }
@@ -305,33 +342,33 @@ textarea:focus {
 }
 
 table {
-    width: 100%; 
-    table-layout: fixed; 
+  width: 100%;
+  table-layout: fixed;
 }
 
-
 thead {
-    background-color: #f2f2f2; 
+  background-color: #f2f2f2;
 }
 
 tr {
-    height: 50px; 
+  height: 50px;
 }
 
-th, td {
-    margin-top: px;
-    text-align: center;
-    padding: 10px; 
+th,
+td {
+  margin-top: px;
+  text-align: center;
+  padding: 10px;
 }
 
 .answers {
-    width: 40%; 
+  width: 40%;
 }
 
-.now, .twoYears {
-    width: 20%; 
-    text-align: center; 
-   
+.now,
+.twoYears {
+  width: 20%;
+  text-align: center;
 }
 
 button {

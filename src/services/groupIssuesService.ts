@@ -5,7 +5,6 @@ const API_URL = 'http://localhost:3000/groupIssue';
 export const getGroupIssues = async () => {
   const response = await axios.get(`${API_URL}`);
   return response.data;
-  
 };
 
 export const getGroupIssueById = async (id: string) => {

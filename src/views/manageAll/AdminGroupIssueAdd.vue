@@ -45,7 +45,7 @@ export default {
         this.successMessage = 'Issue mise à jour avec succès !';
         this.errorMessage = '';
       } catch (error) {
-        this.errorMessage = 'Erreur lors de la mise à jour de l\'issue.';
+        this.errorMessage = "Erreur lors de la mise à jour de l'issue.";
         this.successMessage = '';
       }
     }
@@ -81,22 +81,22 @@ export default {
 
         <div class="form-group">
           <label for="issue-description">Liste des issues :</label>
-            <table class="issue-table">
-              <thead>
-                <tr>
-                  <th>Nom</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="issue in issues" :key="issue.id">
-                  <td>{{ issue.name }}</td>
+          <table class="issue-table">
+            <thead>
+              <tr>
+                <th>Nom</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="issue in issues" :key="issue.id">
+                <td>{{ issue.name }}</td>
                 <td>
-                    <button @click="editIssue(issue.id)">Modifier</button>
+                  <button @click="editIssue(issue.id)">Modifier</button>
                 </td>
-                </tr>
-              </tbody>
-            </table>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
         <button
