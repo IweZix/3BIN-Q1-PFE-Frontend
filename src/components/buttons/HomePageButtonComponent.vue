@@ -12,7 +12,7 @@ export default {
    * This function is called when the component is mounted
    */
   mounted() {
-    console.log('HomePageButtonComponent mounted');
+    
   },
 
   /**

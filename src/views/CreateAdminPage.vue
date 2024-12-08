@@ -71,10 +71,9 @@ export default {
           const result = await registerAdmin(this.adminName, this.email, this.password);
           this.successMessage = 'Administrateur créé avec succès !';
           alert(this.successMessage);
-          console.log(result);
           // redirect to
         } catch (error) {
-          console.log(error);
+          console.error(error);
 
           alert((error as any).message);
         }

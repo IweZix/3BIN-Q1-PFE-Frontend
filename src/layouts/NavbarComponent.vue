@@ -64,7 +64,6 @@ export default {
           this.isPasswordUpdated = await checkPasswordUpdatedCompany(email);
         }
       }
-      console.log(this.isPasswordUpdated);
     },
     redirectPath() {
       if (this.isLoggedIn) {
