@@ -8,9 +8,9 @@ export default {
     }
   },
   methods: {
-    async handleClick() {
+    handleClick() {
       this.$router.push({
-        name: 'answerFormUser',
+        name: 'AdminValidatedForm',
         params: { email: this.companyEmail }
       });
     }

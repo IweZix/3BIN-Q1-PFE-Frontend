@@ -1,12 +1,12 @@
 <script lang="ts">
 import GetScoringCompanyButton from '@/components/buttons/GetScoringButtonComponent.vue';
-import ValidatebyCompanyButton from '@/components/buttons/ValidatebyCompanyButtonComponent.vue';
+import GetCompanyButton from '@/components/buttons/ValidatebyCompanyButtonComponent.vue';
 
 export default {
   name: 'AdminHomePage',
   components: {
     GetScoringCompanyButton,
-    ValidatebyCompanyButton
+    GetCompanyButton
   },
   data() {
     return {
@@ -96,7 +96,7 @@ export default {
             </td>
             <td>{{ company.score ?? '/' }}</td>
             <td v-if="!company.isValidated">
-              <ValidatebyCompanyButton
+              <GetCompanyButton
                 :companyEmail="company.email"
                 @edit-company="validateCompanyForm"
                 :disabled="!company.isCompleted"

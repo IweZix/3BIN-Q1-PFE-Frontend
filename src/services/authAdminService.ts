@@ -19,7 +19,7 @@ axiosInstance.interceptors.response.use(
 
 export const loginAdmin = async (email: string, password: string) => {
   const response = await axios.post(`${API_URL}/login-admin`, { email, password });
-  return response.data;
+  return response.data as boolean;
 };
 export const adminVerif = async (token: string) => {
   try {
@@ -90,7 +90,7 @@ export const updatePasswordAdmin = async (token: string, password: string) => {
   }
 };
 
-export const valitedForm = async (email: string) => {
+export const getValidatedForm = async (email: string) => {
   try {
     const response = await axios.get(`${API_URL}/answerFormUser`, {
       params: { email }, // Ajouter l'email en tant que paramètre d'URL
@@ -104,3 +104,31 @@ export const valitedForm = async (email: string) => {
     return false; // Retourner false ou gérer l'erreur de manière appropriée
   }
 };
+
+export const postValidatedForm = async (email: string, answers:any) => {
+  try {
+    const response = await axios.post(`${API_URL}/answerFormUser`,{ email , answers},  {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+  } catch (error) {
+    console.error('Erreur lors de la récupération du formulaire:', error);
+  }
+};
+
+export const validatedFormCompleted = async (email: string) : Promise<boolean>=> {
+  try {
+    const response = await axios.get(`${API_URL}/validatedFormUser`,  {
+        params: { email },
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    return response.data as boolean;
+  } catch (error) {
+    console.error('Erreur lors de la récupération du formulaire:', error);
+    return false;
+  }
+}
+
