@@ -133,6 +133,9 @@ router.beforeEach(async (to, from, next) => {
       next({ name: 'NotFound' });
     }
   } else {
+    if (token == null && to.path != '/login') {
+      next({ name: 'Login' });
+    }else
     next();
   }
 });
