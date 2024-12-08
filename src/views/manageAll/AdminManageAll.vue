@@ -47,7 +47,7 @@ export default {
       if (confirm('Êtes-vous sûr de vouloir supprimer ce template ?')) {
         try {
           await deleteTemplate(templateId);
-          this.templates = this.templates.filter(template => template._id !== templateId);
+          this.templates = this.templates.filter((template) => template._id !== templateId);
         } catch (error) {
           this.errorMessage = 'Erreur lors de la suppression du template.';
         }
@@ -169,7 +169,8 @@ table {
   overflow: hidden;
 }
 
-th, td {
+th,
+td {
   border: 1px solid #ddd;
   padding: 12px;
   text-align: left;
@@ -211,7 +212,8 @@ button:disabled {
 }
 
 /* Section Ajouter */
-.add-template, .add-group-issue {
+.add-template,
+.add-group-issue {
   text-align: right;
   margin-top: 10px;
 }

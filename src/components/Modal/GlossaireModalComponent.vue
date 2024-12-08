@@ -4,51 +4,54 @@ import SearchBarComponent from '@/components/Modal/searchBarComponent.vue';
 export default {
   name: 'GlossaireModalComponent',
   components: {
-    SearchBarComponent,
+    SearchBarComponent
   },
   props: {
     isVisible: {
       type: Boolean,
-      required: true,
+      required: true
     },
     title: {
       type: String,
-      default: 'Glossaire',
-    },
+      default: 'Glossaire'
+    }
   },
-  
+
   data() {
     return {
       query: '', // Recherche de l'utilisateur
       sections: [
         {
-          title: "Analyse de Double Matérialité",
-          definition: "L'Analyse de Double Matérialité, dans le cadre de la directive CSRD (Corporate Sustainability Reporting Directive) de l'Union européenne, est une approche qui aide les entreprises à évaluer et à communiquer les impacts de leurs activités en matière de durabilité de manière plus complète.",
-          remarque: "",
-          plusInfo: "",
+          title: 'Analyse de Double Matérialité',
+          definition:
+            "L'Analyse de Double Matérialité, dans le cadre de la directive CSRD (Corporate Sustainability Reporting Directive) de l'Union européenne, est une approche qui aide les entreprises à évaluer et à communiquer les impacts de leurs activités en matière de durabilité de manière plus complète.",
+          remarque: '',
+          plusInfo: ''
         },
         {
-          title: "Biodiversité",
-          definition: "La biodiversité désigne la variété et la variabilité des formes de vie sur Terre, en ce compris la diversité des espèces, la diversité génétique et la diversité des écosystèmes.",
-          remarque: "",
-          plusInfo: "",
-        },
-      ],
+          title: 'Biodiversité',
+          definition:
+            'La biodiversité désigne la variété et la variabilité des formes de vie sur Terre, en ce compris la diversité des espèces, la diversité génétique et la diversité des écosystèmes.',
+          remarque: '',
+          plusInfo: ''
+        }
+      ]
     };
   },
   computed: {
     filteredSections() {
       if (this.query) {
         // Filtre les sections en fonction de la requête
-        return this.sections.filter(section =>
-          section.title.toLowerCase().includes(this.query.toLowerCase()) ||
-          section.definition.toLowerCase().includes(this.query.toLowerCase()) ||
-          section.remarque.toLowerCase().includes(this.query.toLowerCase()) ||
-          section.plusInfo.toLowerCase().includes(this.query.toLowerCase())
+        return this.sections.filter(
+          (section) =>
+            section.title.toLowerCase().includes(this.query.toLowerCase()) ||
+            section.definition.toLowerCase().includes(this.query.toLowerCase()) ||
+            section.remarque.toLowerCase().includes(this.query.toLowerCase()) ||
+            section.plusInfo.toLowerCase().includes(this.query.toLowerCase())
         );
       }
       return this.sections; // Retourne toutes les sections si aucune recherche
-    },
+    }
   },
   methods: {
     closeModal() {
@@ -61,8 +64,8 @@ export default {
       if (!this.query) return text;
       const regex = new RegExp(`(${this.query})`, 'gi');
       return text.replace(regex, '<mark>$1</mark>'); // Surligne les mots correspondants
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -90,7 +93,6 @@ export default {
     </div>
   </div>
 </template>
-
 
 <style scoped>
 mark {
@@ -124,7 +126,6 @@ mark {
   z-index: 1000;
   overflow: hidden; /* Empêche le scrolling sur l'arrière-plan */
 }
-
 
 .close-button {
   position: absolute;

@@ -11,7 +11,6 @@ import NotFound from '@/views/NotFoundPage.vue';
 import Login from '@/views/LoginPage.vue';
 import ChangePassword from '@/views/ChangePasswordPage.vue';
 
-
 // ADMIN ROUTES
 import AdminHome from '@/views/AdminHomePage.vue';
 import AdminCreateCredentials from '@/views/AdminCreateCredentials.vue';
@@ -100,7 +99,6 @@ const routes = [
     path: '/moduleESG',
     name: 'ModuleESG',
     component: ModuleESG
-
   },
   {
     path: '/login',
@@ -111,7 +109,6 @@ const routes = [
     path: '/changePassword',
     name: 'ChangePassword',
     component: ChangePassword
-
   },
   /**
    * Define not found route
@@ -133,7 +130,17 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const token = localStorage.getItem('token');
-  if (to.path.startsWith('/admin') || to.path.startsWith('/createCredentials') || to.path.startsWith('/createCompany') || to.path.startsWith('/createAdmin') || to.path.startsWith('/manageAll') || to.path.startsWith('/admin/template') || to.path.startsWith('/admin/add-template') || to.path.startsWith('/admin/group-issue') || to.path.startsWith('/admin/add-group-issue')) {
+  if (
+    to.path.startsWith('/admin') ||
+    to.path.startsWith('/createCredentials') ||
+    to.path.startsWith('/createCompany') ||
+    to.path.startsWith('/createAdmin') ||
+    to.path.startsWith('/manageAll') ||
+    to.path.startsWith('/admin/template') ||
+    to.path.startsWith('/admin/add-template') ||
+    to.path.startsWith('/admin/group-issue') ||
+    to.path.startsWith('/admin/add-group-issue')
+  ) {
     if (token) {
       const isAdmin = await adminVerif(token);
       if (isAdmin) {
