@@ -9,12 +9,14 @@ export default {
   },
   methods: {
     handleClick() {
+
+    console.log("Component button:",this.companyEmail);
       this.$router.push({
-        name: 'AdminValidatedForm',
+        name: 'answerFormUser',
         params: { email: this.companyEmail }
       });
-    }
-  }
+}
+  },
 };
 </script>
 

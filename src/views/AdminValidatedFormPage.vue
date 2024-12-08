@@ -1,6 +1,7 @@
 <script lang="ts">
 import LeftNavBarComponent from '@/components/moduleESGPage/LeftNavBarComponent.vue';
 import QuestionAdminComponent from '@/components/moduleESGAdminPage/QuestionAdminComponent.vue';
+
 export default {
   name: 'AdminValidatedForm',
   components: {
@@ -8,8 +9,8 @@ export default {
     QuestionAdminComponent
   },
   mounted() {
-  console.log("AdminValidatedFormPage mounted");
-}
+    console.log("a",this.$route.params.email);
+  }
 };
 
 </script>
@@ -23,7 +24,7 @@ export default {
     </div>
 
     <div class="col-9">
-      <QuestionAdminComponent />
+      <QuestionAdminComponent :mail="$route.params.email"  />
     </div>
   </div>
 </template>

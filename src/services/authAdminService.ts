@@ -92,11 +92,13 @@ export const updatePasswordAdmin = async (token: string, password: string) => {
 
 export const getValidatedForm = async (email: string) => {
   try {
+    console.log("api",email);
+    
     const response = await axios.get(`${API_URL}/answerFormUser`, {
       params: { email }, // Ajouter l'email en tant que paramètre d'URL
-      headers: {
-        'Content-Type': 'application/json'
-      }
+       headers: {
+          Authorization: `${localStorage.getItem('token')}`
+        }
     });
     return response.data;
   } catch (error) {
@@ -107,11 +109,13 @@ export const getValidatedForm = async (email: string) => {
 
 export const postValidatedForm = async (email: string, answers:any) => {
   try {
-    const response = await axios.post(`${API_URL}/answerFormUser`,{ email , answers},  {
-      headers: {
-        'Content-Type': 'application/json'
+    const response = await axios.post(`${API_URL}/answerFormUser`,{ email , answers},  
+      {
+        headers: {
+          Authorization: `${localStorage.getItem('token')}`
+        }
       }
-    });
+    );
   } catch (error) {
     console.error('Erreur lors de la récupération du formulaire:', error);
   }
@@ -121,8 +125,10 @@ export const validatedFormCompleted = async (email: string) : Promise<boolean>=>
   try {
     const response = await axios.get(`${API_URL}/validatedFormUser`,  {
         params: { email },
-      headers: {
-        'Content-Type': 'application/json'
+      
+        headers: {
+          Authorization: `${localStorage.getItem('token')}`
+        
       }
     });
     return response.data as boolean;
@@ -131,4 +137,20 @@ export const validatedFormCompleted = async (email: string) : Promise<boolean>=>
     return false;
   }
 }
+
+export const getCompanyList = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/allcompanies`,{
+       
+        headers: {
+          Authorization: `${localStorage.getItem('token')}`
+        
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Erreur lors de la récupération de la liste des entreprises:', error);
+    return [];
+  }
+};
 

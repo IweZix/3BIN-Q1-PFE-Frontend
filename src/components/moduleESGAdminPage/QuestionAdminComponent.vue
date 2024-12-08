@@ -32,13 +32,21 @@ export default {
       emailCompany:'',
         };
   },
+ props: {
+    mail: {
+      type: Object,
+      required: true
+    }
+  },
 
   methods: {
     async loadQuestions() {
+      console.log('loadQuestions', this.mail);
+      
       try {
         // Récupérer les questions depuis l'API
         this.currentIndex = 0;
-        let emailCompany = this.$route.query.emailCompany;
+        let emailCompany = this.mail;        
         if (Array.isArray(emailCompany)) {
           this.emailCompany = emailCompany[0] as string;
         }
@@ -46,6 +54,8 @@ export default {
           throw new Error('Invalid emailCompany');
         }
         const response =await getValidatedForm(emailCompany);
+        console.log('response:',response);
+        
         if(!response){
           throw new Error('Invalid response');
         }
@@ -186,6 +196,7 @@ export default {
     }
   ,
   mounted() {
+    console.log('mounted', this.mail);
     this.loadQuestions();
   }
 }};
@@ -278,6 +289,7 @@ export default {
       </button>
     </div>
   </div>
+  <v-alert v-if="questionsTable.length === 0" type="error">Aucune question trouvée</v-alert>
 </template>
 
 <style scoped>

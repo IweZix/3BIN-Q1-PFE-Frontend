@@ -87,7 +87,8 @@ const routes = [
   {
     path: '/answerFormUser/:email',
     name: 'answerFormUser',
-    component: AdminValidatedForm
+    component: AdminValidatedForm,
+    props: true
   },
   /* routes for company */
   {

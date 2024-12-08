@@ -1,6 +1,15 @@
 <script lang="ts">
 import GetScoringCompanyButton from '@/components/buttons/GetScoringButtonComponent.vue';
 import GetCompanyButton from '@/components/buttons/ValidatebyCompanyButtonComponent.vue';
+import { getCompanyList } from '@/services/authAdminService';
+
+interface Company {
+  name : string;
+  email: string;
+  formIsComplete: boolean;
+  isValidated: boolean;
+}
+
 
 export default {
   name: 'AdminHomePage',
@@ -10,36 +19,16 @@ export default {
   },
   data() {
     return {
-      companies: [
-        {
-          id: 1,
-          name: 'Entreprise A',
-          email: '37pallele@hotmail.com',
-          isCompleted: true,
-          isValidated: false,
-          score: 85
-        },
-        {
-          id: 2,
-          name: 'Entreprise B',
-          email: 'test@test.com',
-          isCompleted: false,
-          isValidated: false,
-          score: null
-        },
-        {
-          id: 3,
-          name: 'Entreprise C',
-          email: 'contact@steam.com',
-          isCompleted: true,
-          isValidated: true,
-          score: 92
-        }
-        // Ajoutez plus d'entreprises ici
-      ]
+      companies : [] as Company[],
     };
   },
   methods: {
+    async getList(){
+      this.companies=await getCompanyList() as Company[];
+      console.log(this.companies);
+      
+    },
+
     validateCompanyForm(id: number) {
       // Logique pour modifier l'entreprise
       console.log(`Modifier l'entreprise avec l'ID: ${id}`);
@@ -48,10 +37,13 @@ export default {
       // Logique pour obtenir le score de l'entreprise
       console.log(`Obtenir le score de l'entreprise avec l'ID: ${id}`);
     },
-    shouldShowButtons(company: { isCompleted: boolean; isValidated: boolean }) {
-      return company.isCompleted && !company.isValidated;
+    shouldShowButtons(company: { formIsComplete: boolean; isValidated: boolean }) {
+      return company.formIsComplete && !company.isValidated;
     }
-  }
+  },
+  async mounted() {
+    await this.getList();
+  },
 };
 </script>
 
@@ -76,11 +68,11 @@ export default {
               <span
                 :class="{
                   badge: true,
-                  'badge-green': company.isCompleted,
-                  'badge-red': !company.isCompleted
+                  'badge-green': company.formIsComplete,
+                  'badge-red': !company.formIsComplete
                 }"
               >
-                {{ company.isCompleted ? 'Oui' : 'Non' }}
+                {{ company.formIsComplete ? 'Oui' : 'Non' }}
               </span>
             </td>
             <td>
@@ -99,9 +91,9 @@ export default {
               <GetCompanyButton
                 :companyEmail="company.email"
                 @edit-company="validateCompanyForm"
-                :disabled="!company.isCompleted"
+                :disabled="!company.formIsComplete"
                 :title="
-                  company.isCompleted
+                  company.formIsComplete
                     ? 'Valider réponses de l\'entreprise'
                     : 'Terminer avant d\'éditer'
                 "
