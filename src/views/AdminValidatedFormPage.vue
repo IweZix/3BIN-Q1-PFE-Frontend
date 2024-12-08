@@ -8,10 +8,15 @@ export default {
     LeftNavBarComponent,
     QuestionAdminComponent
   },
-  mounted() {
-    console.log("a",this.$route.params.email);
-  }
-};
+  data() {
+    return {
+      email: this.$route.params.email as string,
+      }}
+      ,
+      mounted() {
+        console.log(this.email);
+        
+      }}
 
 </script>
 
@@ -24,7 +29,7 @@ export default {
     </div>
 
     <div class="col-9">
-      <QuestionAdminComponent :mail="$route.params.email"  />
+      <QuestionAdminComponent :mail= email />
     </div>
   </div>
 </template>

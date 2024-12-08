@@ -32,16 +32,15 @@ export default {
       emailCompany:'',
         };
   },
- props: {
+  props: {
     mail: {
-      type: Object,
-      required: true
-    }
+      type: String,
+      required: true,
+    },
   },
 
   methods: {
     async loadQuestions() {
-      console.log('loadQuestions', this.mail);
       
       try {
         // Récupérer les questions depuis l'API
@@ -195,14 +194,16 @@ export default {
       }
     }
   ,
-  mounted() {
+  
+},mounted() {
     console.log('mounted', this.mail);
     this.loadQuestions();
-  }
-}};
+    
+  }};
 </script>
 
 <template>
+  <h1>{{ this.mail }}</h1>
   <div class="question-container" v-if="questionsTable.length > 0">
     <div
       v-for="(question, index) in questionsTable[currentIndex].questionsList"
@@ -289,7 +290,6 @@ export default {
       </button>
     </div>
   </div>
-  <v-alert v-if="questionsTable.length === 0" type="error">Aucune question trouvée</v-alert>
 </template>
 
 <style scoped>

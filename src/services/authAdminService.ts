@@ -59,7 +59,7 @@ export const registerAdmin = async (adminName: String, email: string, password: 
 };
 const verifyPasswordUpdated = async (email: string): Promise<boolean> => {
   const response = await axios.post(`${API_URL}/verify-password-updated`, { email });
-  return response.data;
+  return response.data as boolean;
 };
 
 export const checkPasswordUpdated = async (email: string) => {
@@ -108,6 +108,8 @@ export const getValidatedForm = async (email: string) => {
 };
 
 export const postValidatedForm = async (email: string, answers:any) => {
+  console.log("api",email,answers);
+  
   try {
     const response = await axios.post(`${API_URL}/answerFormUser`,{ email , answers},  
       {
