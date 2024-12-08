@@ -1,5 +1,5 @@
 <script>
-import { valitedForm } from '@/services/authAdminService';
+import { validatedForm } from '@/services/authAdminService';
 
 export default {
   data() {
@@ -29,7 +29,7 @@ export default {
     }
   },
   mounted() {
-    this.valitedForm();
+    this.validatedForm();
   }
 };
 </script>
