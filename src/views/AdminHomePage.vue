@@ -2,22 +2,27 @@
 
 import GetScoringCompanyButton from '@/components/buttons/GetScoringButtonComponent.vue';
 import ValidatebyCompanyButton from '@/components/buttons/ValidatebyCompanyButtonComponent.vue';
+import { getAllCompanies } from '@/services/companiesService';
 
 export default {
     name: 'AdminHomePage',
     components: {
         GetScoringCompanyButton,
-        ValidatebyCompanyButton
+        ValidatebyCompanyButton,
+        getAllCompanies
     },
     data() {
         return {
-            companies: [
-                { id: 1, name: 'Entreprise A', email: "contact@email.com", isCompleted: true, isValidated: false, score: 85 },
-                { id: 2, name: 'Entreprise B', email: "test@test.com", isCompleted: false, isValidated: false, score: null },
-                { id: 3, name: 'Entreprise C', email: "contact@steam.com", isCompleted: true, isValidated: true, score: 92 },
-                // Ajoutez plus d'entreprises ici
-            ]
+            companies: []
         };
+    },
+    async mounted() {
+        try {
+            this.companies = await getAllCompanies();
+            console.log('Entreprises chargées:', this.companies);
+        } catch (error) {
+            console.error('Erreur lors du chargement des entreprises:', error);
+        }
     },
     methods: {
         validateCompanyForm(id: number) {
