@@ -3,16 +3,15 @@ export default {
   name: 'SearchBarComponent',
   data() {
     return {
-      query: '', // Mot-clé de recherche
+      query: '' // Mot-clé de recherche
     };
   },
   methods: {
     onSearch() {
       this.$emit('search', this.query); // Émet l'événement "search" avec la query
-    },
-  },
+    }
+  }
 };
-
 </script>
 
 <template>
@@ -51,5 +50,4 @@ export default {
 .search-bar input:focus {
   border-bottom: 2px solid #3f907a; /* Change la couleur de la ligne en cas de focus */
 }
-
 </style>

@@ -4,20 +4,20 @@ export default {
   props: {
     password: {
       type: String,
-      required: true,
+      required: true
     },
     confirmPassword: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
   data() {
     return {
-      localPassword: this.password,  // Crée une variable locale pour le mot de passe
-      localConfirmPassword: this.confirmPassword,  // Crée une variable locale pour la confirmation
+      localPassword: this.password, // Crée une variable locale pour le mot de passe
+      localConfirmPassword: this.confirmPassword, // Crée une variable locale pour la confirmation
       showPassword: false,
       showConfirmPassword: false,
-      passwordError: null as string | null,
+      passwordError: null as string | null
     };
   },
   watch: {
@@ -28,7 +28,7 @@ export default {
     },
     localConfirmPassword(newValue: string) {
       this.$emit('update:confirmPassword', newValue);
-    },
+    }
   },
 
   methods: {
@@ -69,13 +69,13 @@ export default {
       <h2>Mot de passe*</h2>
       <div class="input-wrapper">
         <input
-          v-model="localPassword" 
+          v-model="localPassword"
           :type="showPassword ? 'text' : 'password'"
           class="form-control"
           id="password"
           placeholder="Mot de passe"
           required
-          @blur="passwordError = checkPassword(localPassword) "
+          @blur="passwordError = checkPassword(localPassword)"
         />
         <button
           @click="togglePasswordVisibility"
