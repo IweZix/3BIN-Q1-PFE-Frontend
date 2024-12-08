@@ -74,4 +74,20 @@ export const updatePasswordAdmin = async (token: string, password: string) => {
         }
     }
   };
-  
+
+export const valitedForm = async (email: string) => { 
+    try {
+        const response = await axios.get(`${API_URL}/answerFormUser`, {
+            params: { email },  // Ajouter l'email en tant que paramètre d'URL
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,  // Utilisation du token avec le préfixe "Bearer"
+                'Content-Type': 'application/json'
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Erreur lors de la récupération du formulaire:", error);
+        return false; // Retourner false ou gérer l'erreur de manière appropriée
+    }
+};
+

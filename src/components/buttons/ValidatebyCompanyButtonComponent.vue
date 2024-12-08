@@ -7,23 +7,22 @@ export default {
             type: String,
             required: true
         },
-        disabled: {
-            type: Boolean,
-            default: false
-        }
     },
     methods: {
-        handleClick() {
-            if (!this.disabled) {
-                this.$emit('edit-company', this.companyEmail);
-            }
+        async handleClick() {
+            console.log('Get company button clicked');
+            this.$router.push({
+                name: 'answerFormUser',
+                params: { email: this.companyEmail }
+            });
+            console.log(this.companyEmail);
         }
     }
 };
 </script>
 
 <template>
-    <button @click="handleClick" :disabled="disabled">Valider</button>
+    <button @click="handleClick">Valider</button>
 </template>
 
 <style scoped>
