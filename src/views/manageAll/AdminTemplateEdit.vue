@@ -26,7 +26,7 @@ export default {
     async saveTemplate() {
       try {
         // Appel d'une méthode pour mettre à jour le template
-        await updateTemplate(this.templateId, { name: this.templateName });
+        await updateTemplate(this.templateId, this.templateName);
         this.successMessage = 'Template mis à jour avec succès !';
         this.errorMessage = '';
       } catch (error) {
@@ -51,7 +51,7 @@ export default {
       <div class="form-group">
         <label for="template-name">Nom du Template :</label>
         <input
-          id="template-name"
+          id="_id"
           type="text"
           v-model="templateName"
           placeholder="Nom du Template"

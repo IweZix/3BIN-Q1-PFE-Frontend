@@ -22,6 +22,7 @@ import TemplateEdit from '@/views/manageAll/AdminTemplateEdit.vue';
 import TemplateAdd from '@/views/manageAll/AdminTemplateAdd.vue';
 import GroupIssueEdit from '@/views/manageAll/AdminGroupIssueEdit.vue';
 import GroupIssueAdd from '@/views/manageAll/AdminGroupIssueAdd.vue';
+import DetailsScoringCompany from '@/views/scoring/DetailsScoringCompany.vue';
 
 /* routes for company */
 import CompanyHome from '@/views/CompanyHomePage.vue';
@@ -77,6 +78,11 @@ const routes = [
     path: '/admin/add-group-issue',
     name: 'GroupIssueAdd',
     component: GroupIssueAdd
+  },
+  {
+    path: '/scoringCompany/:email',
+    name: 'scoringCompany',
+    component: DetailsScoringCompany
   },
   /* routes for company */
   {
