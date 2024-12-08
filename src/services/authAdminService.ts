@@ -3,17 +3,7 @@ import axios from 'axios';
 const API_URL = 'http://localhost:3000/authAdmin';
 
 const axiosInstance = axios.create();
-axiosInstance.interceptors.response.use(
-    (    response: any) => response,
-    (    error: { response: { status: number; }; }) => {
-      // Gérer les erreurs de manière silencieuse
-      if (error.response && error.response.status === 401) {
-        // Erreur 401 (Unauthorized), ne rien faire
-        return Promise.resolve({ data: false });
-      }
-      return Promise.reject(error);
-    }
-  );
+
 
 export const loginAdmin = async (email: string, password: string) => {
     const response = await axios.post(`${API_URL}/login-admin`, { email, password });
