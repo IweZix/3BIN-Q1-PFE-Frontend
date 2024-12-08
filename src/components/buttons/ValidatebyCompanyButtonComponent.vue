@@ -9,12 +9,10 @@ export default {
   },
   methods: {
     async handleClick() {
-      console.log('Get company button clicked');
       this.$router.push({
         name: 'answerFormUser',
         params: { email: this.companyEmail }
       });
-      console.log(this.companyEmail);
     }
   }
 };
