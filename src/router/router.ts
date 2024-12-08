@@ -23,6 +23,7 @@ import TemplateAdd from '@/views/manageAll/AdminTemplateAdd.vue';
 import GroupIssueEdit from '@/views/manageAll/AdminGroupIssueEdit.vue';
 import GroupIssueAdd from '@/views/manageAll/AdminGroupIssueAdd.vue';
 import DetailsScoringCompany from '@/views/scoring/DetailsScoringCompany.vue';
+import AdminValitedForm from '@/views/manageAll/AdminValitedForm.vue';
 
 /* routes for company */
 import CompanyHome from '@/views/CompanyHomePage.vue';
@@ -83,6 +84,11 @@ const routes = [
     path: '/scoringCompany/:email',
     name: 'scoringCompany',
     component: DetailsScoringCompany
+  },
+  {
+    path: '/answerFormUser/:email',
+    name: 'answerFormUser',
+    component: AdminValitedForm
   },
   /* routes for company */
   {

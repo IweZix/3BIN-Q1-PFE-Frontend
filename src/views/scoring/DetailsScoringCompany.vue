@@ -21,6 +21,7 @@ export default {
         async fetchData() {
             try {
                 const response = await getScoringByEmail(this.companyEmail);
+                console.log(response, 'Data fetched successfully score');
                 this.companyEmail = response[0].companyEmail;
                 this.scoreTotalNow = response[0].scoreTotalNow;
                 this.scoreTotalEngagement = response[0].scoreTotal2Years;

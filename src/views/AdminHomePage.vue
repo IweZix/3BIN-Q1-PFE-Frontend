@@ -12,7 +12,7 @@ export default {
     data() {
         return {
             companies: [
-                { id: 1, name: 'Entreprise A', email: "contact@email.com", isCompleted: true, isValidated: false, score: 85 },
+                { id: 1, name: 'Entreprise A', email: "37pallele@hotmail.com", isCompleted: true, isValidated: false, score: 85 },
                 { id: 2, name: 'Entreprise B', email: "test@test.com", isCompleted: false, isValidated: false, score: null },
                 { id: 3, name: 'Entreprise C', email: "contact@steam.com", isCompleted: true, isValidated: true, score: 92 },
                 // Ajoutez plus d'entreprises ici
