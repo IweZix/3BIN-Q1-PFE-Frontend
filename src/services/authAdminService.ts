@@ -95,7 +95,6 @@ export const valitedForm = async (email: string) => {
     const response = await axios.get(`${API_URL}/answerFormUser`, {
       params: { email }, // Ajouter l'email en tant que paramètre d'URL
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`, // Utilisation du token avec le préfixe "Bearer"
         'Content-Type': 'application/json'
       }
     });
