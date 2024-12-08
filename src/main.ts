@@ -10,3 +10,7 @@ import 'bootstrap';
 const app = createApp(App);
 app.use(router);
 app.mount('#app');
+
+app.config.errorHandler = (err: unknown, vm: any, info: string): void => {
+    console.warn('Erreur capturée globalement'); // Pas de log détaillé dans la console
+  };
