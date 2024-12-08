@@ -1,6 +1,6 @@
 <script lang="ts">
 import { adminVerif, checkPasswordUpdated } from '@/services/authAdminService';
-import { checkPasswordUpdatedCompany } from '@/services/authCompanyService';
+import { checkFormCompletedESG, checkPasswordUpdatedCompany } from '@/services/authCompanyService';
 import GlossaireModalComponent from '@/components/Modal/GlossaireModalComponent.vue';
 export default {
   name: 'NavbarComponent',
@@ -9,6 +9,7 @@ export default {
   },
   async mounted() {
     await this.checkLoginStatus();
+    await this.checkIsFormCompletedESG();
     
   },
   
@@ -19,6 +20,7 @@ export default {
       isPasswordUpdated: false,
       path: '/login',
       isGlossaireModalVisible: false, // Contrôle la visibilité du modal
+      formCompletedESG:false,
     };
   },
   methods: {
@@ -47,6 +49,14 @@ export default {
       }
       this.redirectPath(); // Détermine le chemin après la vérification
     },
+    async checkIsFormCompletedESG(){
+      const token = localStorage.getItem('token');
+      if (token) {
+        this.formCompletedESG = !!(await checkFormCompletedESG(token));
+      }
+    }
+    
+    ,
     async checkIfPasswordUpdated() {
       const email = localStorage.getItem('email');
       if (email) {
@@ -107,7 +117,7 @@ export default {
             <li v-if="isLoggedIn && !isPasswordUpdated" class="nav-item">
               <router-link to="/changePassword" class="nav-link">Change Password</router-link>
             </li>
-            <li v-if="isLoggedIn && !admin && isPasswordUpdated" class="nav-item">
+            <li v-if="isLoggedIn && !admin && isPasswordUpdated && !formCompletedESG " class="nav-item">
               <router-link to="/moduleESG" class="nav-link">Module ESG</router-link>
             </li>
             <!-- Bouton pour ouvrir le glossaire -->
