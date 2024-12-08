@@ -1,9 +1,5 @@
 <script lang="ts">
-import test from 'node:test';
-import { PropType } from 'vue';
-import { getAllQuestions } from '@/services/moduleESGService';
-import { log } from 'console';
-import {answerForm} from '@/services/authCompanyService';
+import {answerForm, answerFormCompleted, getAnswerForm, getNAList} from '@/services/authCompanyService';
 
 interface ListQuestions {
    issue_id: number;
@@ -20,7 +16,7 @@ interface Answer {
   txt_answer : string;
   comment: string;          
   isNow: boolean;             
-  is2Years: boolean; 
+  is2years: boolean; 
   scoreNow : number;
   score2 : number;        
 }
@@ -34,6 +30,7 @@ export default {
       questionsTable: [] as ListQuestions[],  // Initialisation de questionsTable
       currentIndex: 0, 
       successSaveMessage: '',
+      questionNA:[] as ListQuestions[],
     };
   },
 
@@ -42,9 +39,18 @@ export default {
       try {
         // Récupérer les questions depuis l'API
          this.currentIndex = 0;
-        const response = await getAllQuestions();
-        const essaiData: ListQuestions[] = response as ListQuestions[];
-        this.questionsTable = essaiData;  // Mettre les questions dans questionsTable
+        const token = localStorage.getItem('token');
+        if (!token) {
+          this.$router.push({ name: 'LoginPage' });
+        }else{
+        const response = await getAnswerForm(token);
+        this.questionsTable =  response as ListQuestions[];
+
+        const responseNA=await getNAList(token);
+        this.questionNA=responseNA as ListQuestions[];
+        console.log('Liste des questions:', this.questionNA);
+        
+      }
        
       } catch (error) {
         console.error('Erreur lors du chargement des questions:', error);
@@ -65,8 +71,8 @@ export default {
     },
 
     // Méthode pour gérer le changement d'état des cases à cocher (isNow / is2Years)
-    toggleCheckbox(answer: Answer, type: 'isNow' | 'is2Years') {
-    const oppositeType = type === 'isNow' ? 'is2Years' : 'isNow';
+    toggleCheckbox(answer: Answer, type: 'isNow' | 'is2years') {
+    const oppositeType = type === 'isNow' ? 'is2years' : 'isNow';
     
     // Trouver la question correspondante dans la liste actuelle
     const currentQuestion = this.questionsTable[this.currentIndex].questionsList.find(q =>
@@ -78,6 +84,11 @@ export default {
       if (answer[oppositeType]) {
         answer[oppositeType] = false;
       }
+
+      console.log('Réponse modifiée :', answer);
+      console.log('type:', type);
+      
+      
   
       // Inverser l'état de la réponse (cocher/décocher)
       answer[type] = !answer[type];
@@ -91,7 +102,7 @@ export default {
         currentQuestion.responsesList.forEach(ans => {
           if (ans !== answer) {
             ans.isNow = false;
-            ans.is2Years = false;
+            ans.is2years = false;
           }
         });
       }
@@ -110,35 +121,33 @@ export default {
         );
         specialAnswers.forEach(specialAnswer => {
           specialAnswer.isNow = false;
-          specialAnswer.is2Years = false;
+          specialAnswer.is2years = false;
         });
       }
     }
+    console.log('Réponse modifiée :', answer);
+    console.log('Liste des questions actuelle :', this.questionsTable);
+    
+    
   },
 
     async saveResponses() {
     if (this.questionsTable.length > 0) {
       const token = localStorage.getItem('token'); 
       
-      const listQuestions = this.questionsTable[this.currentIndex].questionsList.map((question) => ({
-        questionText: question.txt,
-        answers: question.responsesList.map((answer) => ({
-          text: answer.txt_answer,
-          isNow: answer.isNow,
-          is2Years: answer.is2Years,
-          comment: answer.comment,
-        })),
-      }));
+
+      console.log('Réponses à sauvegarder :', this.questionsTable);
+      
 
       try {
         if (token) {
-          const response = await answerForm(token, { listQuestions });
+          await answerForm(token, { questions: this.questionsTable });
           this.successSaveMessage = 'Réponse enregistrée !';
           alert(this.successSaveMessage); 
         } else {
           console.error('Token is null');
         }
-        console.log('Réponses sauvegardées avec succès :', listQuestions);
+        console.log('Réponses sauvegardées avec succès :', this.questionsTable);
       } catch (error) {
         console.error('Erreur lors de la sauvegarde des réponses :', error
         );
@@ -151,6 +160,31 @@ export default {
  },
 
 
+ async completedForm(){
+   if (this.questionsTable.length > 0) {
+      const token = localStorage.getItem('token'); 
+      
+
+      console.log('Réponses à sauvegarder :', this.questionsTable);
+      
+
+      try {
+        if (token) {
+          await answerFormCompleted(token, { questions: this.questionsTable });
+          this.successSaveMessage = 'Formulaire envoyé en attente d\'évaluation, merci de votre temps !';
+          alert(this.successSaveMessage); 
+          this.$router.push({ name: 'CompanyHome' });
+        } else {
+          console.error('Token is null');
+        }
+        console.log('Réponses sauvegardées avec succès :', this.questionsTable);
+      } catch (error) {
+        console.error('Erreur lors de la sauvegarde des réponses :', error
+        );
+      }
+    }
+  
+ },
 
     saveComment(answer: Answer) {
       if (answer.comment.trim() === '') {
@@ -200,7 +234,7 @@ export default {
               <input type="checkbox" :checked="answer.isNow" @change="toggleCheckbox(answer, 'isNow')" />
             </td>
             <td class="twoYears">
-              <input type="checkbox" :checked="answer.is2Years" @change="toggleCheckbox(answer, 'is2Years')" />
+              <input type="checkbox" :checked="answer.is2years" @change="toggleCheckbox(answer, 'is2years')" />
             </td>
             <td class="commentaire">
               <textarea v-model="answer.comment" placeholder="Ajouter un commentaire"
@@ -212,9 +246,18 @@ export default {
     </div>
   </div>
 
-  <div class="navigation-buttons d-flex align-items-center justify-content-between">
-    
-    <div>
+  <div class="question-container" v-if="questionNA.length > 0">
+
+    <h1>Liste des questions ne vous concernant pas</h1>
+      <div v-for="(question, index) in questionNA[currentIndex].questionsList" :key="index" class="question-box">
+      <h2>Question {{ index + 1 }}</h2>
+      <h5>{{ question.txt }}</h5>
+      </div>
+  </div> 
+
+  
+   <div class="navigation-buttons d-flex align-items-center justify-content-between">
+  <div>
   <button 
     type="button" 
     class="btn btn-primary me-2" 
@@ -239,8 +282,9 @@ export default {
     Enregistrer
   </button>
   <button 
-    class="btn btn-secondary" >
-    Annuler
+    class="btn btn-secondary me-2"
+    @click="completedForm" >
+    Soummettre le formulaire pour évaluation
   </button>
 </div>
 

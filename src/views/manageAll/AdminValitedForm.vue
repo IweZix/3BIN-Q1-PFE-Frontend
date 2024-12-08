@@ -1,6 +1,5 @@
 <script>
 import { valitedForm } from '@/services/authAdminService';
-import { answerForm } from '@/services/authCompanyService';
 
 export default {
     data() {

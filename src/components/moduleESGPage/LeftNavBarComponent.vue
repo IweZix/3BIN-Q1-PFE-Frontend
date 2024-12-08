@@ -1,5 +1,4 @@
 <script lang="ts">
-import { PropType } from 'vue';
 import { getGroupIssues } from '@/services/groupIssuesService';
 import { getIssues } from '@/services/issuesService';
 
