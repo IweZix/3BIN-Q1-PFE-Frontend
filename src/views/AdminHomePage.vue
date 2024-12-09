@@ -1,15 +1,8 @@
 <script lang="ts">
 import GetScoringCompanyButton from '@/components/buttons/GetScoringButtonComponent.vue';
 import GetCompanyButton from '@/components/buttons/ValidatebyCompanyButtonComponent.vue';
-import { getCompanyList } from '@/services/authAdminService';
-
-interface Company {
-  name : string;
-  email: string;
-  formIsComplete: boolean;
-  isValidated: boolean;
-}
-
+import { getAllCompanies } from '@/services/companyService';
+import { getScoringByEmail } from '@/services/scoringService';
 
 export default {
   name: 'AdminHomePage',
@@ -19,31 +12,40 @@ export default {
   },
   data() {
     return {
-      companies : [] as Company[],
+      companies: [] as Array<{ email: string; name: string; formIsComplete: boolean; isValidated: boolean,  totalTotal: number }>
     };
   },
   methods: {
-    async getList(){
-      this.companies=await getCompanyList() as Company[];
-      console.log(this.companies);
-      
+    async getList() {
+      try {
+        const result = await getAllCompanies() as Array<{ email: string; name: string; formIsComplete: boolean; isValidated: boolean }>;
+        for (let i = 0; i < result.length; i++) {
+          this.companies.push({
+            email: result[i].email,
+            name: result[i].name,
+            formIsComplete: result[i].formIsComplete,
+            isValidated: result[i].isValidated,
+            totalTotal: 0
+          });
+        }
+        console.log(this.companies);
+        // recup score
+        for (let i = 0; i < this.companies.length; i++) {
+          const response = await getScoringByEmail(this.companies[i].email);
+          const scoringResponse = response as Array<{ totalTotal: number }>;
+          this.companies[i].totalTotal = scoringResponse[0].totalTotal;
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
     },
-
-    validateCompanyForm(id: number) {
-      // Logique pour modifier l'entreprise
-      console.log(`Modifier l'entreprise avec l'ID: ${id}`);
-    },
-    getScoringCompany(id: number) {
-      // Logique pour obtenir le score de l'entreprise
-      console.log(`Obtenir le score de l'entreprise avec l'ID: ${id}`);
-    },
-    shouldShowButtons(company: { formIsComplete: boolean; isValidated: boolean }) {
+    shouldShowButtons(company: { formIsComplete: boolean; isValidated: boolean }): boolean {
       return company.formIsComplete && !company.isValidated;
-    }
+    },
   },
   async mounted() {
     await this.getList();
-  },
+  }
 };
 </script>
 
@@ -62,7 +64,7 @@ export default {
           </tr>
         </thead>
         <tbody>
-          <tr v-for="company in companies" :key="company.id">
+          <tr v-for="company in companies" :key="company.email">
             <td>{{ company.name }}</td>
             <td>
               <span
@@ -86,11 +88,10 @@ export default {
                 {{ company.isValidated ? 'Oui' : 'Non' }}
               </span>
             </td>
-            <td>{{ company.score ?? '/' }}</td>
+            <td>{{ company.totalTotal ?? '/' }}</td>
             <td v-if="!company.isValidated">
               <GetCompanyButton
                 :companyEmail="company.email"
-                @edit-company="validateCompanyForm"
                 :disabled="!company.formIsComplete"
                 :title="
                   company.formIsComplete
@@ -102,7 +103,6 @@ export default {
             <td v-if="company.isValidated">
               <GetScoringCompanyButton
                 :companyEmail="company.email"
-                @edit-company="getScoringCompany"
                 :disabled="!company.isValidated"
                 :title="
                   company.isValidated

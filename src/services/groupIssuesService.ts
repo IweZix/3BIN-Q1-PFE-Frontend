@@ -12,12 +12,20 @@ export const getGroupIssueById = async (id: string) => {
   return response.data;
 };
 
-export const createGroupIssues = async (data: any) => {
-  const response = await axios.post(`${API_URL}/`, data);
+export const createGroupIssues = async (groupIssueName: String) => {
+  const response = await axios.post(`${API_URL}/create-groupIssue`, {groupIssueName});
   return response.data;
 };
 
-export const updateGroupIssue = async (id: string, data: any) => {
-  const response = await axios.put(`${API_URL}/${id}`, data);
+export const updateGroupIssue = async (groupIssueName: string, newGroupIssueName: string) => {
+  const response = await axios.patch(`${API_URL}/patch-groupIssueName/${groupIssueName}`, 
+  {
+    newGroupIssueName
+  });
   return response.data;
 };
+
+export const deleteGroupIssue = async (groupIssueName: string) => {
+  const response = await axios.delete(`${API_URL}/delete-groupIssue/${groupIssueName}`);
+  return response.data;
+}

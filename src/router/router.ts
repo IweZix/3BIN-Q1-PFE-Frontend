@@ -60,7 +60,7 @@ const routes = [
     component: ManageAll
   },
   {
-    path: '/admin/template/:id',
+    path: '/admin/template/:templateName',
     name: 'TemplateEdit',
     component: TemplateEdit
   },
@@ -70,7 +70,7 @@ const routes = [
     component: TemplateAdd
   },
   {
-    path: '/admin/group-issue/:id',
+    path: '/admin/group-issue/:groupIssueName',
     name: 'GroupIssueEdit',
     component: GroupIssueEdit
   },

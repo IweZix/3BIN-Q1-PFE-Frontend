@@ -57,63 +57,157 @@ export default {
 </script>
 
 <template>
-  <div>
-    <h1>Details Scoring Company</h1>
-    <h2>Company Information</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Email de l'entreprise</th>
-          <th>Score Now</th>
-          <th>Score Engagement</th>
-          <th>Score Total</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>{{ companyEmail }}</td>
-          <td>{{ scoreTotalNow }}</td>
-          <td>{{ scoreTotalEngagement }}</td>
-          <td>{{ scoreTotalTotal }}</td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="details-scoring-page">
+    <h1>Scoring : {{ companyEmail }}</h1>
 
-    <h2>Issues</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Issue</th>
-          <th>Score Now</th>
-          <th>Score Engagement</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="issue in issues" :key="issue.id">
-          <td>{{ issue.name }}</td>
-          <td>{{ issue.scoreTotalNow }}</td>
-          <td>{{ issue.scoreTotal2Years }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <!-- Informations sur l'entreprise -->
+    <div class="table-container">
+      <h2>Résumé des scores</h2>
+      <table class="company-table">
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Score Now</th>
+            <th>Score Engagement</th>
+            <th>Score Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ companyEmail }}</td>
+            <td>
+              <span
+              :class="{
+                badge: true,
+                'badge-green': scoreTotalNow > 45,
+                'badge-red': scoreTotalNow <= 45
+              }">
+              {{ scoreTotalNow }}
+              </span>
+            </td>
+            <td>
+              <span
+              :class="{
+                badge: true,
+                'badge-green': scoreTotalEngagement > 45,
+                'badge-red': scoreTotalEngagement <= 45
+              }">
+                {{ scoreTotalEngagement }}
+              </span>
+            </td>
+            <td>
+              <span
+              :class="{
+                badge: true,
+                'badge-green': scoreTotalTotal > 45,
+                'badge-red': scoreTotalTotal <= 45
+              }">
+                {{ scoreTotalTotal }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Liste des issues -->
+    <div class="table-container mt-4">
+      <h2>Scores par enjeux</h2>
+      <table class="company-table">
+        <thead>
+          <tr>
+            <th>Issue</th>
+            <th>Score Now</th>
+            <th>Score Engagement</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="issue in issues" :key="issue.id">
+            <td>{{ issue.name }}</td>
+            <td>
+                {{ issue.scoreTotalNow }}
+            </td>
+            <td>
+              {{ issue.scoreTotal2Years }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
+
 <style scoped>
-table {
+/* Page styling */
+.details-scoring-page {
+  padding: 20px;
+  background-color: #f9f9f9;
+  font-family: Arial, sans-serif;
+}
+
+/* Table container */
+.table-container {
+  margin-top: 20px;
+  overflow-x: auto;
+}
+
+/* Table styles */
+.company-table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 20px;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-th,
-td {
+.company-table th,
+.company-table td {
   border: 1px solid #ddd;
-  padding: 8px;
+  padding: 12px 15px;
+  text-align: left;
 }
 
-th {
-  background-color: #f2f2f2;
-  text-align: left;
+.company-table th {
+  background-color: #025959;
+  color: white;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+.company-table tbody tr:nth-child(even) {
+  background-color: #f8f8f8;
+}
+
+/* Badge styles */
+.badge {
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  text-align: center;
+  display: inline-block;
+}
+
+.badge-green {
+  background-color: #28a745;
+  color: white;
+}
+
+.badge-red {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .company-table th,
+  .company-table td {
+    font-size: 14px;
+  }
+}
+
+.mt-4 {
+  margin-top: 16px;
 }
 </style>

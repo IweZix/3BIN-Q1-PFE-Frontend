@@ -3,6 +3,7 @@ import { getTemplates } from '@/services/templatesService';
 import { getGroupIssues } from '@/services/groupIssuesService';
 import { getIssues } from '@/services/issuesService';
 import { deleteTemplate } from '@/services/templatesService';
+import { deleteGroupIssue } from '@/services/groupIssuesService';
 
 export default {
   name: 'ManageAll',
@@ -20,6 +21,7 @@ export default {
       // Charger les données
       this.templates = await getTemplates();
       this.groupIssues = await getGroupIssues();
+      console.log(this.groupIssues);
       this.issues = await getIssues();
       this.isLoading = false; // Chargement terminé
     } catch (error) {
@@ -28,26 +30,36 @@ export default {
     }
   },
   methods: {
-    editTemplate(templateId) {
-      this.$router.push(`/admin/template/${templateId}`);
+    editTemplate(templateName) {
+      this.$router.push(`/admin/template/${templateName}`);
     },
     addTemplate() {
       this.$router.push('/admin/add-template');
     },
-    editGroupIssue(groupIssueId) {
-      this.$router.push(`/admin/group-issue/${groupIssueId}`);
+    editGroupIssue(groupIssueName) {
+      this.$router.push(`/admin/group-issue/${groupIssueName}`);
     },
     addGroupIssue() {
       this.$router.push('/admin/add-group-issue');
     },
-    viewIssues(groupIssueId) {
-      this.$router.push(`/admin/issues/${groupIssueId}`);
+    async deleteGroupIssue(groupIssueName) {
+      if (confirm('Êtes-vous sûr de vouloir supprimer ce Group Issue ?')) {
+        try {
+          await deleteGroupIssue(groupIssueName);
+          this.groupIssues = this.groupIssues.filter((groupIssue) => groupIssue.groupIssueName !== groupIssueName);
+        } catch (error) {
+          this.errorMessage = 'Erreur lors de la suppression du Group Issue.';
+        }
+      }
     },
-    async deleteTemplate(templateId) {
+    viewIssues(groupIssueName) {
+      this.$router.push(`/admin/issues/${groupIssueName}`);
+    },
+    async deleteTemplate(templateName) {
       if (confirm('Êtes-vous sûr de vouloir supprimer ce template ?')) {
         try {
-          await deleteTemplate(templateId);
-          this.templates = this.templates.filter((template) => template._id !== templateId);
+          await deleteTemplate(templateName);
+          this.templates = this.templates.filter((template) => template.templateName !== templateName);
         } catch (error) {
           this.errorMessage = 'Erreur lors de la suppression du template.';
         }
@@ -79,8 +91,12 @@ export default {
           <tr v-for="template in templates" :key="template.id">
             <td>{{ template.templateName }}</td>
             <td>
-              <button @click="editTemplate(template._id)">Modifier</button>
-              <button @click="deleteTemplate(template._id)">Supprimer</button>
+              <button class="btn btn-edit" @click="editTemplate(template.templateName)">
+                <i class="fas fa-edit"></i> Modifier
+              </button>
+              <button class="btn btn-delete" @click="deleteTemplate(template.templateName)">
+                <i class="fas fa-trash-alt"></i> Supprimer
+              </button>
             </td>
           </tr>
         </tbody>
@@ -104,12 +120,19 @@ export default {
         </thead>
         <tbody>
           <tr v-for="groupIssue in groupIssues" :key="groupIssue.id">
-            <td>{{ groupIssue.name }}</td>
+            <td>{{ groupIssue.groupIssueName }}</td>
             <td>
-              <button @click="viewIssues(groupIssue.id)">Voir</button>
+              <button class="btn btn-view" @click="viewIssues(groupIssue.groupIssueName)">
+                <i class="fas fa-eye"></i> Voir
+              </button>
             </td>
             <td>
-              <button @click="editGroupIssue(groupIssue.id)">Modifier</button>
+              <button class="btn btn-edit" @click="editGroupIssue(groupIssue.groupIssueName)">
+                <i class="fas fa-edit"></i> Modifier
+              </button>
+              <button class="btn btn-delete" @click="deleteGroupIssue(groupIssue.groupIssueName)">
+                <i class="fas fa-trash-alt"></i> Supprimer
+              </button>
             </td>
           </tr>
         </tbody>
@@ -241,4 +264,54 @@ button:disabled {
     padding: 6px 12px;
   }
 }
+/* Boutons */
+.btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: bold;
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn i {
+  margin-right: 5px;
+  font-size: 14px;
+}
+
+/* Modifier (bleu) */
+.btn-edit {
+  background-color: #013238;
+}
+
+.btn-edit:hover {
+  background-color: #b5cdbf;
+  transform: scale(1.05);
+}
+
+/* Supprimer (rouge) */
+.btn-delete {
+  background-color: #dc3545;
+  margin-left: 8px;
+}
+
+.btn-delete:hover {
+  background-color: #b52a37;
+  transform: scale(1.05);
+}
+
+/* Voir (vert) */
+.btn-view {
+  background-color: #28a745;
+}
+
+.btn-view:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
 </style>
