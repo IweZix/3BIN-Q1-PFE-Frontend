@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { log } from 'console';
 
 const API_URL = 'http://localhost:3000/authCompany';
 
@@ -128,6 +129,8 @@ export const checkFormCompletedESG = async (token: string) => {
         Authorization: `${token}`
       }
     });
+    console.log("checkFormCompletedESG",response.data);
+    
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
