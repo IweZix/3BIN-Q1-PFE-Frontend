@@ -24,7 +24,7 @@ export const loginAdmin = async (email: string, password: string) => {
 export const adminVerif = async (token: string) => {
   try {
     const response = await axiosInstance.post(
-      `${API_URL}/verify-admin`,
+      `${API_URL}/verify-admin-bool`,
       {},
       {
         headers: {
