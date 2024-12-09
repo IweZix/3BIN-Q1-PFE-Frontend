@@ -1,5 +1,5 @@
 <script lang="ts">
-import { adminVerif, checkPasswordUpdated } from '@/services/authAdminService';
+import { adminVerif, adminVerifBoolean, checkPasswordUpdated } from '@/services/authAdminService';
 import { checkFormCompletedESG, checkPasswordUpdatedCompany } from '@/services/authCompanyService';
 import GlossaireModalComponent from '@/components/Modal/GlossaireModalComponent.vue';
 export default {
@@ -9,9 +9,10 @@ export default {
   },
   async mounted() {
     await this.checkLoginStatus();
-    console.log(this.admin);
     
     if(!this.admin){
+      
+    console.log("in");
       await this.checkIsFormCompletedESG();
     }
     
@@ -42,7 +43,9 @@ export default {
       if (token) {
         this.isLoggedIn = true;
         try {
-          const verifAdmin = await adminVerif(token);
+          const verifAdmin = await adminVerifBoolean(token);
+          console.log("adminCheckStatus",verifAdmin);
+          
           if (verifAdmin) {
             this.admin = true;
           }
@@ -57,6 +60,8 @@ export default {
       const token = localStorage.getItem('token');
       if (token) {
         this.formCompletedESG = !!(await checkFormCompletedESG(token));
+        console.log("formCompletedESG",this.formCompletedESG);
+        
       }
     },
 

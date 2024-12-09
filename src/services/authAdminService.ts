@@ -23,9 +23,8 @@ export const loginAdmin = async (email: string, password: string) => {
 };
 export const adminVerif = async (token: string) => {
   try {
-    const response = await axiosInstance.post(
+    const response = await axiosInstance.get(
       `${API_URL}/verify-admin`,
-      {},
       {
         headers: {
           Authorization: `${token}`
@@ -38,6 +37,33 @@ export const adminVerif = async (token: string) => {
     // erreur silencieuse
   }
 };
+
+
+
+export const adminVerifBoolean = async (token: string) : Promise<boolean> => {
+  try {
+    const response = await axiosInstance.get(
+      `${API_URL}/verify-admin-bool`,
+        {
+        headers: {
+          Authorization: `${token}`
+        }
+      }
+    );
+
+    console.log("response",response.data);
+    
+    return response.data as boolean;
+  } catch (error) {
+    // erreur silencieuse
+  }
+};
+
+
+
+
+
+
 export const registerAdmin = async (adminName: String, email: string, password: string) => {
   try {
     const response = await axios.post(`${API_URL}/register-admin`, {
