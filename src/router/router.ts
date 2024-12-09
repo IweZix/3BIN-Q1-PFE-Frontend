@@ -135,11 +135,7 @@ router.beforeEach(async (to, from, next) => {
     to.path.startsWith('/createCredentials') ||
     to.path.startsWith('/createCompany') ||
     to.path.startsWith('/createAdmin') ||
-    to.path.startsWith('/manageAll') ||
-    to.path.startsWith('/admin/template') ||
-    to.path.startsWith('/admin/add-template') ||
-    to.path.startsWith('/admin/group-issue') ||
-    to.path.startsWith('/admin/add-group-issue')
+    to.path.startsWith('/manageAll') 
   ) {
     if (token) {
       const isAdmin = await adminVerif(token);

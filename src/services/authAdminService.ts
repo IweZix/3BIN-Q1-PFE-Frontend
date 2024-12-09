@@ -33,7 +33,7 @@ export const adminVerif = async (token: string) => {
       }
     );
 
-    return response.data;
+    return response;
   } catch (error) {
     // erreur silencieuse
   }
