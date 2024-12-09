@@ -3,6 +3,7 @@ import { getTemplates } from '@/services/templatesService';
 import { getGroupIssues } from '@/services/groupIssuesService';
 import { getIssues } from '@/services/issuesService';
 import { deleteTemplate } from '@/services/templatesService';
+import { deleteGroupIssue } from '@/services/groupIssuesService';
 
 export default {
   name: 'ManageAll',
@@ -40,6 +41,16 @@ export default {
     },
     addGroupIssue() {
       this.$router.push('/admin/add-group-issue');
+    },
+    async deleteGroupIssue(groupIssueName) {
+      if (confirm('Êtes-vous sûr de vouloir supprimer ce Group Issue ?')) {
+        try {
+          await deleteGroupIssue(groupIssueName);
+          this.groupIssues = this.groupIssues.filter((groupIssue) => groupIssue.groupIssueName !== groupIssueName);
+        } catch (error) {
+          this.errorMessage = 'Erreur lors de la suppression du Group Issue.';
+        }
+      }
     },
     viewIssues(groupIssueName) {
       this.$router.push(`/admin/issues/${groupIssueName}`);
@@ -118,6 +129,9 @@ export default {
             <td>
               <button class="btn btn-edit" @click="editGroupIssue(groupIssue.groupIssueName)">
                 <i class="fas fa-edit"></i> Modifier
+              </button>
+              <button class="btn btn-delete" @click="deleteGroupIssue(groupIssue.groupIssueName)">
+                <i class="fas fa-trash-alt"></i> Supprimer
               </button>
             </td>
           </tr>
