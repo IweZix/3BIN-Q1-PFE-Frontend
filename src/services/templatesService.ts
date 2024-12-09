@@ -34,6 +34,7 @@ export const createTemplate = async (templateName: string) => {
   }
 };
 
+/*
 export const getTemplateById = async (id: number) => {
   try {
     const response = await axios.get(`${API_URL}/${id}`);
@@ -47,10 +48,12 @@ export const getTemplateById = async (id: number) => {
     }
   }
 };
+*/
 
-export const updateTemplate = async (id: number, newTemplateName: string) => {
+export const updateTemplate = async (templateName: string, newTemplateName: string) => {
   try {
-    const response = await axios.put(`${API_URL}/patch-templateName/${id}`, {
+    const response = await axios.put(`${API_URL}/patch-templateName/`, {
+      templateName,
       newTemplateName
     });
     return response.data;
@@ -64,9 +67,15 @@ export const updateTemplate = async (id: number, newTemplateName: string) => {
   }
 };
 
-export const deleteTemplate = async (id: number) => {
+export const deleteTemplate = async (templateName: string) => {
   try {
-    await axios.delete(`${API_URL}/delete-template/${id}`);
+    await axios.delete(`${API_URL}/delete-template/`,
+      {
+        data: {
+          templateName
+        }
+      }
+    );
   } catch (error) {
     // Gestion des erreurs
     if (axios.isAxiosError(error) && error.response) {

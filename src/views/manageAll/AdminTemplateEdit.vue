@@ -1,32 +1,22 @@
 <script>
-import { getTemplateById, updateTemplate } from '@/services/templatesService';
+import { updateTemplate } from '@/services/templatesService';
 export default {
   name: 'TemplateEdit',
   data() {
     return {
-      templateId: null, // ID du template
       templateName: '', // Nom du template
       errorMessage: '',
       successMessage: ''
     };
   },
   async mounted() {
-    // Récupère l'ID du template depuis l'URL
-    this.templateId = this.$route.params.id;
-
-    try {
-      // Appel d'une méthode pour récupérer les détails du template
-      const template = await getTemplateById(this.templateId);
-      this.templateName = template.name; // Pré-remplit le champ avec le nom actuel
-    } catch (error) {
-      this.errorMessage = 'Erreur lors du chargement du template.';
-    }
+    this.templateName = this.$route.params.templateName;
   },
   methods: {
     async saveTemplate() {
       try {
         // Appel d'une méthode pour mettre à jour le template
-        await updateTemplate(this.templateId, this.templateName);
+        await updateTemplate(this.templateName, this.templateName);
         this.successMessage = 'Template mis à jour avec succès !';
         this.errorMessage = '';
       } catch (error) {

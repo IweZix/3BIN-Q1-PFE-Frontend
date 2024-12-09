@@ -60,7 +60,7 @@ const routes = [
     component: ManageAll
   },
   {
-    path: '/admin/template/:id',
+    path: '/admin/template/:templateName',
     name: 'TemplateEdit',
     component: TemplateEdit
   },
