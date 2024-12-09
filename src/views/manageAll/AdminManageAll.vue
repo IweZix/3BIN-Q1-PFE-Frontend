@@ -21,6 +21,7 @@ export default {
       this.templates = await getTemplates();
       console.log(this.templates);
       this.groupIssues = await getGroupIssues();
+      console.log(this.groupIssues);
       this.issues = await getIssues();
       this.isLoading = false; // Chargement terminé
     } catch (error) {

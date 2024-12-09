@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { isAxiosError } from 'axios';
 
 const API_URL = 'http://localhost:3000/template';
 
@@ -52,7 +52,7 @@ export const getTemplateById = async (id: number) => {
 
 export const updateTemplate = async (templateName: string, newTemplateName: string) => {
   try {
-    const response = await axios.put(`${API_URL}/patch-templateName/`, {
+    const response = await axios.patch(`${API_URL}/patch-templateName/${templateName}`, {
       templateName,
       newTemplateName
     });
@@ -69,17 +69,11 @@ export const updateTemplate = async (templateName: string, newTemplateName: stri
 
 export const deleteTemplate = async (templateName: string) => {
   try {
-    await axios.delete(`${API_URL}/delete-template/`,
-      {
-        data: {
-          templateName
-        }
-      }
-    );
-  } catch (error) {
+    await axios.delete(`${API_URL}/delete-template/${templateName}`);
+  } catch (error: unknown) {
     // Gestion des erreurs
-    if (axios.isAxiosError(error) && error.response) {
-      throw new Error(error.response.data.message || 'Erreur lors de la suppression du template.');
+    if (isAxiosError(error) && error.response) {
+      throw new Error((error.response.data as any).message || 'Erreur lors de la suppression du template.');
     } else {
       throw new Error('Impossible de se connecter au serveur.');
     }

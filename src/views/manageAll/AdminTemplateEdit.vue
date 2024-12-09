@@ -16,7 +16,7 @@ export default {
     async saveTemplate() {
       try {
         // Appel d'une méthode pour mettre à jour le template
-        await updateTemplate(this.templateName, this.templateName);
+        await updateTemplate(this.$route.params.templateName, this.templateName);
         this.successMessage = 'Template mis à jour avec succès !';
         this.errorMessage = '';
       } catch (error) {
