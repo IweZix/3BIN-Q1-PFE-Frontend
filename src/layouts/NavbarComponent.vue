@@ -12,7 +12,6 @@ export default {
     
     if(!this.admin){
       
-    console.log("in");
       await this.checkIsFormCompletedESG();
     }
     
@@ -24,7 +23,7 @@ export default {
       admin: false,
       isPasswordUpdated: false,
       path: '/login',
-      isGlossaireModalVisible: false, // Contrôle la visibilité du modal
+      isGlossaireModalVisible: false,
       formCompletedESG: false
     };
   },
@@ -35,7 +34,7 @@ export default {
       localStorage.removeItem('company');
       this.isLoggedIn = false;
       this.admin = false;
-      this.path = '/login'; // Réinitialise le chemin
+      this.path = '/login'; 
       this.$router.push({ name: 'Login' });
     },
     async checkLoginStatus() {
@@ -43,9 +42,7 @@ export default {
       if (token) {
         this.isLoggedIn = true;
         try {
-          const verifAdmin = await adminVerifBoolean(token);
-          console.log("adminCheckStatus",verifAdmin);
-          
+          const verifAdmin = await adminVerifBoolean(token); 
           if (verifAdmin) {
             this.admin = true;
           }
@@ -60,7 +57,6 @@ export default {
       const token = localStorage.getItem('token');
       if (token) {
         this.formCompletedESG = !!(await checkFormCompletedESG(token));
-        console.log("formCompletedESG",this.formCompletedESG);
         
       }
     },
@@ -136,7 +132,7 @@ export default {
               <router-link to="/moduleESG" class="nav-link">Module ESG</router-link>
             </li>
             <!-- Bouton pour ouvrir le glossaire -->
-            <li class="nav-item">
+            <li v-if="isLoggedIn && isPasswordUpdated" class="nav-item">
               <button class="nav-link btn btn-link" @click="openGlossaireModal">Glossaire</button>
             </li>
           </ul>
