@@ -19,9 +19,9 @@ export default {
     try {
       // Charger les données
       this.templates = await getTemplates();
-      console.log(this.templates);
       this.groupIssues = await getGroupIssues();
       console.log(this.groupIssues);
+      console.log(this.groupIssues[0].name)
       this.issues = await getIssues();
       this.isLoading = false; // Chargement terminé
     } catch (error) {
@@ -42,8 +42,8 @@ export default {
     addGroupIssue() {
       this.$router.push('/admin/add-group-issue');
     },
-    viewIssues(groupIssueId) {
-      this.$router.push(`/admin/issues/${groupIssueId}`);
+    viewIssues(groupIssueName) {
+      this.$router.push(`/admin/issues/${groupIssueName}`);
     },
     async deleteTemplate(templateName) {
       if (confirm('Êtes-vous sûr de vouloir supprimer ce template ?')) {
@@ -112,12 +112,12 @@ export default {
           <tr v-for="groupIssue in groupIssues" :key="groupIssue.id">
             <td>{{ groupIssue.name }}</td>
             <td>
-              <button class="btn btn-view" @click="viewIssues(groupIssue.id)">
+              <button class="btn btn-view" @click="viewIssues(groupIssue.name)">
                 <i class="fas fa-eye"></i> Voir
               </button>
             </td>
             <td>
-              <button class="btn btn-edit" @click="editGroupIssue(groupIssue.id)">
+              <button class="btn btn-edit" @click="editGroupIssue(groupIssue.name)">
                 <i class="fas fa-edit"></i> Modifier
               </button>
             </td>

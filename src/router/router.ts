@@ -70,7 +70,7 @@ const routes = [
     component: TemplateAdd
   },
   {
-    path: '/admin/group-issue/:id',
+    path: '/admin/group-issue/:groupIssueName',
     name: 'GroupIssueEdit',
     component: GroupIssueEdit
   },

@@ -1,32 +1,20 @@
 <script>
-import { getGroupIssueById, updateGroupIssue } from '@/services/groupIssuesService';
-import { getIssues } from '@/services/issuesService';
+import { updateGroupIssue } from '@/services/groupIssuesService';
 
 export default {
   name: 'GroupIssueEdit',
   data() {
     return {
       isLoading: true, // Indicateur de chargement
-      groupIssueId: null, // ID du Group Issue
       groupIssueName: '', // Nom du Group Issue
-      associatedIssues: [], // Issues associées
-      availableIssues: [], // Liste des issues disponibles
-      selectedIssues: [], // Issues sélectionnées pour ce groupe
       errorMessage: '',
       successMessage: ''
     };
   },
   async mounted() {
-    this.groupIssueId = this.$route.params.id;
+    this.groupIssueName = this.$route.params.groupIssueName;
 
     try {
-      // Chargement des données
-      const groupIssue = await getGroupIssueById(this.groupIssueId);
-      this.groupIssueName = groupIssue.name;
-      this.selectedIssues = groupIssue.issues;
-
-      this.availableIssues = await getIssues();
-
       this.isLoading = false;
     } catch (error) {
       this.errorMessage = 'Erreur lors du chargement des données.';
@@ -41,9 +29,8 @@ export default {
           return;
         }
 
-        await updateGroupIssue(this.groupIssueId, {
-          name: this.groupIssueName,
-          issues: this.selectedIssues
+        await updateGroupIssue(this.$route.params.groupIssueName, {
+          name: this.groupIssueName
         });
 
         this.successMessage = 'Group Issue mis à jour avec succès !';
@@ -82,20 +69,7 @@ export default {
             required
           />
         </div>
-
-        <div class="form-group">
-          <label>Issues associées :</label>
-          <div class="issue-list">
-            <div v-for="issue in availableIssues" :key="issue.id" class="issue-item">
-              <label>
-                <input type="checkbox" :value="issue.id" v-model="selectedIssues" />
-                {{ issue.name }}
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <button type="submit" class="btn-primary" :disabled="isLoading || errorMessage">
+        <button type="submit" class="btn-primary">
           Enregistrer
         </button>
       </form>

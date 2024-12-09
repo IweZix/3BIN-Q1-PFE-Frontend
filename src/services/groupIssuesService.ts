@@ -18,9 +18,9 @@ export const createGroupIssues = async (data: any) => {
 };
 
 export const updateGroupIssue = async (groupIssueName: string, newGroupIssueName: string) => {
-  const response = await axios.patch(`${API_URL}/patch-groupIssueName`, 
+  console.log("updateGroupIssue",groupIssueName, newGroupIssueName);
+  const response = await axios.patch(`${API_URL}/patch-groupIssueName/${groupIssueName}`, 
   {
-    groupIssueName,
     newGroupIssueName
   });
   return response.data;
