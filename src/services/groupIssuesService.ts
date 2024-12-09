@@ -12,8 +12,8 @@ export const getGroupIssueById = async (id: string) => {
   return response.data;
 };
 
-export const createGroupIssues = async (data: any) => {
-  const response = await axios.post(`${API_URL}/create-groupIssue`, data);
+export const createGroupIssues = async (groupIssueName: String) => {
+  const response = await axios.post(`${API_URL}/create-groupIssue`, {groupIssueName});
   return response.data;
 };
 
