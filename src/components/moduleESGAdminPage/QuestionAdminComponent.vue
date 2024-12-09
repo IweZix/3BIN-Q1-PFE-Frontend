@@ -45,14 +45,16 @@ export default {
       try {
         // Récupérer les questions depuis l'API
         this.currentIndex = 0;
-        let emailCompany = this.mail;        
-        if (Array.isArray(emailCompany)) {
-          this.emailCompany = emailCompany[0] as string;
+        this.emailCompany = this.mail;    
+        console.log('emailCompany:',this.emailCompany);
+            
+        if (Array.isArray(this.emailCompany)) {
+          this.emailCompany = this.emailCompany[0] as string;
         }
-        if (typeof emailCompany !== 'string') {
+        if (typeof this.emailCompany !== 'string') {
           throw new Error('Invalid emailCompany');
         }
-        const response =await getValidatedForm(emailCompany);
+        const response =await getValidatedForm(this.emailCompany);
         console.log('response:',response);
         
         if(!response){
@@ -145,8 +147,12 @@ export default {
     },
     
     async validatedIssue() {
-      this.questionsTable[this.currentIndex].validatedQuestion = !this.questionsTable[this.currentIndex].validatedQuestion;
+      this.questionsTable[this.currentIndex].validatedQuestion = true;
+      console.log("validatedIssue()", this.questionsTable[this.currentIndex].validatedQuestion);
+      
       await postValidatedForm(this.emailCompany, this.questionsTable);
+      const successSaveMessage = 'La liste de question de cette catégorie a été validée !';
+      alert(successSaveMessage);
       await this.checkValidatedList();
 
     },
