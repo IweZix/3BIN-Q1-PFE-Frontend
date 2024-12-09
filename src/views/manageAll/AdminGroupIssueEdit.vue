@@ -29,9 +29,8 @@ export default {
           return;
         }
 
-        await updateGroupIssue(this.$route.params.groupIssueName, {
-          name: this.groupIssueName
-        });
+        await updateGroupIssue(this.$route.params.groupIssueName, this.groupIssueName
+        );
 
         this.successMessage = 'Group Issue mis à jour avec succès !';
         this.errorMessage = '';

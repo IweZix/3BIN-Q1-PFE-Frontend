@@ -21,7 +21,6 @@ export default {
       this.templates = await getTemplates();
       this.groupIssues = await getGroupIssues();
       console.log(this.groupIssues);
-      console.log(this.groupIssues[0].name)
       this.issues = await getIssues();
       this.isLoading = false; // Chargement terminé
     } catch (error) {
@@ -36,8 +35,8 @@ export default {
     addTemplate() {
       this.$router.push('/admin/add-template');
     },
-    editGroupIssue(groupIssueId) {
-      this.$router.push(`/admin/group-issue/${groupIssueId}`);
+    editGroupIssue(groupIssueName) {
+      this.$router.push(`/admin/group-issue/${groupIssueName}`);
     },
     addGroupIssue() {
       this.$router.push('/admin/add-group-issue');
@@ -110,14 +109,14 @@ export default {
         </thead>
         <tbody>
           <tr v-for="groupIssue in groupIssues" :key="groupIssue.id">
-            <td>{{ groupIssue.name }}</td>
+            <td>{{ groupIssue.groupIssueName }}</td>
             <td>
-              <button class="btn btn-view" @click="viewIssues(groupIssue.name)">
+              <button class="btn btn-view" @click="viewIssues(groupIssue.groupIssueName)">
                 <i class="fas fa-eye"></i> Voir
               </button>
             </td>
             <td>
-              <button class="btn btn-edit" @click="editGroupIssue(groupIssue.name)">
+              <button class="btn btn-edit" @click="editGroupIssue(groupIssue.groupIssueName)">
                 <i class="fas fa-edit"></i> Modifier
               </button>
             </td>
