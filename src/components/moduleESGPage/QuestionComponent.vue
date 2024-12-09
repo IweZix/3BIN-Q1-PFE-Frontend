@@ -36,6 +36,10 @@ export default {
       questionNA: [] as ListQuestions[]
     };
   },
+  props: {
+    value: Number,
+    updateValue: Function
+  },
 
   methods: {
     async loadQuestions() {
@@ -60,11 +64,13 @@ export default {
       if (this.currentIndex < this.questionsTable.length) {
         this.currentIndex++;
       }
+      this.$emit('next', (this.currentIndex/this.questionsTable.length * 100));
     },
     prevQuestion() {
       if (this.currentIndex > 0) {
         this.currentIndex--;
       }
+      this.$emit('prev', (this.currentIndex/this.questionsTable.length * 100));
     },
 
     // Méthode pour gérer le changement d'état des cases à cocher (isNow / is2Years)
