@@ -191,4 +191,11 @@ nav {
   cursor: pointer;
   text-decoration: none;
 }
+
+
+.nav-item {
+  display: flex;
+  align-items: center;
+}
+
 </style>
