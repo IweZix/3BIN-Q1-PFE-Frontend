@@ -1,5 +1,7 @@
 <script lang="ts">
 import SearchBarComponent from '@/components/Modal/searchBarComponent.vue';
+import { getAllGlossaire } from '@/services/glossaireService';
+
 
 export default {
   name: 'GlossaireModalComponent',
@@ -20,37 +22,24 @@ export default {
   data() {
     return {
       query: '', // Recherche de l'utilisateur
-      sections: [
-        {
-          title: 'Analyse de Double Matérialité',
-          definition:
-            "L'Analyse de Double Matérialité, dans le cadre de la directive CSRD (Corporate Sustainability Reporting Directive) de l'Union européenne, est une approche qui aide les entreprises à évaluer et à communiquer les impacts de leurs activités en matière de durabilité de manière plus complète.",
-          remarque: '',
-          plusInfo: ''
-        },
-        {
-          title: 'Biodiversité',
-          definition:
-            'La biodiversité désigne la variété et la variabilité des formes de vie sur Terre, en ce compris la diversité des espèces, la diversité génétique et la diversité des écosystèmes.',
-          remarque: '',
-          plusInfo: ''
-        }
-      ]
+      sections: [] as Array<{ title: string; definition: string; remarque: string; plusInfo: string }>
     };
+  },
+  async created() {
+    this.sections = await getAllGlossaire() as Array<{ title: string; definition: string; remarque: string; plusInfo: string }>;
   },
   computed: {
     filteredSections() {
-      if (this.query) {
-        // Filtre les sections en fonction de la requête
-        return this.sections.filter(
-          (section) =>
-            section.title.toLowerCase().includes(this.query.toLowerCase()) ||
-            section.definition.toLowerCase().includes(this.query.toLowerCase()) ||
-            section.remarque.toLowerCase().includes(this.query.toLowerCase()) ||
-            section.plusInfo.toLowerCase().includes(this.query.toLowerCase())
-        );
+      if (!this.query) {
+        return this.sections;
       }
-      return this.sections; // Retourne toutes les sections si aucune recherche
+
+      const searchQuery = this.query.toLowerCase();
+      return this.sections.filter((section) =>
+        Object.values(section).some((value) =>
+          value.toLowerCase().includes(searchQuery)
+        )
+      );
     }
   },
   methods: {
