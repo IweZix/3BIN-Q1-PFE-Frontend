@@ -27,7 +27,7 @@ export default {
   async mounted() {
     renderPageTitle('CreateCompany');
     try {
-      this.availableTemplates = await getTemplates();
+      this.availableTemplates = await getTemplates() as { _id: string; templateName: string }[];
     } catch (error) {
       console.error('Failed to fetch templates', error);
     }

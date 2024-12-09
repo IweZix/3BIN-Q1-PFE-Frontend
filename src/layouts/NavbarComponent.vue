@@ -9,7 +9,12 @@ export default {
   },
   async mounted() {
     await this.checkLoginStatus();
-    await this.checkIsFormCompletedESG();
+    console.log(this.admin);
+    
+    if(!this.admin){
+      await this.checkIsFormCompletedESG();
+    }
+    
   },
 
   data() {
@@ -191,4 +196,11 @@ nav {
   cursor: pointer;
   text-decoration: none;
 }
+
+
+.nav-item {
+  display: flex;
+  align-items: center;
+}
+
 </style>

@@ -19,7 +19,7 @@ axiosInstance.interceptors.response.use(
 
 export const loginAdmin = async (email: string, password: string) => {
   const response = await axios.post(`${API_URL}/login-admin`, { email, password });
-  return response.data;
+  return response.data as boolean;
 };
 export const adminVerif = async (token: string) => {
   try {
@@ -59,7 +59,7 @@ export const registerAdmin = async (adminName: String, email: string, password: 
 };
 const verifyPasswordUpdated = async (email: string): Promise<boolean> => {
   const response = await axios.post(`${API_URL}/verify-password-updated`, { email });
-  return response.data;
+  return response.data as boolean;
 };
 
 export const checkPasswordUpdated = async (email: string) => {
@@ -90,13 +90,15 @@ export const updatePasswordAdmin = async (token: string, password: string) => {
   }
 };
 
-export const valitedForm = async (email: string) => {
+export const getValidatedForm = async (email: string) => {
   try {
+    console.log("api",email);
+    
     const response = await axios.get(`${API_URL}/answerFormUser`, {
       params: { email }, // Ajouter l'email en tant que paramètre d'URL
-      headers: {
-        'Content-Type': 'application/json'
-      }
+       headers: {
+          Authorization: `${localStorage.getItem('token')}`
+        }
     });
     return response.data;
   } catch (error) {
@@ -104,3 +106,53 @@ export const valitedForm = async (email: string) => {
     return false; // Retourner false ou gérer l'erreur de manière appropriée
   }
 };
+
+export const postValidatedForm = async (email: string, answers:any) => {
+  console.log("api",email,answers);
+  
+  try {
+    const response = await axios.post(`${API_URL}/answerFormUser`,{ email , answers},  
+      {
+        headers: {
+          Authorization: `${localStorage.getItem('token')}`
+        }
+      }
+    );
+  } catch (error) {
+    console.error('Erreur lors de la récupération du formulaire:', error);
+  }
+};
+
+export const validatedFormCompleted = async (email: string) : Promise<boolean>=> {
+  try {
+    const response = await axios.get(`${API_URL}/validatedFormUser`,  {
+        params: { email },
+      
+        headers: {
+          Authorization: `${localStorage.getItem('token')}`
+        
+      }
+    });
+    return response.data as boolean;
+  } catch (error) {
+    console.error('Erreur lors de la récupération du formulaire:', error);
+    return false;
+  }
+}
+
+export const getCompanyList = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/allcompanies`,{
+       
+        headers: {
+          Authorization: `${localStorage.getItem('token')}`
+        
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Erreur lors de la récupération de la liste des entreprises:', error);
+    return [];
+  }
+};
+

@@ -8,13 +8,15 @@ export default {
     }
   },
   methods: {
-    async handleClick() {
+    handleClick() {
+
+    console.log("Component button:",this.companyEmail);
       this.$router.push({
         name: 'answerFormUser',
         params: { email: this.companyEmail }
       });
-    }
-  }
+}
+  },
 };
 </script>
 
