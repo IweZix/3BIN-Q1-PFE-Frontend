@@ -96,7 +96,7 @@ export default {
   <div class="change-password-page">
     <div class="card">
       <div class="header">
-        <h1>Changer votre mot de passe</h1>
+        <h1>Changez votre mot de passe</h1>
         <p>Pour des raisons de sécurité, veuillez utiliser un mot de passe fort.</p>
       </div>
 
