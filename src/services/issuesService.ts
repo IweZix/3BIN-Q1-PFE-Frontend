@@ -21,8 +21,6 @@ export const createIssue = async (issueName: string, issueGroupName: string) => 
 };
 
 export const updateIssue = async (issueName: string, newIssueName:string) => {
-  console.log(issueName);
-  console.log(newIssueName);
   const response = await axios.patch(`${API_URL}/patch-issueName/${issueName}`, {
     newIssueName: newIssueName
   });
@@ -31,15 +29,12 @@ export const updateIssue = async (issueName: string, newIssueName:string) => {
 
 export const getIssuesByGroup = async (groupIssueName: string) => {
   const response = await getIssues();
-  console.log(response);
   const responseFilter = [];
   for (let i = 0; i < response.length; i++) {
-    console.log(response[i].group_name);
     if (response[i].group_name === groupIssueName) {
       responseFilter.push(response[i]);
     }
   }
-  console.log(responseFilter);
   return responseFilter;
 }
 
