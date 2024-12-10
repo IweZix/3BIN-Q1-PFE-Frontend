@@ -25,7 +25,7 @@ export default {
         this.scoreTotalNow = response[0].scoreTotalNow;
         this.scoreTotalEngagement = response[0].scoreTotal2Years;
         this.scoreTotalTotal = response[0].totalTotal;
-        for (let i = 0; i < response[0].issuesList.length; i++) {
+        for (let i = 0; i < response[0].issuesList.length; i++) {         
           this.issues.push({
             id: i,
             name: '',
@@ -38,7 +38,7 @@ export default {
         for (let i = 0; i < responseIssues.length; i++) {
           this.issuesList.push({
             _id: i,
-            name: responseIssues[i].name
+            name: responseIssues[i].issueName
           });
         }
         for (let i = 0; i < this.issues.length; i++) {

@@ -23,16 +23,22 @@ import GroupIssueEdit from '@/views/manageAll/AdminGroupIssueEdit.vue';
 import GroupIssueAdd from '@/views/manageAll/AdminGroupIssueAdd.vue';
 import DetailsScoringCompany from '@/views/scoring/DetailsScoringCompany.vue';
 import AdminValidatedForm from '@/views/AdminValidatedFormPage.vue';
-
+import IssuesByGroup from '@/views/manageAll/AdminIssuesByGroup.vue';
+import IssueAdd from '@/views/manageAll/AdminIssueAdd.vue';
+import IssueEdit from '@/views/manageAll/AdminIssueEdit.vue';
 /* routes for company */
 import CompanyHome from '@/views/CompanyHomePage.vue';
 import ModuleESG from '@/views/ModuleESGPage.vue';
-//import path from 'path';
 
 /**
  * Define routes
  */
 const routes = [
+  /* route to redirect / to /login */
+  {
+    path: '/',
+    redirect: '/login'
+  },
   /* routes for admin */
   {
     path: '/admin',
@@ -78,6 +84,21 @@ const routes = [
     path: '/admin/add-group-issue',
     name: 'GroupIssueAdd',
     component: GroupIssueAdd
+  },
+  {
+    path: '/admin/issuesByGroup/:groupIssueName',
+    name: 'IssuesByGroup',
+    component: IssuesByGroup
+  },
+  {
+    path: '/admin/add-issue/:groupIssueName',
+    name: 'IssueAdd',
+    component: IssueAdd
+  },
+  {
+    path: '/admin/edit-issue/:issueName',
+    name: 'IssueEdit',
+    component: IssueEdit
   },
   {
     path: '/scoringCompany/:email',
