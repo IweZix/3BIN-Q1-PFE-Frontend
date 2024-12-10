@@ -109,18 +109,18 @@ export default {
 
     <!-- Section Group Issues -->
     <div v-if="!isLoading" class="dashboard-container">
-      <h2>Group Issues et Issues</h2>
+      <h2>Groupe d'enjeux & Enjeux</h2>
       <table v-if="groupIssues.length">
         <thead>
           <tr>
-            <th>Nom de la catégorie</th>
-            <th>Voir sous-catégorie</th>
+            <th>Nom du groupe d'enjeux</th>
+            <th>Voir les enjeux</th>
             <th>Modifier</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="groupIssue in groupIssues" :key="groupIssue.id">
-            <td>{{ groupIssue.groupIssueName }}</td>
+          <tr  v-for="groupIssue in groupIssues" :key="groupIssue.id" class="issueName">
+            <td >{{ groupIssue.groupIssueName }}</td>
             <td>
               <button class="btn btn-view" @click="viewIssues(groupIssue.groupIssueName)">
                 <i class="fas fa-eye"></i> Voir
@@ -137,9 +137,9 @@ export default {
           </tr>
         </tbody>
       </table>
-      <p v-else>Aucun Group Issue disponible.</p>
+      <p v-else>Aucun groupe d'enjeu disponible.</p>
       <div class="add-group-issue">
-        <button @click="addGroupIssue">Ajouter un Group Issue</button>
+        <button @click="addGroupIssue">Ajouter un groupe d'enjeu</button>
       </div>
     </div>
   </div>
@@ -201,12 +201,24 @@ td {
 }
 
 th {
-  background-color: #fde791;;
+  background-color: #025959;
   font-weight: bold;
+  color : white;
 }
 
 td {
   background-color: #f9f9f9;
+}
+.issueName:nth-child(3n+1) td {
+  background-color: #c5fddf; /* Vert */
+}
+
+.issueName:nth-child(3n+2) td {
+  background-color: #dfd4fb; /* Jaune */
+}
+
+.issueName:nth-child(3n+0) td {
+  background-color: #fde791; /* Mauve */
 }
 
 table tr:hover td {

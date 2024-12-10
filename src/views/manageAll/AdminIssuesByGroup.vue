@@ -15,6 +15,7 @@ export default {
     },
     async mounted() {
         this.groupIssueName = this.$route.params.groupIssueName;
+        console.log(this.groupIssueName, 'groupIssueName');
         try {
             // Charger les problèmes par groupe
             this.issuesByGroup = await getIssuesByGroup(this.groupIssueName);
@@ -46,8 +47,8 @@ methods: {
 </script>
 
 <template>
-    <div class="admin-issues-by-group">
-        <h1>Gestion des Enjeux dans "{{groupIssueName}}"</h1>
+    <div class="admin-issues-by-group mt-3">
+        <h1>Gestion des Enjeux dans <span class="highlighted-group">{{ groupIssueName }}</span></h1>
         <!-- Indicateur de chargement -->
         <p v-if="isLoading" class="loading-message">Chargement des données...</p>
         <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
@@ -88,6 +89,7 @@ methods: {
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
+
 }
 
 /* Titres */
@@ -97,7 +99,10 @@ h1 {
   font-size: 28px;
   color: #013238;
 }
-
+.highlighted-group {
+   font-weight: 900; /* Texte ultra-gras */
+  font-size: 1em; 
+}
 h2 {
   color: #013238;
   margin-bottom: 15px;
@@ -138,8 +143,9 @@ td {
 }
 
 th {
-  background-color: #f4f4f4;
+  background-color: #025959;
   font-weight: bold;
+  color: white;
 }
 
 td {

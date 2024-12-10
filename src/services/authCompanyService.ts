@@ -12,7 +12,7 @@ export const registerCompany = async (
   name: string,
   email: string,
   password: string,
-  template: number[]
+  template: string[]
 ) => {
   try {
     const company = { name, email, password, template };
@@ -129,7 +129,6 @@ export const checkFormCompletedESG = async (token: string) => {
         Authorization: `${token}`
       }
     });
-    console.log("checkFormCompletedESG",response.data);
     
     return response.data;
   } catch (error) {

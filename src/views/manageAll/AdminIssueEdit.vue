@@ -45,7 +45,7 @@ export default {
 
 <template>
   <div class="issue-edit">
-    <h1>Modifier Group Issue</h1>
+    <h1>Modifier l'enjeux</h1>
 
     <!-- Indicateur de chargement -->
     <p v-if="isLoading">Chargement des données...</p>
@@ -113,7 +113,7 @@ button {
   display: block;
   width: 100%;
   padding: 12px;
-  background-color: #007bff;
+  background-color: #b5cdbf;
   color: white;
   border: none;
   border-radius: 5px;
@@ -124,7 +124,7 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #013238;
 }
 
 button:disabled {

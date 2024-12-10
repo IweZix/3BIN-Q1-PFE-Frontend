@@ -9,6 +9,5 @@ export const getAllCompanies = async () => {
       Authorization: localStorage.getItem('token')
     }
   });
-  console.log("getAllCompanies",response.data);
   return response.data;
 };

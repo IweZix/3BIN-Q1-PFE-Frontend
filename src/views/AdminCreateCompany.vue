@@ -28,6 +28,8 @@ export default {
     renderPageTitle('CreateCompany');
     try {
       this.availableTemplates = await getTemplates() as { _id: string; templateName: string }[];
+      console.log('Available templates:', this.availableTemplates);
+      this.availableTemplates = this.availableTemplates.slice(1, );
     } catch (error) {
       console.error('Failed to fetch templates', error);
     }
@@ -75,6 +77,7 @@ export default {
             this.password,
             this.templates
           );
+          console.log('Company created:', response);
 
           // Stockage des credentials après la création réussie
           this.credentials = {
@@ -158,13 +161,11 @@ export default {
               <img
                 v-if="isPasswordVisible"
                 src="../assets/icons/show.png"
-                alt="Masquer le mot de passe"
                 class="visibility-icon"
               />
               <img
                 v-else
                 src="../assets/icons/hide.png"
-                alt="Afficher le mot de passe"
                 class="visibility-icon"
               />
             </button>
@@ -321,7 +322,7 @@ input.error-border {
 
 .btn-primary {
   padding: 10px 20px;
-  background-color: #013238;
+  background-color: #b5cdbf;
   color: white;
   border: none;
   border-radius: 5px;
@@ -332,7 +333,7 @@ input.error-border {
 }
 
 .btn-primary:hover {
-  background-color: #876cc7;
+  background-color: #013238;
 }
 
 .error-message {
@@ -401,7 +402,7 @@ input.error-border {
 .credentials-section button {
   margin-top: 10px;
   padding: 8px 16px;
-  background-color: #007bff;
+  background-color: #013238;
   color: white;
   border: none;
   border-radius: 5px;
@@ -410,6 +411,6 @@ input.error-border {
 }
 
 .credentials-section button:hover {
-  background-color: #0056b3;
+  background-color: #b5cdbf;
 }
 </style>

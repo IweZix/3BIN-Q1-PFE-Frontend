@@ -3,13 +3,13 @@ import { getGroupIssues } from '@/services/groupIssuesService';
 import { getIssues } from '@/services/issuesService';
 
 interface GroupIssue {
-  name: string;
+  groupIssueName: string;
 }
 
 interface Issue {
   _id: number;
-  name: string;
-  group_id: number;
+  issueName: string;
+  group_name: string;
 }
 
 export default {
@@ -47,16 +47,16 @@ export default {
   <div>
     <ul>
       <li v-for="(groupItem, index) in groupIssues" :key="index">
-        <strong>{{ groupItem.name }}</strong>
+        <strong>{{ groupItem.groupIssueName }}</strong>
 
         <ul>
           <li
             v-for="(issue, idx) in issue.filter(
-              (issue) => issue.group_id === groupIssues.indexOf(groupItem) + 1
+              (issue) => issue.group_name === groupItem.groupIssueName
             )"
             :key="idx"
           >
-            {{ issue.name }}
+            {{ issue.issueName }}
           </li>
         </ul>
       </li>

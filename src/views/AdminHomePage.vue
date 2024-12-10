@@ -28,7 +28,6 @@ export default {
             totalTotal: 0
           });
         }
-        console.log(this.companies);
         // recup score
         for (let i = 0; i < this.companies.length; i++) {
           const response = await getScoringByEmail(this.companies[i].email);

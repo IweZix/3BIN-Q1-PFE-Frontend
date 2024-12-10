@@ -49,10 +49,7 @@ export const adminVerifBoolean = async (token: string) : Promise<boolean> => {
           Authorization: `${token}`
         }
       }
-    );
-
-    console.log("response",response.data);
-    
+    );    
     return response.data as boolean;
   } catch (error) {
     // erreur silencieuse

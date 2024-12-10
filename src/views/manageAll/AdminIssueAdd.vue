@@ -98,7 +98,7 @@ button {
   display: block;
   width: 100%;
   padding: 10px;
-  background-color: #007bff;
+  background-color: #b5cdbf;
   color: white;
   border: none;
   border-radius: 5px;
@@ -107,7 +107,7 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #013238;
 }
 
 .error-message {
