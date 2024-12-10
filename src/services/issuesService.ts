@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { log } from 'console';
 
 const API_URL = 'http://localhost:3000/issue';
 
@@ -12,13 +13,20 @@ export const getIssueById = async (id: string) => {
   return response.data;
 };
 
-export const createIssues = async (data: any) => {
-  const response = await axios.post(`${API_URL}/`, data);
+export const createIssue = async (issueName: string, issueGroupName: string) => {
+  const response = await axios.post(`${API_URL}/create-issue`, {
+    issueName: issueName,
+    issueGroupName: issueGroupName
+  });
   return response.data;
 };
 
-export const updateIssue = async (id: string, data: any) => {
-  const response = await axios.put(`${API_URL}/${id}`, data);
+export const updateIssue = async (issueName: string, newIssueName:string) => {
+  console.log(issueName);
+  console.log(newIssueName);
+  const response = await axios.patch(`${API_URL}/patch-issueName/${issueName}`, {
+    newIssueName: newIssueName
+  });
   return response.data;
 };
 
@@ -34,4 +42,9 @@ export const getIssuesByGroup = async (groupIssueName: string) => {
   }
   console.log(responseFilter);
   return responseFilter;
+}
+
+export const deleteIssue = async (issueName:string) => {
+  const response = await axios.delete(`${API_URL}/delete-issue/${issueName}`);
+  return response.data;
 }

@@ -1,5 +1,6 @@
 <script>
 import { getIssuesByGroup } from '@/services/issuesService';
+import { deleteIssue } from '@/services/issuesService';
 
 
 export default {
