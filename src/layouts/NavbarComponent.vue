@@ -114,7 +114,7 @@ export default {
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
               <!-- Utilise path pour la redirection -->
-              <router-link :to="path" class="nav-link">Home</router-link>
+              <router-link :to="path" class="nav-link">Accueil</router-link>
             </li>
             <li v-if="isLoggedIn && admin && isPasswordUpdated" class="nav-item">
               <router-link to="/createCredentials" class="nav-link">Créer un compte</router-link>
@@ -133,7 +133,7 @@ export default {
             </li>
             <!-- Bouton pour ouvrir le glossaire -->
             <li v-if="isLoggedIn && isPasswordUpdated" class="nav-item">
-              <button class="nav-link btn btn-link" @click="openGlossaireModal">Glossaire</button>
+              <button class="nav-link" @click="openGlossaireModal">Glossaire</button>
             </li>
           </ul>
           <div class="navbar-icons">
@@ -187,7 +187,8 @@ export default {
 .nav-link {
   color: #b5cdbf;
   font-size: 18px;
-  font-weight: 500;
+  font-weight: 500 bold;
+  
 }
 .btn {
   background: none;
@@ -202,6 +203,7 @@ export default {
 .nav-item {
   display: flex;
   align-items: center;
+  font-weight: bold;
 }
 
 </style>
