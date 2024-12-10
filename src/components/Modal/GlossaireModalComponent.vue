@@ -70,14 +70,14 @@ export default {
       <!-- Sections filtrées -->
       <div v-for="(section, index) in filteredSections" :key="index">
         <h2 v-html="highlightText(section.title)"></h2>
-        <h3>Definition</h3>
+        <h5>Definition</h5>
         <p v-html="highlightText(section.definition)"></p>
-        <h3>Remarque</h3>
+        <h5>Remarque</h5>
         <p v-if="section.remarque" v-html="highlightText(section.remarque)"></p>
-        <p v-else>pas de remarque</p>
-        <h3>plus d'information</h3>
+        <p v-else>Pas de remarque</p>
+        <h5>Plus d'information</h5>
         <p v-if="section.plusInfo" v-html="highlightText(section.plusInfo)"></p>
-        <p v-else>pas d'information complementaire</p>
+        <p v-else>as d'information complementaire</p>
       </div>
     </div>
   </div>
@@ -131,5 +131,14 @@ mark {
   font-size: 24px;
   font-weight: bold;
   text-align: center;
+}
+
+h2 {
+  font-weight: #013238;
+  font-weight: bold;
+}
+
+h5 {
+  text-decoration: underline;
 }
 </style>

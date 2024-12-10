@@ -126,7 +126,7 @@ export default {
 }
 
 .header {
-  background-color: #013238;
+  background-color: #b5cdbf ;
   color: white;
   padding: 20px;
   margin-bottom: 20px;

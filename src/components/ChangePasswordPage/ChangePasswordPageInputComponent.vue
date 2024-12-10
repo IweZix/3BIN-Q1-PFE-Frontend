@@ -83,7 +83,18 @@ export default {
           type="button"
           aria-label="Afficher ou cacher le mot de passe"
         >
-          {{ showPassword ? 'Masquer' : 'Afficher' }}
+          <img
+                v-if="showPassword"
+                src="../../assets/icons/show.png"
+                alt="Masquer le mot de passe"
+                class="visibility-icon"
+              />
+              <img
+                v-else
+                src="../../assets/icons/hide.png"
+                alt="Afficher le mot de passe"
+                class="visibility-icon"
+              />
         </button>
       </div>
       <p v-if="passwordError" class="error-message">{{ passwordError }}</p>
@@ -105,7 +116,18 @@ export default {
           type="button"
           aria-label="Afficher ou cacher le mot de passe"
         >
-          {{ showConfirmPassword ? 'Masquer' : 'Afficher' }}
+          <img
+            v-if="showConfirmPassword"
+            src="../../assets/icons/show.png"
+            alt="Masquer le mot de passe"
+            class="visibility-icon"
+          />
+          <img
+            v-else
+            src="../../assets/icons/hide.png"
+            alt="Afficher le mot de passe"
+            class="visibility-icon"
+          />
         </button>
       </div>
     </div>
@@ -155,5 +177,10 @@ export default {
   user-select: none; /* Empêche la sélection du texte */
   color: #666; /* Couleur du bouton */
   padding: 0;
+}
+
+.visibility-icon {
+  width: 30px;
+  height: 30px;
 }
 </style>

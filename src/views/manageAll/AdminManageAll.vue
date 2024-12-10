@@ -109,18 +109,18 @@ export default {
 
     <!-- Section Group Issues -->
     <div v-if="!isLoading" class="dashboard-container">
-      <h2>Group Issues et Issues</h2>
+      <h2>Groupe d'enjeux & Enjeux</h2>
       <table v-if="groupIssues.length">
         <thead>
           <tr>
-            <th>Nom du Group Issue</th>
-            <th>Voir Issues</th>
+            <th>Nom du groupe d'enjeux</th>
+            <th>Voir les enjeux</th>
             <th>Modifier</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="groupIssue in groupIssues" :key="groupIssue.id">
-            <td>{{ groupIssue.groupIssueName }}</td>
+          <tr  v-for="groupIssue in groupIssues" :key="groupIssue.id" class="issueName">
+            <td >{{ groupIssue.groupIssueName }}</td>
             <td>
               <button class="btn btn-view" @click="viewIssues(groupIssue.groupIssueName)">
                 <i class="fas fa-eye"></i> Voir
@@ -137,9 +137,9 @@ export default {
           </tr>
         </tbody>
       </table>
-      <p v-else>Aucun Group Issue disponible.</p>
+      <p v-else>Aucun groupe d'enjeu disponible.</p>
       <div class="add-group-issue">
-        <button @click="addGroupIssue">Ajouter un Group Issue</button>
+        <button @click="addGroupIssue">Ajouter un groupe d'enjeu</button>
       </div>
     </div>
   </div>
@@ -201,12 +201,24 @@ td {
 }
 
 th {
-  background-color: #f4f4f4;
+  background-color: #025959;
   font-weight: bold;
+  color : white;
 }
 
 td {
   background-color: #f9f9f9;
+}
+.issueName:nth-child(3n+1) td {
+  background-color: #c5fddf; /* Vert */
+}
+
+.issueName:nth-child(3n+2) td {
+  background-color: #dfd4fb; /* Jaune */
+}
+
+.issueName:nth-child(3n+0) td {
+  background-color: #fde791; /* Mauve */
 }
 
 table tr:hover td {
@@ -216,7 +228,8 @@ table tr:hover td {
 /* Boutons */
 button {
   padding: 8px 16px;
-  background-color: #013238;
+  background-color: #b5cdbf;
+  background-color: #b5cdbf;
   color: white;
   border: none;
   border-radius: 5px;
@@ -226,7 +239,8 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #013238;
+  background-color: #013238;
 }
 
 button:disabled {
@@ -247,6 +261,8 @@ button:disabled {
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+  
 }
 
 .dashboard-container h2 {
@@ -286,6 +302,8 @@ button:disabled {
 /* Modifier (bleu) */
 .btn-edit {
   background-color: #013238;
+  
+  
 }
 
 .btn-edit:hover {

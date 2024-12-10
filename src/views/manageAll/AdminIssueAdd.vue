@@ -66,7 +66,7 @@ export default {
   max-width: 400px;
   margin: 20px auto;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: #faf5dc;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -98,7 +98,7 @@ button {
   display: block;
   width: 100%;
   padding: 10px;
-  background-color: #007bff;
+  background-color: #b5cdbf;
   color: white;
   border: none;
   border-radius: 5px;
@@ -107,7 +107,7 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #013238;
 }
 
 .error-message {

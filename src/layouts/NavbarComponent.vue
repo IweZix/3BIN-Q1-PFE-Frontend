@@ -93,11 +93,11 @@ export default {
 </script>
 
 <template>
-  <div class="p-4" id="navbarWrapper">
+  <div class="p-3" id="navbarWrapper">
     <nav class="navbar navbar-expand-lg">
       <div class="container-fluid">
         <router-link :to="path" class="navbar-brand nav-link" id="demonopediaLogo">
-          <img src="../assets/logo/logo_shiftingpact_vert_verteau.png" alt="Logo" class="logo" />
+          <img src="../assets/logo/logo_shiftingpact_verteau_blanc.png" alt="Logo" class="logo" />
         </router-link>
         <button
           class="navbar-toggler"
@@ -114,13 +114,13 @@ export default {
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
               <!-- Utilise path pour la redirection -->
-              <router-link :to="path" class="nav-link">Home</router-link>
+              <router-link :to="path" class="nav-link">Accueil</router-link>
             </li>
             <li v-if="isLoggedIn && admin && isPasswordUpdated" class="nav-item">
               <router-link to="/createCredentials" class="nav-link">Créer un compte</router-link>
             </li>
             <li v-if="isLoggedIn && admin && isPasswordUpdated" class="nav-item">
-              <router-link to="/manageAll" class="nav-link">Management DashBoard</router-link>
+              <router-link to="/manageAll" class="nav-link">Tableau de bord de gestion</router-link>
             </li>
             <li v-if="isLoggedIn && !isPasswordUpdated" class="nav-item">
               <router-link to="/changePassword" class="nav-link">Change Password</router-link>
@@ -133,7 +133,7 @@ export default {
             </li>
             <!-- Bouton pour ouvrir le glossaire -->
             <li v-if="isLoggedIn && isPasswordUpdated" class="nav-item">
-              <button class="nav-link btn btn-link" @click="openGlossaireModal">Glossaire</button>
+              <button class="nav-link" @click="openGlossaireModal">Glossaire</button>
             </li>
           </ul>
           <div class="navbar-icons">
@@ -164,8 +164,8 @@ export default {
 </template>
 
 <style scoped>
-nav {
-  background-color: #f6f6f6;
+#navbarWrapper {
+  background-color: #013238;
 }
 
 .navbar-icons {
@@ -185,9 +185,10 @@ nav {
 }
 
 .nav-link {
-  color: black;
+  color: #b5cdbf;
   font-size: 18px;
-  font-weight: 500;
+  font-weight: 500 bold;
+  
 }
 .btn {
   background: none;
@@ -202,6 +203,7 @@ nav {
 .nav-item {
   display: flex;
   align-items: center;
+  font-weight: bold;
 }
 
 </style>

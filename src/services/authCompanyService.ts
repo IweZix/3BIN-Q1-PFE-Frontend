@@ -12,11 +12,15 @@ export const registerCompany = async (
   name: string,
   email: string,
   password: string,
-  template: number[]
+  template: string[]
 ) => {
   try {
     const company = { name, email, password, template };
-    const response = await axios.post(`${API_URL}/register-company`, company);
+    const response = await axios.post(`${API_URL}/register-company`, company, {
+        headers: {
+          Authorization: `${localStorage.getItem('token')}`
+        }
+      });
     return response.data;
   } catch (error) {
     // Gestion des erreurs
@@ -129,7 +133,6 @@ export const checkFormCompletedESG = async (token: string) => {
         Authorization: `${token}`
       }
     });
-    console.log("checkFormCompletedESG",response.data);
     
     return response.data;
   } catch (error) {

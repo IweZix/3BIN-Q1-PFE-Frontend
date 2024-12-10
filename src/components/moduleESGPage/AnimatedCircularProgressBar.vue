@@ -35,7 +35,7 @@
         :data-current-value="currentPercent"
         class="absolute inset-0 m-auto size-fit delay-0 duration-1000 ease-linear animate-in fade-in"
       >
-        {{ currentPercent }}
+        {{ currentPercent }} %
       </span>
     </div>
   </template>
@@ -58,7 +58,7 @@
     max: 100,
     min: 0,
     value: 0,
-    gaugePrimaryColor: "rgb(79 70 229)",
+    gaugePrimaryColor: "rgb(253, 231, 145)",
     gaugeSecondaryColor: "rgba(0, 0, 0, 0.1)",
     circleStrokeWidth: 10,
   });
@@ -80,6 +80,8 @@
     --transition-step: 200ms;
     --percent-to-deg: 3.6deg;
     transform: translateZ(0);
+    transform: translateX(100px);
+    margin-top: 15px;
   }
   
   .gauge-primary-stroke {
