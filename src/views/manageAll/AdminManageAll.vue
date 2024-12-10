@@ -229,6 +229,7 @@ table tr:hover td {
 button {
   padding: 8px 16px;
   background-color: #b5cdbf;
+  background-color: #b5cdbf;
   color: white;
   border: none;
   border-radius: 5px;
@@ -238,6 +239,7 @@ button {
 }
 
 button:hover {
+  background-color: #013238;
   background-color: #013238;
 }
 
@@ -259,6 +261,7 @@ button:disabled {
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
   
 }
 
@@ -299,6 +302,7 @@ button:disabled {
 /* Modifier (bleu) */
 .btn-edit {
   background-color: #013238;
+  
   
 }
 
