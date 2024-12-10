@@ -93,11 +93,11 @@ export default {
 </script>
 
 <template>
-  <div class="p-4" id="navbarWrapper">
+  <div class="p-3" id="navbarWrapper">
     <nav class="navbar navbar-expand-lg">
       <div class="container-fluid">
         <router-link :to="path" class="navbar-brand nav-link" id="demonopediaLogo">
-          <img src="../assets/logo/logo_shiftingpact_vert_verteau.png" alt="Logo" class="logo" />
+          <img src="../assets/logo/logo_shiftingpact_verteau_blanc.png" alt="Logo" class="logo" />
         </router-link>
         <button
           class="navbar-toggler"
@@ -164,8 +164,8 @@ export default {
 </template>
 
 <style scoped>
-nav {
-  background-color: #f6f6f6;
+#navbarWrapper {
+  background-color: #013238;
 }
 
 .navbar-icons {
@@ -185,7 +185,7 @@ nav {
 }
 
 .nav-link {
-  color: black;
+  color: #b5cdbf;
   font-size: 18px;
   font-weight: 500;
 }
