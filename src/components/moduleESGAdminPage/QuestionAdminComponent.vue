@@ -383,5 +383,37 @@ td {
 
 button {
   margin-left: 10px;
+  background-color: #b5cdbf;
+  border: none;
+}
+
+button:hover {
+  background-color: #013238;
+}
+
+input[type="checkbox"] {
+  appearance: none; /* Supprime le style par défaut */
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ccc;
+  border-radius: 3px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Style lorsqu'il est coché */
+input[type="checkbox"]:checked {
+  background-color: #4caf50; /* Couleur verte lorsqu'il est coché */
+  border-color: #4caf50;
+  position: relative;
+}
+
+input[type="checkbox"]:checked::after {
+  content: "✔"; 
+  font-size: 14px;
+  color: white;
+  position: absolute;
+  left: 3px;
 }
 </style>
