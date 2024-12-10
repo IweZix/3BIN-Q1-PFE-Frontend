@@ -16,7 +16,11 @@ export const registerCompany = async (
 ) => {
   try {
     const company = { name, email, password, template };
-    const response = await axios.post(`${API_URL}/register-company`, company);
+    const response = await axios.post(`${API_URL}/register-company`, company, {
+        headers: {
+          Authorization: `${localStorage.getItem('token')}`
+        }
+      });
     return response.data;
   } catch (error) {
     // Gestion des erreurs
