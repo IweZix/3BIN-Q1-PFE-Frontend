@@ -113,8 +113,8 @@ export default {
       <table v-if="groupIssues.length">
         <thead>
           <tr>
-            <th>Nom du Group Issue</th>
-            <th>Voir Issues</th>
+            <th>Nom de la catégorie</th>
+            <th>Voir sous-catégorie</th>
             <th>Modifier</th>
           </tr>
         </thead>
@@ -201,7 +201,7 @@ td {
 }
 
 th {
-  background-color: #f4f4f4;
+  background-color: #fde791;;
   font-weight: bold;
 }
 
@@ -216,7 +216,7 @@ table tr:hover td {
 /* Boutons */
 button {
   padding: 8px 16px;
-  background-color: #013238;
+  background-color: #b5cdbf;
   color: white;
   border: none;
   border-radius: 5px;
@@ -226,7 +226,7 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #013238;
 }
 
 button:disabled {
@@ -247,6 +247,7 @@ button:disabled {
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
 }
 
 .dashboard-container h2 {
@@ -286,6 +287,7 @@ button:disabled {
 /* Modifier (bleu) */
 .btn-edit {
   background-color: #013238;
+  
 }
 
 .btn-edit:hover {

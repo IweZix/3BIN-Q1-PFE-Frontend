@@ -120,7 +120,7 @@ export default {
               <router-link to="/createCredentials" class="nav-link">Créer un compte</router-link>
             </li>
             <li v-if="isLoggedIn && admin && isPasswordUpdated" class="nav-item">
-              <router-link to="/manageAll" class="nav-link">Management DashBoard</router-link>
+              <router-link to="/manageAll" class="nav-link">Tableau de bord de gestion</router-link>
             </li>
             <li v-if="isLoggedIn && !isPasswordUpdated" class="nav-item">
               <router-link to="/changePassword" class="nav-link">Change Password</router-link>

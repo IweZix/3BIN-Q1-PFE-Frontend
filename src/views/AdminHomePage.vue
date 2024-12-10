@@ -88,7 +88,7 @@ export default {
                 {{ company.isValidated ? 'Oui' : 'Non' }}
               </span>
             </td>
-            <td>{{ company.totalTotal ?? '/' }}</td>
+            <td>{{ company.totalTotal ?? '/' }}%</td>
             <td v-if="!company.isValidated">
               <GetCompanyButton
                 :companyEmail="company.email"
@@ -185,7 +185,10 @@ button {
   font-size: 14px;
   border: none;
   border-radius: 5px;
-  color: white;
+  background-color: #b5cdbf;
+}
+button:hover {
+  background-color: #013238;
 }
 
 button[disabled] {
