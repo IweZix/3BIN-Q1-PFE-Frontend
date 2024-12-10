@@ -29,8 +29,6 @@ import IssueEdit from '@/views/manageAll/AdminIssueEdit.vue';
 /* routes for company */
 import CompanyHome from '@/views/CompanyHomePage.vue';
 import ModuleESG from '@/views/ModuleESGPage.vue';
-import path from 'path';
-//import path from 'path';
 
 /**
  * Define routes

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { log } from 'console';
 
 const API_URL = 'http://localhost:3000/issue';
 
