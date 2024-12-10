@@ -8,7 +8,8 @@ export default defineComponent({
   data() {
     return {
       email: '' as string,
-      password: '' as string
+      password: '' as string,
+      showPassword: false
     };
   },
   methods: {
@@ -51,7 +52,10 @@ export default defineComponent({
       } else {
         this.$router.push({ name: routeName });
       }
-    }
+    },
+    togglePasswordVisibility() {
+      this.showPassword = !this.showPassword;
+    },
   }
 });
 </script>
@@ -59,13 +63,41 @@ export default defineComponent({
 <template>
   <div class="right-panel">
     <h2>Connexion</h2>
+    
     <form @submit.prevent="login">
       <label for="email">Email</label>
-      <input type="email" id="email" v-model="email" required />
+      <input type="email" id="email" placeholder="Entrez votre email" v-model="email" required />
 
+      <div class="input-group">
       <label for="password">Mot de passe</label>
-      <input type="password" id="password" v-model="password" required />
+      
 
+      <div class="input-wrapper">
+        <input
+          v-model="password"
+          :type="showPassword ? 'text' : 'password'"
+          id="password"
+          placeholder="Entrez votre mot de passe"
+          required
+        />
+        <button
+          @click="togglePasswordVisibility"
+          class="toggle-visibility-btn"
+          type="button"
+        >
+          <img
+            v-if="showPassword"
+            src="@/assets/icons/show.png"
+            class="visibility-icon"
+          />
+          <img
+            v-else
+            src="@/assets/icons/hide.png"
+            class="visibility-icon"
+          />
+        </button>
+      </div>
+    </div>
       <button class="rightButton" type="submit">Connexion</button>
     </form>
     <div class="alert"></div>
@@ -116,7 +148,7 @@ label {
 
 input {
   padding: 10px;
-  border: 1px solid;
+  border: 1px solid #000000;
   border-radius: 5px;
   background-color: white;
 }
@@ -124,5 +156,50 @@ input {
 .alert {
   color: red;
   margin-top: 10px;
+}
+
+
+.visibility-icon {
+  width: 30px;
+  height: 30px;
+  bottom: 20px;
+  position: absolute;
+  right: 10px
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+/* Input mot de passe */
+.input-wrapper input {
+  width: 100%; /* Laisser de l'espace pour le bouton */
+  height: 50px;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* Bouton dans le champ */
+.toggle-visibility-btn {
+  position: absolute;
+  right: 10px; /* Distance depuis le bord droit */
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+.input-group {
+  margin-bottom: 20px; /* Espace entre chaque groupe */
+  display: flex; /* Positionne le h2 au-dessus de l'input */
+  flex-direction: column; 
 }
 </style>

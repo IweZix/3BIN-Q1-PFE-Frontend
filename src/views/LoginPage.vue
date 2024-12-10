@@ -33,6 +33,6 @@ export default {
   justify-content: center;
   /* Centre horizontalement les éléments */
   align-items: center;
-  margin-top: 10rem;
+  margin-top: 1rem;
 }
 </style>
