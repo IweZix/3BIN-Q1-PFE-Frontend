@@ -53,7 +53,7 @@ export default {
       }
     },
     viewIssues(groupIssueName) {
-      this.$router.push(`/admin/issues/${groupIssueName}`);
+      this.$router.push(`admin/issuesByGroup/${groupIssueName}`);
     },
     async deleteTemplate(templateName) {
       if (confirm('Êtes-vous sûr de vouloir supprimer ce template ?')) {
