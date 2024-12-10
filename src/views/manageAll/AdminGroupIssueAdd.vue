@@ -64,9 +64,10 @@ export default {
   max-width: 400px;
   margin: 20px auto;
   padding: 20px;
-  background-color: #fde791;
+  background-color: #faf5dc;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 20%;
 }
 
 h1 {
