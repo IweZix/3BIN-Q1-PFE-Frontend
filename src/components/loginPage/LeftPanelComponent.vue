@@ -23,12 +23,13 @@ export default {
   flex-direction: column;
   justify-content: center;
   /* Centre verticalement les éléments */
-  background-color: #e7c560a8;
+  background-color: #fde791 ;
   padding: 50px;
   border-radius: 5px 0 0 5px;
   /* Coins arrondis pour la gauche */
   width: 50%;
-  /* Largeur des sections */
+   box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.1); /* Ombre interne pour un effet de relief */
+  transition: box-shadow 0.3s ease-in-out; /* Animation fluide pour l'ombre */
 }
 
 .left-panel h2 {
@@ -38,19 +39,19 @@ export default {
 }
 
 button {
-  background-color: #013238;
+  background-color: #b5cdbf;
   color: white;
   border: none;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 20px;
   cursor: pointer;
   width: auto;
   /* Ajuste la largeur au contenu */
   align-self: flex-start;
-  /* Aligne le bouton à gauche */
+  font-weight: bold;
 }
 
 button:hover {
-  background-color: #666666;
+  background-color: #013238;
 }
 </style>

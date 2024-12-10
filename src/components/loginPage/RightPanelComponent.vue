@@ -113,6 +113,8 @@ export default defineComponent({
   padding: 20px;
   border-radius: 5px;
   width: 50%;
+   box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.1); /* Ombre interne pour un effet de relief */
+  transition: box-shadow 0.3s ease-in-out; /* Animation fluide pour l'ombre */
 }
 
 .right-panel h2 {
@@ -122,19 +124,20 @@ export default defineComponent({
 }
 
 button {
-  background-color: #013238;
+  background-color: #b5cdbf;
   color: white;
   border: none;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 20px;
   cursor: pointer;
   width: auto;
   align-self: center;
   margin-top: 2em;
+  font-weight: bold;
 }
 
 button:hover {
-  background-color: #666666;
+  background-color: #013238;
 }
 
 form {
@@ -156,6 +159,7 @@ input {
 .alert {
   color: red;
   margin-top: 10px;
+  
 }
 
 
