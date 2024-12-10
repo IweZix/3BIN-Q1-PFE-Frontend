@@ -104,12 +104,12 @@ export default {
         </thead>
         <tbody>
           <tr v-for="groupIssue in groupIssues" :key="groupIssue.id">
-            <td>{{ groupIssue.name }}</td>
+            <td>{{ groupIssue.groupIssueName }}</td>
             <td>
-              <button @click="viewIssues(groupIssue.id)">Voir</button>
+              <button @click="viewIssues(groupIssue._id)">Voir</button>
             </td>
             <td>
-              <button @click="editGroupIssue(groupIssue.id)">Modifier</button>
+              <button @click="editGroupIssue(groupIssue._id)">Modifier</button>
             </td>
           </tr>
         </tbody>
