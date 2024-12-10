@@ -155,7 +155,18 @@ export default {
               class="toggle-visibility-btn"
               aria-label="Afficher ou masquer le mot de passe"
             >
-              {{ isPasswordVisible ? 'Masquer' : 'Afficher' }}
+              <img
+                v-if="isPasswordVisible"
+                src="../assets/icons/show.png"
+                alt="Masquer le mot de passe"
+                class="visibility-icon"
+              />
+              <img
+                v-else
+                src="../assets/icons/hide.png"
+                alt="Afficher le mot de passe"
+                class="visibility-icon"
+              />
             </button>
             <button
               type="button"
@@ -276,6 +287,10 @@ input.error-border {
   user-select: none; /* Empêche la sélection du texte */
   color: #666; /* Couleur du bouton */
   padding: 0;
+}
+.visibility-icon {
+  width: 30px;
+  height: 30px;
 }
 
 .refresh-button {
