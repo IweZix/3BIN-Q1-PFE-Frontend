@@ -35,13 +35,13 @@ methods: {
         this.$router.push(`/admin/edit-issue/${issueName}`);
     },
     async deleteIssue(issueName) {
-        if (confirm('Êtes-vous sûr de vouloir supprimer ce problème ?')) {
+        if (confirm('Êtes-vous sûr de vouloir supprimer cet enjeu ?')) {
             try {
-                // Appel du service pour supprimer le problème
+                // Appel du service pour supprimer l enjeu
                 await deleteIssue(issueName);
                 this.issuesByGroup = this.issuesByGroup.filter((issue) => issue.issueName !== issueName);
             } catch (error) {
-                this.errorMessage = 'Erreur lors de la suppression du problème.';
+                this.errorMessage = "Erreur lors de la suppression de l'enjeu.";
             }
         }
     }
