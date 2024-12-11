@@ -150,13 +150,13 @@ export default {
             >
               <img
                 v-if="isPasswordVisible"
-                src="../assets/icons/show.png"
+                src="../assets/icons/hide.png"
                 alt="Masquer le mot de passe"
                 class="visibility-icon"
               />
               <img
                 v-else
-                src="../assets/icons/hide.png"
+                src="../assets/icons/show.png"
                 alt="Afficher le mot de passe"
                 class="visibility-icon"
               />
