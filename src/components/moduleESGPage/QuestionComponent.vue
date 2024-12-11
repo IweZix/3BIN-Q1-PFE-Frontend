@@ -32,6 +32,7 @@ export default {
     return {
       questionsTable: [] as ListQuestions[], // Initialisation de questionsTable
       currentIndex: 0,
+      naIndex:0,
       successSaveMessage: '',
       questionNA: [] as ListQuestions[]
     };
@@ -63,6 +64,9 @@ export default {
     nextListQuestion() {
       if (this.currentIndex < this.questionsTable.length) {
         this.currentIndex++;
+      }
+      if(this.questionsTable[this.currentIndex].issue_id === this.questionsTable[this.naIndex+1].issue_id){
+        this.naIndex++;
       }
       this.$emit('next', (this.currentIndex/this.questionsTable.length * 100));
     },
@@ -196,7 +200,7 @@ export default {
 </script>
 
 <template>
-  <div v-if="questionsTable.length > 0">
+  <div v-if="questionsTable[currentIndex].questionsList.length > 0">
     <h3>Liste {{ currentIndex + 1 }} / {{ questionsTable.length }}</h3>
     
   </div>
@@ -259,13 +263,13 @@ export default {
     </div>
   </div>
 
-  <div class="question-container" v-if="questionNA[currentIndex] !== undefined
+  <div class="question-container" v-if="questionNA[naIndex] !== undefined
     && questionNA.length > 0
     && questionNA[currentIndex].questionsList.length > 0"
   >
     <h1>Liste des questions ne vous concernant pas - pour information</h1>
     <div
-      v-for="(question, index) in questionNA[currentIndex].questionsList"
+      v-for="(question, index) in questionNA[naIndex].questionsList"
       :key="index"
       class="question-box"
     >
