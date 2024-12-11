@@ -29,7 +29,7 @@ export default defineComponent({
           }else{
             const alert: HTMLElement | null = document.querySelector('.alert');
             if (alert) {
-              alert.innerHTML = 'Invalid email or password ';
+              alert.innerHTML = 'Email ou mot de passe invalide';
             }
           }
          
@@ -37,7 +37,7 @@ export default defineComponent({
       } catch (error) {
         const alert: HTMLElement | null = document.querySelector('.alert');
         if (alert) {
-          alert.innerHTML = 'Invalid email or password ';
+          alert.innerHTML = 'Email ou mot de passe invalide';
         }
       }
     },

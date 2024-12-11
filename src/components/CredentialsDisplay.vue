@@ -15,7 +15,7 @@ export default defineComponent({
   methods: {
     copyToClipboard(text: string) {
       navigator.clipboard.writeText(text).then(() => {
-        alert('Credentials copiés dans le presse-papiers');
+        alert('Identifiants copiés dans le presse-papiers');
       });
     }
   }
@@ -24,11 +24,11 @@ export default defineComponent({
 
 <template>
     <div class="credentials-section">
-      <h2>Credentials générés</h2>
+      <h2>Identifiants générés</h2>
       <p>Email : {{ credentials.email }}</p>
       <p>Mot de passe : {{ credentials.password }}</p>
       <button @click="copyToClipboard(`Email : ${credentials.email} \nMot de passe : ${credentials.password}`)">
-        Copier les credentials
+        Copier les Identifiants
       </button>
     </div>
   </template>

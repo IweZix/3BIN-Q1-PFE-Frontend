@@ -24,11 +24,11 @@ export default {
         await createIssue(this.issueName, this.groupIssueName);
 
         // Réinitialisation des champs et affichage du message de succès
-        this.successMessage = 'Template créé avec succès !';
+        this.successMessage = 'Enjeu créé avec succès !';
         this.errorMessage = '';
         this.templateName = '';
       } catch (error) {
-        this.errorMessage = 'Erreur lors de la création du template.';
+        this.errorMessage = 'Erreur lors de la création de l\'enjeu.';
         this.successMessage = '';
       }
     }

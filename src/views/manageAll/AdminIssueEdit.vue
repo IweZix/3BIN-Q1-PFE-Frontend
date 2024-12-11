@@ -25,17 +25,17 @@ export default {
     async saveIssue() {
       try {
         if (this.issueName.trim() === '') {
-          this.errorMessage = 'Le nom du Group Issue est requis.';
+          this.errorMessage = 'Le nom de l\'enjeu est requis.';
           return;
         }
 
         await updateIssue(this.$route.params.issueName, this.issueName
         );
 
-        this.successMessage = 'Group Issue mis à jour avec succès !';
+        this.successMessage = 'Enjeu mis à jour avec succès !';
         this.errorMessage = '';
       } catch (error) {
-        this.errorMessage = 'Erreur lors de la mise à jour du Group Issue.';
+        this.errorMessage = 'Erreur lors de la mise à jour de l\'enjeu.';
         this.successMessage = '';
       }
     }

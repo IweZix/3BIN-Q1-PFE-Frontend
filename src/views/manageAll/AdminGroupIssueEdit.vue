@@ -25,17 +25,17 @@ export default {
     async saveGroupIssue() {
       try {
         if (this.groupIssueName.trim() === '') {
-          this.errorMessage = 'Le nom du Group Issue est requis.';
+          this.errorMessage = 'Le nom du groupe d\'enjeux est requis.';
           return;
         }
 
         await updateGroupIssue(this.$route.params.groupIssueName, this.groupIssueName
         );
 
-        this.successMessage = 'Group Issue mis à jour avec succès !';
+        this.successMessage = 'Le groupe a été mis à jour avec succès !';
         this.errorMessage = '';
       } catch (error) {
-        this.errorMessage = 'Erreur lors de la mise à jour du Group Issue.';
+        this.errorMessage = 'Erreur lors de la mise à jour du groupe.';
         this.successMessage = '';
       }
     }
@@ -59,12 +59,12 @@ export default {
       <!-- Formulaire -->
       <form @submit.prevent="saveGroupIssue">
         <div class="form-group">
-          <label for="group-issue-name">Nom du Group Issue :</label>
+          <label for="group-issue-name">Nouveau nom du groupe :</label>
           <input
             id="group-issue-name"
             type="text"
             v-model="groupIssueName"
-            placeholder="Nom du Group Issue"
+            placeholder="Nom du groupe"
             required
           />
         </div>

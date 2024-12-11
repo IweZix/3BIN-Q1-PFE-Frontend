@@ -5,7 +5,7 @@ export default {
   name: 'GroupIssueAdd',
   data() {
     return {
-      groupIssueName: '', // Nom du nouveau template
+      groupIssueName: '',
       errorMessage: '',
       successMessage: ''
     };

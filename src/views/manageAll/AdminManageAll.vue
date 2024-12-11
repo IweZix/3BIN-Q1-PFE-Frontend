@@ -42,12 +42,12 @@ export default {
       this.$router.push('/admin/add-group-issue');
     },
     async deleteGroupIssue(groupIssueName) {
-      if (confirm('Êtes-vous sûr de vouloir supprimer ce Group Issue ?')) {
+      if (confirm('Êtes-vous sûr de vouloir supprimer ce groupe d\'enjeu ?')) {
         try {
           await deleteGroupIssue(groupIssueName);
           this.groupIssues = this.groupIssues.filter((groupIssue) => groupIssue.groupIssueName !== groupIssueName);
         } catch (error) {
-          this.errorMessage = 'Erreur lors de la suppression du Group Issue.';
+          this.errorMessage = 'Erreur lors de la suppression du groupe d\'enjeu.';
         }
       }
     },
@@ -114,7 +114,7 @@ export default {
           <tr>
             <th>Nom du groupe d'enjeux</th>
             <th>Voir les enjeux</th>
-            <th>Modifier</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -138,7 +138,7 @@ export default {
       </table>
       <p v-else>Aucun groupe d'enjeu disponible.</p>
       <div class="add-group-issue">
-        <button @click="addGroupIssue"><i class="fas fa-plus"></i> Ajouter un groupe d'enjeux</button>
+        <button @click="addGroupIssue"><i class="fas fa-plus"></i> Ajouter un Groupe d'enjeux</button>
       </div>
     </div>
   </div>

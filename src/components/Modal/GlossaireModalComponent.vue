@@ -72,12 +72,12 @@ export default {
         <h2 v-html="highlightText(section.title)"></h2>
         <h5>Definition</h5>
         <p v-html="highlightText(section.definition)"></p>
-        <h5>Remarque</h5>
+        <h5>Remarques</h5>
         <p v-if="section.remarque" v-html="highlightText(section.remarque)"></p>
-        <p v-else>Pas de remarque</p>
+        <p v-else>Pas de remarques</p>
         <h5>Plus d'information</h5>
         <p v-if="section.plusInfo" v-html="highlightText(section.plusInfo)"></p>
-        <p v-else>as d'information complementaire</p>
+        <p v-else>Pas d'information complementaire</p>
       </div>
     </div>
   </div>
