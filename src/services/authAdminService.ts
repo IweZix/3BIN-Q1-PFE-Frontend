@@ -115,7 +115,6 @@ export const updatePasswordAdmin = async (token: string, password: string) => {
 
 export const getValidatedForm = async (email: string) => {
   try {
-    console.log("api",email);
     
     const response = await axios.get(`${API_URL}/answerFormUser`, {
       params: { email }, // Ajouter l'email en tant que paramètre d'URL
@@ -131,7 +130,6 @@ export const getValidatedForm = async (email: string) => {
 };
 
 export const postValidatedForm = async (email: string, answers:any) => {
-  console.log("api",email,answers);
   
   try {
     const response = await axios.post(`${API_URL}/answerFormUser`,{ email , answers},  

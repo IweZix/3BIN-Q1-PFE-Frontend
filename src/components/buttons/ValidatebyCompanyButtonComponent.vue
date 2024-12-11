@@ -9,8 +9,6 @@ export default {
   },
   methods: {
     handleClick() {
-
-    console.log("Component button:",this.companyEmail);
       this.$router.push({
         name: 'answerFormUser',
         params: { email: this.companyEmail }
