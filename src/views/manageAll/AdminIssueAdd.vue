@@ -1,8 +1,12 @@
 <script>
 import { createIssue } from '@/services/issuesService';
+import BackIssuesByGroupBoutonComponent from '@/components/buttons/BackIssuesByGroupBoutonComponent.vue';
 
 export default {
   name: 'IssueAdd',
+  components: {
+    BackIssuesByGroupBoutonComponent
+  },
   data() {
     return {
       issueName: '',
@@ -18,17 +22,17 @@ export default {
     async saveIssue() {
       try {
         if (this.issueName.trim() === '') {
-          this.errorMessage = 'Le nom du template est requis.';
+          this.errorMessage = "Le nom de l'enjeu est requis.";
           return;
         }
         await createIssue(this.issueName, this.groupIssueName);
 
         // Réinitialisation des champs et affichage du message de succès
-        this.successMessage = 'Template créé avec succès !';
+        this.successMessage = 'Enjeu créé avec succès !';
         this.errorMessage = '';
         this.templateName = '';
       } catch (error) {
-        this.errorMessage = 'Erreur lors de la création du template.';
+        this.errorMessage = "Erreur lors de la mise à jour de l'enjeu.";
         this.successMessage = '';
       }
     }
@@ -37,8 +41,12 @@ export default {
 </script>
 
 <template>
+  <div class="button-back">
+    <BackIssuesByGroupBoutonComponent />
+  </div>
+
   <div class="template-add">
-    <h1>Créer un nouvel enjeux dans "{{ groupIssueName }}"</h1>
+    <h1>Créer un nouvel enjeu dans "{{ groupIssueName }}"</h1>
 
     <!-- Affichage des messages d'erreur et de succès -->
     <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
@@ -47,12 +55,12 @@ export default {
     <!-- Formulaire pour ajouter un template -->
     <form @submit.prevent="saveIssue">
       <div class="form-group">
-        <label for="issue-name">Nom de l'enjeux :</label>
+        <label for="issue-name">Nom de l'enjeu :</label>
         <input
           id="issue-name"
           type="text"
           v-model="issueName"
-          placeholder="Nom de l'enjeux"
+          placeholder="Nom de l'enjeu"
           required
         />
       </div>

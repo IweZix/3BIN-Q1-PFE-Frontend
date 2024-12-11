@@ -1,8 +1,12 @@
 <script>
 import { createTemplate } from '@/services/templatesService';
+import BackManageAllBoutonComponent from '@/components/buttons/BackManageAllBoutonComponent.vue';
 
 export default {
   name: 'TemplateAdd',
+  components: {
+    BackManageAllBoutonComponent
+  },
   data() {
     return {
       templateName: '', // Nom du nouveau template
@@ -11,6 +15,9 @@ export default {
     };
   },
   methods: {
+    back(){
+      this.$router.push('/manageAll');
+    },
     async saveTemplate() {
       try {
         // Validation simple (le nom ne doit pas être vide)
@@ -36,6 +43,11 @@ export default {
 </script>
 
 <template>
+  <div class="button-back">
+    <BackManageAllBoutonComponent />
+  </div>
+  
+
   <div class="template-add">
     <h1>Créer un nouveau Template</h1>
 
@@ -119,4 +131,5 @@ button:hover {
   color: green;
   margin-bottom: 10px;
 }
+
 </style>
