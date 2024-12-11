@@ -185,7 +185,7 @@ export default {
               await createScoring(this.emailCompany);
               const successSaveMessage = 'Toute la liste a été validée !';
               alert(successSaveMessage);
-              this.$router.push({ name: 'CompanyHome' });
+              this.$router.push({ name: 'AdminHome' });
             }
         } catch (error) {
           alert('Erreur lors de la soumission du formulaire');
