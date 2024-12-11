@@ -148,7 +148,18 @@ export default {
               class="toggle-visibility-btn"
               aria-label="Afficher ou masquer le mot de passe"
             >
-              {{ isPasswordVisible ? 'Masquer' : 'Afficher' }}
+              <img
+                v-if="isPasswordVisible"
+                src="../assets/icons/hide.png"
+                alt="Masquer le mot de passe"
+                class="visibility-icon"
+              />
+              <img
+                v-else
+                src="../assets/icons/show.png"
+                alt="Afficher le mot de passe"
+                class="visibility-icon"
+              />
             </button>
             <button type="button" class="refresh-button" @click="generateRandomPassword">🔄</button>
           </div>

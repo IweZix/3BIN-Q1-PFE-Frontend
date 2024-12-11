@@ -158,7 +158,6 @@ export default {
       }
     },
     async handleNext() {
-      await this.saveResponses();
       this.nextListQuestion();
     },
 
@@ -197,6 +196,10 @@ export default {
 </script>
 
 <template>
+  <div v-if="questionsTable.length > 0">
+    <h3>Liste {{ currentIndex + 1 }} / {{ questionsTable.length }}</h3>
+    
+  </div>
   <div class="question-container" v-if="questionsTable.length > 0">
     <div
       v-for="(question, index) in questionsTable[currentIndex].questionsList"

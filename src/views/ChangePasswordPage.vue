@@ -191,13 +191,13 @@ export default {
 }
 
 .btn-primary {
-  background-color: #013238;
+  background-color: #b5cdbf;
   color: white;
   border: none;
 }
 
 .btn-primary:hover {
-  background-color: #004d00;
+  background-color:  #013238;
 }
 
 .note {

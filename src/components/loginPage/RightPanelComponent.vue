@@ -92,12 +92,12 @@ export default defineComponent({
         >
           <img
             v-if="showPassword"
-            src="@/assets/icons/show.png"
+            src="@/assets/icons/hide.png"
             class="visibility-icon"
           />
           <img
             v-else
-            src="@/assets/icons/hide.png"
+            src="@/assets/icons/show.png"
             class="visibility-icon"
           />
         </button>
