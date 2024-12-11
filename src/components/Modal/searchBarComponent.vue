@@ -3,12 +3,12 @@ export default {
   name: 'SearchBarComponent',
   data() {
     return {
-      query: '' // Mot-clé de recherche
+      query: '' 
     };
   },
   methods: {
     onSearch() {
-      this.$emit('search', this.query); // Émet l'événement "search" avec la query
+      this.$emit('search', this.query); 
     }
   }
 };
@@ -28,9 +28,9 @@ export default {
 
 <style scoped>
 .search-bar {
-  position: sticky; /* Rend la barre de recherche "collante" */
-  top: 0; /* La barre reste collée en haut */
-  z-index: 10; /* Assure que la barre reste au-dessus des autres éléments */
+  position: sticky; 
+  top: 0;
+  z-index: 10;
   margin: 20px 0;
   background-color: white;
   box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
@@ -40,14 +40,14 @@ export default {
   width: 100%;
   padding: 8px;
   font-size: 16px;
-  border: none; /* Supprime la bordure du champ */
-  border-bottom: 2px solid #ccc; /* Ajoute une ligne en bas pour indiquer une saisie */
-  background: none; /* Retire l'arrière-plan */
-  outline: none; /* Supprime l'effet de focus par défaut */
-  transition: border-color 0.3s ease; /* Animation pour rendre le focus plus fluide */
+  border: none;
+  border-bottom: 2px solid #ccc;
+  background: none;
+  outline: none;
+  transition: border-color 0.3s ease;
 }
 
 .search-bar input:focus {
-  border-bottom: 2px solid #3f907a; /* Change la couleur de la ligne en cas de focus */
+  border-bottom: 2px solid #3f907a;
 }
 </style>
