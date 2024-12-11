@@ -28,7 +28,6 @@ export default {
     renderPageTitle('CreateCompany');
     try {
       this.availableTemplates = await getTemplates() as { _id: string; templateName: string }[];
-      console.log('Available templates:', this.availableTemplates);
       this.availableTemplates = this.availableTemplates.slice(1, );
     } catch (error) {
       console.error('Failed to fetch templates', error);
@@ -77,7 +76,6 @@ export default {
             this.password,
             this.templates
           );
-          console.log('Company created:', response);
 
           // Stockage des credentials après la création réussie
           this.credentials = {

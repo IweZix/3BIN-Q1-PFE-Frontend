@@ -46,7 +46,6 @@ export default {
         // Récupérer les questions depuis l'API
         this.currentIndex = 0;
         this.emailCompany = this.mail;    
-        console.log('emailCompany:',this.emailCompany);
             
         if (Array.isArray(this.emailCompany)) {
           this.emailCompany = this.emailCompany[0] as string;
@@ -55,8 +54,6 @@ export default {
           throw new Error('Invalid emailCompany');
         }
         const response =await getValidatedForm(this.emailCompany);
-        console.log('response:',response);
-        
         if(!response){
           throw new Error('Invalid response');
         }
@@ -148,8 +145,7 @@ export default {
     
     async validatedIssue() {
       this.questionsTable[this.currentIndex].validatedQuestion = true;
-      console.log("validatedIssue()", this.questionsTable[this.currentIndex].validatedQuestion);
-      
+            
       await postValidatedForm(this.emailCompany, this.questionsTable);
       const successSaveMessage = 'La liste de question de cette catégorie a été validée !';
       alert(successSaveMessage);
@@ -202,7 +198,6 @@ export default {
   ,
   
 },mounted() {
-    console.log('mounted', this.mail);
     this.loadQuestions();
     
   }};

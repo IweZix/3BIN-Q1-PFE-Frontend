@@ -35,7 +35,7 @@ export default {
           this.companies[i].totalTotal = scoringResponse[0].totalTotal;
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        // console.error('Error fetching data:', error);
       }
     },
     shouldShowButtons(company: { formIsComplete: boolean; isValidated: boolean }): boolean {
