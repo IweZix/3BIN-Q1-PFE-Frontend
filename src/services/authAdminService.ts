@@ -41,8 +41,6 @@ export const adminVerif = async (token: string) => {
   }
 };
 
-
-
 export const adminVerifBoolean = async (token: string) : Promise<boolean> => {
   try {
     const response = await axiosInstance.get(
@@ -60,37 +58,25 @@ export const adminVerifBoolean = async (token: string) : Promise<boolean> => {
 };
 
 
-
-
-
-
-export const registerAdmin = async (adminName: String, email: string, password: string) => {
-  try {
-    const response = await axios.post(`${API_URL}/register-admin`, {
+export const registerAdmin = async (
+  adminName: String, 
+  email: string, 
+  password: string
+) => {
+    try {const response = await axios.post(`${API_URL}/register-admin`, {
       name: adminName,
       email,
       password
     });
-    return response.data; // Retourne les données de l'API
-  } catch (error: Error | any) {
-    // Gestion des erreurs
-    if (axios.isAxiosError(error) && error.response) {
-      throw new Error(
-        error.response.data.message || "Erreur lors de l'enregistrement de l'administrateur."
-      );
-    } else {
-      throw new Error('Impossible de se connecter au serveur.');
-    }
+    return response.data;
+  } catch (error : any) {
+    return error.response.data;
   }
-};
-const verifyPasswordUpdated = async (email: string): Promise<boolean> => {
-  const response = await axios.post(`${API_URL}/verify-password-updated`, { email });
-  return response.data as boolean;
 };
 
 export const checkPasswordUpdated = async (email: string) => {
-  const isUpdated = await verifyPasswordUpdated(email);
-  return isUpdated;
+  const response = await axios.post(`${API_URL}/verify-password-updated`, { email });
+  return response.data as boolean;
 };
 
 export const updatePasswordAdmin = async (token: string, password: string) => {

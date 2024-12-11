@@ -3,8 +3,14 @@ import { renderPageTitle } from '@/utils/render/render';
 import { registerAdmin } from '@/services/authAdminService';
 import { generateRandomPassword } from '@/utils/passwordUtils';
 
+//import components
+import CredentialsDisplay from '@/components/CredentialsDisplay.vue';
+
 export default {
   name: 'CreateAdmin',
+  components: {
+    CredentialsDisplay
+  },
   data() {
     return {
       adminName: '',
@@ -17,7 +23,8 @@ export default {
         email: '',
         password: ''
       },
-      successMessage: ''
+      successMessage: '',
+      credentials: { email: '', password: '' }
     };
   },
   mounted() {
@@ -67,16 +74,21 @@ export default {
     },
     async handleSubmit() {
       if (this.validateForm()) {
-        try {
-          const result = await registerAdmin(this.adminName, this.email, this.password);
-          this.successMessage = 'Administrateur créé avec succès !';
-          alert(this.successMessage);
-          // redirect to
-        } catch (error) {
-          console.error(error);
+          const response = await registerAdmin(
+            this.adminName, 
+            this.email, 
+            this.password);
 
-          alert((error as any).message);
-        }
+            console.log(response);
+            if (response.statusCode === 409){
+              this.errors.email = 'Cet email est déjà utilisé.';
+              return;
+            }
+          
+          this.credentials = { email: this.email, password: this.password };
+          this.successMessage = 'Administrateur créé avec succès !';
+        } else {
+          console.error('Erreur lors de la création de l\'administrateur.');
       }
     }
   }
@@ -89,7 +101,7 @@ export default {
       <h1>Création d'un administrateur</h1>
       <form @submit.prevent="handleSubmit">
         <div class="form-group">
-          <label for="adminName">Name :</label>
+          <label for="adminName">Nom</label>
           <input
             id="adminName"
             type="text"
@@ -104,7 +116,7 @@ export default {
           </p>
         </div>
         <div class="form-group">
-          <label for="email">Email :</label>
+          <label for="email">Email</label>
           <input
             id="email"
             type="text"
@@ -142,11 +154,15 @@ export default {
           </div>
           <p id="password-error" v-if="passwordError" class="error-message">{{ passwordError }}</p>
         </div>
-
         <button type="submit" class="btn btn-primary">Créer</button>
-
         <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
       </form>
+      <!-- Display the credentials -->
+      <CredentialsDisplay
+        v-if="successMessage"
+        :credentials="credentials"
+        :successMessage="successMessage"
+      />
     </div>
   </div>
 </template>
@@ -157,7 +173,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 80vh;
+  margin: 10px 0px 10px 0px;
 }
 
 .card {

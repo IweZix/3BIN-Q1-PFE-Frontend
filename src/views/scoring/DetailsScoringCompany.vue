@@ -21,7 +21,6 @@ export default {
     async fetchData() {
       try {
         const response = await getScoringByEmail(this.companyEmail);
-        this.companyEmail = response[0].companyEmail;
         this.scoreTotalNow = response[0].scoreTotalNow;
         this.scoreTotalEngagement = response[0].scoreTotal2Years;
         this.scoreTotalTotal = response[0].totalTotal;
@@ -58,7 +57,7 @@ export default {
 
 <template>
   <div class="details-scoring-page">
-    <h1>Scoring : {{ companyEmail }}</h1>
+    <h1>Scoring de {{ companyEmail }}</h1>
 
     <!-- Informations sur l'entreprise -->
     <div class="table-container">
@@ -66,7 +65,6 @@ export default {
       <table class="company-table">
         <thead>
           <tr>
-            <th>Email</th>
             <th>Score Now</th>
             <th>Score Engagement</th>
             <th>Score Total</th>
@@ -74,7 +72,6 @@ export default {
         </thead>
         <tbody>
           <tr>
-            <td>{{ companyEmail }}</td>
             <td>
               <span
               :class="{
@@ -116,7 +113,7 @@ export default {
       <table class="company-table">
         <thead>
           <tr>
-            <th>Issue</th>
+            <th>Enjeux</th>
             <th>Score Now</th>
             <th>Score Engagement</th>
           </tr>

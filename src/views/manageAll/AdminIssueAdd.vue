@@ -32,7 +32,7 @@ export default {
         this.errorMessage = '';
         this.templateName = '';
       } catch (error) {
-        this.errorMessage = "Erreur lors de la mise à jour de l'enjeu.";
+        this.errorMessage = 'Erreur lors de la création de l\'enjeu.';
         this.successMessage = '';
       }
     }
@@ -76,7 +76,7 @@ export default {
   padding: 20px;
   background-color: #faf5dc;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 h1 {

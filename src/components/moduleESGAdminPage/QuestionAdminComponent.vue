@@ -148,7 +148,7 @@ export default {
       this.questionsTable[this.currentIndex].validatedQuestion = true;
             
       await postValidatedForm(this.emailCompany, this.questionsTable);
-      const successSaveMessage = 'La liste de question de cette catégorie a été validée !';
+      const successSaveMessage = 'La liste de questions de cette catégorie a été validée !';
       alert(successSaveMessage);
       await this.checkValidatedList();
 
@@ -289,7 +289,7 @@ export default {
     <div class="d-flex">
       <button class="btn btn-primary me-2" @click="saveResponses">Enregistrer</button>
       <button class="btn btn-secondary me-2" @click="validatedIssue">
-        Valider la liste de question/réponse ci-dessus
+        Valider la liste de questions/réponses ci-dessus
       </button>
     </div>
   </div>

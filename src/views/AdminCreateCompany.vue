@@ -4,8 +4,14 @@ import { registerCompany } from '@/services/authCompanyService';
 import { generateRandomPassword } from '@/utils/passwordUtils';
 import { getTemplates } from '@/services/templatesService';
 
+// import components
+import CredentialsDisplay from '@/components/CredentialsDisplay.vue';
+
 export default {
   name: 'CreateCompany',
+  components: {
+    CredentialsDisplay
+  },
   data() {
     return {
       companyName: '',
@@ -68,28 +74,35 @@ export default {
       );
     },
     async handleSubmit() {
-      if (this.validateForm()) {
-        try {
-          const response = await registerCompany(
-            this.companyName,
-            this.email,
-            this.password,
-            this.templates
-          );
+  if (this.validateForm()) {
+      const response = await registerCompany(
+        this.companyName,
+        this.email,
+        this.password,
+        this.templates
+      );
 
-          // Stockage des credentials après la création réussie
-          this.credentials = {
-            email: response.email,
-            password: this.password
-          };
-
-          this.successMessage = 'Entreprise créée avec succès !';
-        } catch (error: any) {
-          if (error.response && error.response.status === 409) {
-            this.errors.email = 'Cet email est déjà utilisé.';
-          }
-        }
+      if (!response) {
+        console.error('Erreur lors de la création de l\'entreprise');
+        return;
       }
+
+      if (response.statusCode === 409) {
+        this.errors.email = 'Cet email est déjà utilisé.';
+        return;
+      }
+      
+      this.credentials = {
+        email: response.email,
+        password: this.password
+      };
+
+      this.successMessage = 'Entreprise créée avec succès !';
+    } else {
+      console.error('Erreur de validation du formulaire');
+  }
+
+
     },
     generateRandomPassword() {
       this.password = generateRandomPassword();
@@ -206,16 +219,13 @@ export default {
 
         <button type="submit" class="btn-primary">Créer</button>
       </form>
+      <p class="success-message">{{ successMessage }}</p>
       <!-- Section pour afficher les credentials -->
-      <div v-if="credentials" class="credentials-section">
-        <h2>Credentials générés</h2>
-        <p>Email : {{ credentials.email }}</p>
-        <p>Mot de passe : {{ credentials.password }}</p>
-        <button @click="copyToClipboard(`${credentials.email} : ${credentials.password}`)">
-          Copier les credentials
-        </button>
-        <p class="success-message">{{ successMessage }}</p>
-      </div>
+      <CredentialsDisplay
+        v-if="successMessage"
+        :credentials="credentials"
+        :successMessage="successMessage"
+      />
     </div>
   </div>
 </template>

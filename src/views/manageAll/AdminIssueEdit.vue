@@ -30,17 +30,17 @@ export default {
     async saveIssue() {
       try {
         if (this.issueName.trim() === '') {
-          this.errorMessage = "Le nom de l'enjeu est requis.";
+          this.errorMessage = 'Le nom de l\'enjeu est requis.';
           return;
         }
 
         await updateIssue(this.$route.params.issueName, this.issueName
         );
 
-        this.successMessage = "Nom de l'enjeu mis à jour avec succès !";
+        this.successMessage = 'Enjeu mis à jour avec succès !';
         this.errorMessage = '';
       } catch (error) {
-        this.errorMessage = "Erreur lors de la mise à jour de l'enjeu.";
+        this.errorMessage = 'Erreur lors de la mise à jour de l\'enjeu.';
         this.successMessage = '';
       }
     }
@@ -93,7 +93,7 @@ export default {
   padding: 20px;
   background-color: #faf5dc;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   margin-top: 2%;
 }
 

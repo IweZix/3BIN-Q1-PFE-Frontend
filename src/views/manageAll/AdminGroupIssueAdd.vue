@@ -9,7 +9,7 @@ export default {
   },
   data() {
     return {
-      groupIssueName: '', // Nom du nouveau template
+      groupIssueName: '',
       errorMessage: '',
       successMessage: ''
     };
@@ -75,6 +75,7 @@ export default {
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin-top: 20%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 h1 {

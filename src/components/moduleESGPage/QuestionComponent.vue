@@ -257,7 +257,7 @@ export default {
   </div>
 
   <div class="question-container" v-if="questionNA.length > 0">
-    <h1>Liste des questions ne vous concernant pas</h1>
+    <h1>Liste des questions ne vous concernant pas - pour information</h1>
     <div
       v-for="(question, index) in questionNA[currentIndex].questionsList"
       :key="index"
