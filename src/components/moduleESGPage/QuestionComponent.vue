@@ -256,7 +256,10 @@ export default {
     </div>
   </div>
 
-  <div class="question-container" v-if="questionNA.length > 0">
+  <div class="question-container" v-if="questionNA[currentIndex] !== undefined
+    && questionNA.length > 0
+    && questionNA[currentIndex].questionsList.length > 0"
+  >
     <h1>Liste des questions ne vous concernant pas - pour information</h1>
     <div
       v-for="(question, index) in questionNA[currentIndex].questionsList"
