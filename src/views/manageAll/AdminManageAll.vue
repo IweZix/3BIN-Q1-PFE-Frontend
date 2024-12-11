@@ -102,7 +102,7 @@ export default {
       </table>
       <p v-else>Aucun template disponible.</p>
       <div class="add-template">
-        <button @click="addTemplate">Ajouter un Template</button>
+        <button @click="addTemplate"><i class="fas fa-plus"></i> Ajouter un Template</button>
       </div>
     </div>
 
@@ -138,7 +138,7 @@ export default {
       </table>
       <p v-else>Aucun groupe d'enjeu disponible.</p>
       <div class="add-group-issue">
-        <button @click="addGroupIssue">Ajouter un groupe d'enjeu</button>
+        <button @click="addGroupIssue"><i class="fas fa-plus"></i> Ajouter un groupe d'enjeux</button>
       </div>
     </div>
   </div>

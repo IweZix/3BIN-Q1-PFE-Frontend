@@ -45,7 +45,7 @@ export default {
 
 <template>
   <div class="issue-edit">
-    <h1>Modifier l'enjeux</h1>
+    <h1>Modifier l'enjeu</h1>
 
     <!-- Indicateur de chargement -->
     <p v-if="isLoading">Chargement des données...</p>
@@ -59,7 +59,7 @@ export default {
       <!-- Formulaire -->
       <form @submit.prevent="saveIssue">
         <div class="form-group">
-          <label for="issue-name">Nom de l'enjeux :</label>
+          <label for="issue-name">Nom de l'enjeu :</label>
           <input
             id="issue-name"
             type="text"
@@ -83,7 +83,7 @@ export default {
   padding: 20px;
   background-color: #faf5dc;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   margin-top: 2%;
 }
 

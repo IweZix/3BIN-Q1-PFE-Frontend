@@ -38,7 +38,7 @@ export default {
 
 <template>
   <div class="template-add">
-    <h1>Créer un nouvel enjeux dans "{{ groupIssueName }}"</h1>
+    <h1>Créer un nouvel enjeu dans "{{ groupIssueName }}"</h1>
 
     <!-- Affichage des messages d'erreur et de succès -->
     <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
@@ -47,12 +47,12 @@ export default {
     <!-- Formulaire pour ajouter un template -->
     <form @submit.prevent="saveIssue">
       <div class="form-group">
-        <label for="issue-name">Nom de l'enjeux :</label>
+        <label for="issue-name">Nom de l'enjeu :</label>
         <input
           id="issue-name"
           type="text"
           v-model="issueName"
-          placeholder="Nom de l'enjeux"
+          placeholder="Nom de l'enjeu"
           required
         />
       </div>
@@ -68,7 +68,7 @@ export default {
   padding: 20px;
   background-color: #faf5dc;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 h1 {
