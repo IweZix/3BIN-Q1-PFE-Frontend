@@ -8,7 +8,6 @@ export default {
       router.push({
         name: 'IssuesByGroup'
       });
-      console.log('goBackIssuesByGroup');
     }
     
   }
