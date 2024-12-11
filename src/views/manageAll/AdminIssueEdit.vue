@@ -1,8 +1,13 @@
 <script>
 import { updateIssue } from '@/services/issuesService';
+import BackIssuesByGroupBoutonComponent from '@/components/buttons/BackIssuesByGroupBoutonComponent.vue';
 
 export default {
   name: 'GroupIssueEdit',
+  components: {
+    BackIssuesByGroupBoutonComponent,
+  },
+  
   data() {
     return {
       isLoading: true, // Indicateur de chargement
@@ -25,17 +30,17 @@ export default {
     async saveIssue() {
       try {
         if (this.issueName.trim() === '') {
-          this.errorMessage = 'Le nom du Group Issue est requis.';
+          this.errorMessage = "Le nom de l'enjeu est requis.";
           return;
         }
 
         await updateIssue(this.$route.params.issueName, this.issueName
         );
 
-        this.successMessage = 'Group Issue mis à jour avec succès !';
+        this.successMessage = "Nom de l'enjeu mis à jour avec succès !";
         this.errorMessage = '';
       } catch (error) {
-        this.errorMessage = 'Erreur lors de la mise à jour du Group Issue.';
+        this.errorMessage = "Erreur lors de la mise à jour de l'enjeu.";
         this.successMessage = '';
       }
     }
@@ -44,8 +49,13 @@ export default {
 </script>
 
 <template>
+  <div class="button-back">
+    <BackIssuesByGroupBoutonComponent />
+  </div>
+  
+  
   <div class="issue-edit">
-    <h1>Modifier l'enjeux</h1>
+    <h1>Modifier l'enjeu</h1>
 
     <!-- Indicateur de chargement -->
     <p v-if="isLoading">Chargement des données...</p>
@@ -59,7 +69,7 @@ export default {
       <!-- Formulaire -->
       <form @submit.prevent="saveIssue">
         <div class="form-group">
-          <label for="issue-name">Nom de l'enjeux :</label>
+          <label for="issue-name">Nom de l'enjeu :</label>
           <input
             id="issue-name"
             type="text"

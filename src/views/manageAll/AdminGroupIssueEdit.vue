@@ -1,8 +1,12 @@
 <script>
 import { updateGroupIssue } from '@/services/groupIssuesService';
+import BackManageAllBoutonComponent from '@/components/buttons/BackManageAllBoutonComponent.vue';
 
 export default {
   name: 'GroupIssueEdit',
+  components: {
+    BackManageAllBoutonComponent
+  },
   data() {
     return {
       isLoading: true, // Indicateur de chargement
@@ -44,6 +48,9 @@ export default {
 </script>
 
 <template>
+  <div class="button-back">
+    <BackManageAllBoutonComponent />
+  </div>
   <div class="group-issue-edit">
     <h1>Modifier le groupe d'enjeux</h1>
 

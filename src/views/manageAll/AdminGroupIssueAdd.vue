@@ -1,8 +1,12 @@
 <script>
 import { createGroupIssues } from '@/services/groupIssuesService';
+import BackManageAllBoutonComponent from '@/components/buttons/BackManageAllBoutonComponent.vue';
 
 export default {
   name: 'GroupIssueAdd',
+  components: {
+    BackManageAllBoutonComponent
+  },
   data() {
     return {
       groupIssueName: '', // Nom du nouveau template
@@ -35,6 +39,9 @@ export default {
 </script>
 
 <template>
+  <div class="button-back">
+    <BackManageAllBoutonComponent />
+  </div>
   <div class="groupIssue-add mt-3">
     <h1>Créer un nouveau groupe d'enjeux</h1>
 
