@@ -34,22 +34,6 @@ export const createTemplate = async (templateName: string) => {
   }
 };
 
-/*
-export const getTemplateById = async (id: number) => {
-  try {
-    const response = await axios.get(`${API_URL}/${id}`);
-    return response.data;
-  } catch (error) {
-    // Gestion des erreurs
-    if (axios.isAxiosError(error) && error.response) {
-      throw new Error(error.response.data.message || 'Erreur lors de la récupération du template.');
-    } else {
-      throw new Error('Impossible de se connecter au serveur.');
-    }
-  }
-};
-*/
-
 export const updateTemplate = async (templateName: string, newTemplateName: string) => {
   try {
     const response = await axios.patch(`${API_URL}/patch-templateName/${templateName}`, {

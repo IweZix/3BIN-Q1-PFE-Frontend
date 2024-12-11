@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { log } from 'console';
 
 const API_URL = 'http://localhost:3000/authCompany';
 
@@ -17,31 +16,19 @@ export const registerCompany = async (
   try {
     const company = { name, email, password, template };
     const response = await axios.post(`${API_URL}/register-company`, company, {
-        headers: {
-          Authorization: `${localStorage.getItem('token')}`
-        }
-      });
+      headers: {
+        Authorization: `${localStorage.getItem('token')}`
+      }
+    });
     return response.data;
-  } catch (error) {
-    // Gestion des erreurs
-    if (axios.isAxiosError(error) && error.response) {
-      throw new Error(
-        error.response.data.message || "Erreur lors de l'enregistrement de la company."
-      );
-    } else {
-      throw new Error('Impossible de se connecter au serveur.');
-    }
+  } catch (error : any) {
+    return error.response.data;
   }
 };
 
-const verifyPasswordUpdated = async (email: string): Promise<boolean> => {
+export const checkPasswordUpdatedCompany = async (email: string) => {
   const response = await axios.post(`${API_URL}/verify-password-updated`, { email });
   return response.data;
-};
-
-export const checkPasswordUpdatedCompany = async (email: string) => {
-  const isUpdated = await verifyPasswordUpdated(email);
-  return isUpdated;
 };
 
 export const changepasswordCompany = async (token: string, password: string) => {
