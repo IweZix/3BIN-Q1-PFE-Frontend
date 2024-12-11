@@ -1,10 +1,14 @@
 <script>
 import { getIssuesByGroup } from '@/services/issuesService';
 import { deleteIssue } from '@/services/issuesService';
+import BackManageAllBoutonComponent from '@/components/buttons/BackManageAllBoutonComponent.vue';
 
 
 export default {
     name: 'IssuesByGroup',
+    components: {
+      BackManageAllBoutonComponent
+    },
     data() {
         return {
             isLoading: true, // Indicateur de chargement
@@ -46,6 +50,10 @@ methods: {
 </script>
 
 <template>
+  <div class="button-back">
+    <BackManageAllBoutonComponent />
+  </div>
+
     <div class="admin-issues-by-group mt-3">
         <h1>Gestion des Enjeux dans <span class="highlighted-group">{{ groupIssueName }}</span></h1>
         <!-- Indicateur de chargement -->

@@ -1,8 +1,12 @@
 <script>
 import { createIssue } from '@/services/issuesService';
+import BackIssuesByGroupBoutonComponent from '@/components/buttons/BackIssuesByGroupBoutonComponent.vue';
 
 export default {
   name: 'IssueAdd',
+  components: {
+    BackIssuesByGroupBoutonComponent
+  },
   data() {
     return {
       issueName: '',
@@ -18,7 +22,7 @@ export default {
     async saveIssue() {
       try {
         if (this.issueName.trim() === '') {
-          this.errorMessage = 'Le nom du template est requis.';
+          this.errorMessage = "Le nom de l'enjeu est requis.";
           return;
         }
         await createIssue(this.issueName, this.groupIssueName);
@@ -37,6 +41,10 @@ export default {
 </script>
 
 <template>
+  <div class="button-back">
+    <BackIssuesByGroupBoutonComponent />
+  </div>
+
   <div class="template-add">
     <h1>Créer un nouvel enjeu dans "{{ groupIssueName }}"</h1>
 

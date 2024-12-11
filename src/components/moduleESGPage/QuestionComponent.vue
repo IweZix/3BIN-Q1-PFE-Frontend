@@ -167,11 +167,14 @@ export default {
         const token = localStorage.getItem('token');
         try {
           if (token) {
-            await answerFormCompleted(token, { questions: this.questionsTable });
-            this.successSaveMessage =
-              "Formulaire envoyé en attente d'évaluation, merci de votre temps !";
-            alert(this.successSaveMessage);
-            this.$router.push({ name: 'CompanyHome' });
+            const confirmation = confirm("Êtes-vous sûr de vouloir soumettre le formulaire pour évaluation ? Une fois soumis, vous ne pourrez plus le modifier.");
+            
+            if (confirmation) {
+              await answerFormCompleted(token, { questions: this.questionsTable });
+              this.successSaveMessage = "Formulaire envoyé en attente d'évaluation, merci de votre temps !";
+              alert(this.successSaveMessage);
+              this.$router.push({ name: 'CompanyHome' });
+            }
           } else {
             alert("Vous n'êtes pas connecté");
           }

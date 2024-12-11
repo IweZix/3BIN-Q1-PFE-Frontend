@@ -21,7 +21,7 @@ export default {
 
   data() {
     return {
-      query: '', // Recherche de l'utilisateur
+      query: '',
       sections: [] as Array<{ title: string; definition: string; remarque: string; plusInfo: string }>
     };
   },
@@ -47,12 +47,12 @@ export default {
       this.$emit('close');
     },
     onSearch(query: string) {
-      this.query = query; // Met à jour la requête de recherche
+      this.query = query;
     },
     highlightText(text: string): string {
       if (!this.query) return text;
       const regex = new RegExp(`(${this.query})`, 'gi');
-      return text.replace(regex, '<mark>$1</mark>'); // Surligne les mots correspondants
+      return text.replace(regex, '<mark>$1</mark>');
     }
   }
 };
@@ -96,9 +96,9 @@ mark {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  max-width: 800px; /* Augmente la largeur maximale */
-  max-height: 80vh; /* Limite la hauteur maximale pour éviter de dépasser la fenêtre */
-  overflow-y: auto; /* Ajoute une barre de défilement verticale si nécessaire */
+  max-width: 800px;
+  max-height: 80vh;
+  overflow-y: auto;
   width: 90%;
 }
 
@@ -113,7 +113,7 @@ mark {
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  overflow: hidden; /* Empêche le scrolling sur l'arrière-plan */
+  overflow: hidden;
 }
 
 .close-button {

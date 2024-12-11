@@ -1,6 +1,3 @@
-/**
- * Import vue-router
- */
 import { createRouter, createWebHistory } from 'vue-router';
 import { adminVerif } from '@/services/authAdminService';
 
@@ -152,7 +149,16 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const token = localStorage.getItem('token');
-  if (
+
+  // Rediriger les utilisateurs connectés loin de la page de connexion
+  if (token && to.name === 'Login') {
+    const isAdmin = await adminVerif(token);
+    if (isAdmin) {
+      next({ name: 'AdminHome' });
+    } else {
+      next({ name: 'CompanyHome' });
+    }
+  } else if (
     to.path.startsWith('/admin') ||
     to.path.startsWith('/createCredentials') ||
     to.path.startsWith('/createCompany') ||

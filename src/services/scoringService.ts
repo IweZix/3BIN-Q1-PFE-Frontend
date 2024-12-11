@@ -11,8 +11,8 @@ export const getScoringByEmail = async (email: string) => {
   return response.data;
 };
 
-export const createScoring = async (data: any) => {
-  const response = await axios.post(`${API_URL}/`, data, {
+export const createScoring = async (email: string) => {
+  const response = await axios.post(`${API_URL}/`, {email}, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `${localStorage.getItem('token')}`

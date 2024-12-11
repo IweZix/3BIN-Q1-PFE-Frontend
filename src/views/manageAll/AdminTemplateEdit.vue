@@ -1,7 +1,12 @@
 <script>
 import { updateTemplate } from '@/services/templatesService';
+import BackManageAllBoutonComponent from '@/components/buttons/BackManageAllBoutonComponent.vue';
+
 export default {
   name: 'TemplateEdit',
+  components: {
+    BackManageAllBoutonComponent
+  },
   data() {
     return {
       templateName: '', // Nom du template
@@ -29,6 +34,10 @@ export default {
 </script>
 
 <template>
+  <div class="button-back">
+    <BackManageAllBoutonComponent />
+  </div>
+
   <div class="template-edit">
     <h1>Modifier Template</h1>
 
@@ -106,4 +115,5 @@ button:hover {
   color: green;
   margin-bottom: 10px;
 }
+
 </style>
