@@ -19,20 +19,25 @@ export default defineComponent({
         if (responseAdmin?.token) {
           await this.handleLoginSuccess(responseAdmin, 'AdminHome', true);
           return;
-        }
-      } catch (error) {
-        try {
+        }else{
+          
           const responseCompany = await loginCompany(this.email, this.password);
           if (responseCompany?.token) {
             await this.handleLoginSuccess(responseCompany, 'CompanyHome', false);
             localStorage.setItem('company', JSON.stringify(responseCompany));
             return;
+          }else{
+            const alert: HTMLElement | null = document.querySelector('.alert');
+            if (alert) {
+              alert.innerHTML = 'Invalid email or password ';
+            }
           }
-        } catch (error) {
-          const alert: HTMLElement | null = document.querySelector('.alert');
-          if (alert) {
-            alert.innerHTML = 'Invalid email or password ';
-          }
+         
+        }
+      } catch (error) {
+        const alert: HTMLElement | null = document.querySelector('.alert');
+        if (alert) {
+          alert.innerHTML = 'Invalid email or password ';
         }
       }
     },

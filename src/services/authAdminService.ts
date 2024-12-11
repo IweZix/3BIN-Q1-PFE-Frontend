@@ -19,6 +19,9 @@ axiosInstance.interceptors.response.use(
 
 export const loginAdmin = async (email: string, password: string) => {
   const response = await axios.post(`${API_URL}/login-admin`, { email, password });
+  if(response == null){
+    return false;
+  }
   return response.data as boolean;
 };
 export const adminVerif = async (token: string) => {
