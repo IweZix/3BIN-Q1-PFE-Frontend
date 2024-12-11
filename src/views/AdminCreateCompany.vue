@@ -12,7 +12,7 @@ export default {
       email: '',
       password: '',
       templates: [],
-      availableTemplates: [{ _id: '', templateName: '' }],
+      availableTemplates: [{ _id: 0, templateName: '' }],
       isPasswordVisible: true,
       errors: {
         companyName: '',
@@ -27,7 +27,7 @@ export default {
   async mounted() {
     renderPageTitle('CreateCompany');
     try {
-      this.availableTemplates = await getTemplates() as { _id: string; templateName: string }[];
+      this.availableTemplates = await getTemplates() as { _id: number; templateName: string }[];
       this.availableTemplates = this.availableTemplates.slice(1, );
     } catch (error) {
       console.error('Failed to fetch templates', error);
