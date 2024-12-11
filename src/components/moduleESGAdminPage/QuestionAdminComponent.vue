@@ -1,5 +1,6 @@
 <script lang="ts">
 import { getValidatedForm, postValidatedForm, validatedFormCompleted } from '@/services/authAdminService';
+import { createScoring } from '@/services/scoringService';
 
 
 interface ListQuestions {
@@ -181,6 +182,7 @@ export default {
         try {
             const validationBool=await validatedFormCompleted(this.emailCompany) as boolean;
             if(validationBool){
+              await createScoring(this.emailCompany);
               const successSaveMessage = 'Toute la liste a été validée !';
               alert(successSaveMessage);
               this.$router.push({ name: 'CompanyHome' });
