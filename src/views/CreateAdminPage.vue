@@ -173,7 +173,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 80vh;
+  margin: 10px 0px 10px 0px;
 }
 
 .card {
