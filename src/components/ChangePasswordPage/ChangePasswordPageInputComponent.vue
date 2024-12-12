@@ -13,8 +13,8 @@ export default {
   },
   data() {
     return {
-      localPassword: this.password, // Crée une variable locale pour le mot de passe
-      localConfirmPassword: this.confirmPassword, // Crée une variable locale pour la confirmation
+      localPassword: this.password,
+      localConfirmPassword: this.confirmPassword, 
       showPassword: false,
       showConfirmPassword: false,
       passwordError: null as string | null
