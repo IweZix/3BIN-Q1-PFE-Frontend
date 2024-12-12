@@ -53,19 +53,24 @@ export default {
         } else {
           const response = await getAnswerForm(token);
           this.questionsTable = response as ListQuestions[];
+          this.questionNA = await getNAList(token) as ListQuestions[]; ;
+          if(this.questionNA[0].issue_id===this.questionsTable[0].issue_id){
+            this.naIndex=0;
+          }
 
-          const responseNA = await getNAList(token);
-          this.questionNA = responseNA as ListQuestions[];
+          
         }
       } catch (error) {
         console.error('Erreur lors du chargement des questions:', error);
       }
     },
     nextListQuestion() {
+      this.naIndex=0;
       if (this.currentIndex < this.questionsTable.length) {
         this.currentIndex++;
       }
-      if(this.questionsTable[this.currentIndex].issue_id === this.questionsTable[this.naIndex+1].issue_id){
+      
+      while(this.questionNA[this.naIndex].issue_id !== this.questionsTable[this.currentIndex].issue_id){
         this.naIndex++;
       }
       this.$emit('next', (this.currentIndex/this.questionsTable.length * 100));
@@ -73,6 +78,9 @@ export default {
     prevQuestion() {
       if (this.currentIndex > 0) {
         this.currentIndex--;
+      }
+      while(this.questionNA[this.naIndex].issue_id !== this.questionsTable[this.currentIndex].issue_id && this.naIndex>0){
+        this.naIndex--;
       }
       this.$emit('prev', (this.currentIndex/this.questionsTable.length * 100));
     },
@@ -265,7 +273,8 @@ export default {
 
   <div class="question-container" v-if="questionNA[naIndex] !== undefined
     && questionNA.length > 0
-    && questionNA[currentIndex].questionsList.length > 0"
+    && questionNA[currentIndex].questionsList.length > 0
+    && questionNA[naIndex].issue_id === questionsTable[currentIndex].issue_id"
   >
     <h1>Liste des questions ne vous concernant pas - pour information</h1>
     <div
