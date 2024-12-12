@@ -52,12 +52,15 @@ export default {
           this.$router.push({ name: 'LoginPage' });
         } else {
           const response = await getAnswerForm(token);
-          this.questionsTable = response as ListQuestions[];
+          this.questionsTable = response as ListQuestions[];          
           this.questionNA = await getNAList(token) as ListQuestions[]; ;
-          if(this.questionNA[0].issue_id===this.questionsTable[0].issue_id){
+          if(this.questionNA[0]!== undefined&&this.questionNA[0].issue_id===this.questionsTable[0].issue_id){
             this.naIndex=0;
           }
-
+          console.log(this.questionNA);
+          console.log(this.questionsTable);
+          
+          
           
         }
       } catch (error) {
@@ -70,7 +73,14 @@ export default {
         this.currentIndex++;
       }
       
-      while(this.questionNA[this.naIndex].issue_id !== this.questionsTable[this.currentIndex].issue_id){
+      while(
+        this.questionNA[this.naIndex]!==undefined
+        &&
+        this.questionNA[this.naIndex]!==undefined
+        &&
+        this.questionNA[this.naIndex].issue_id !== this.questionsTable[this.currentIndex].issue_id
+        &&
+        this.naIndex>0){
         this.naIndex++;
       }
       this.$emit('next', (this.currentIndex/this.questionsTable.length * 100));
@@ -79,7 +89,9 @@ export default {
       if (this.currentIndex > 0) {
         this.currentIndex--;
       }
-      while(this.questionNA[this.naIndex].issue_id !== this.questionsTable[this.currentIndex].issue_id && this.naIndex>0){
+      while(this.questionNA[this.naIndex]!==undefined && 
+      this.questionNA[this.naIndex].issue_id !== this.questionsTable[this.currentIndex].issue_id
+       && this.naIndex>0){
         this.naIndex--;
       }
       this.$emit('prev', (this.currentIndex/this.questionsTable.length * 100));
@@ -208,7 +220,7 @@ export default {
 </script>
 
 <template>
-  <div v-if="questionsTable[currentIndex].questionsList.length > 0">
+  <div v-if="questionsTable[currentIndex]!==undefined&& questionsTable[currentIndex].questionsList!==undefined  &&questionsTable[currentIndex].questionsList.length > 0">
     <h3>Liste {{ currentIndex + 1 }} / {{ questionsTable.length }}</h3>
     
   </div>
@@ -271,9 +283,13 @@ export default {
     </div>
   </div>
 
-  <div class="question-container" v-if="questionNA[naIndex] !== undefined
+  <div class="question-container" v-if="
+  questionNA!==undefined
+  && questionNA[naIndex]!==undefined
+  && questionNA[naIndex].issue_id !== undefined
+  && questionNA[naIndex].questionsList !== undefined
     && questionNA.length > 0
-    && questionNA[currentIndex].questionsList.length > 0
+    && questionNA[naIndex].questionsList.length > 0
     && questionNA[naIndex].issue_id === questionsTable[currentIndex].issue_id"
   >
     <h1>Liste des questions ne vous concernant pas - pour information</h1>
