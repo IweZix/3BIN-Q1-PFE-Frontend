@@ -21,8 +21,8 @@ export default {
     async fetchData() {
       try {
         const response = await getScoringByEmail(this.companyEmail);
-        this.scoreTotalNow = response[0].scoreTotalNow;
-        this.scoreTotalEngagement = response[0].scoreTotal2Years;
+        this.scoreTotalNow = response[0].scoreTotalNow * 100;
+        this.scoreTotalEngagement = response[0].scoreTotal2Years * 100;
         this.scoreTotalTotal = response[0].totalTotal*100;
         for (let i = 0; i < response[0].issuesList.length; i++) {         
           this.issues.push({
