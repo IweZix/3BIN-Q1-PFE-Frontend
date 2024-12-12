@@ -5,6 +5,7 @@ export default {
   name: 'BackManageAllBoutonComponent',
   methods: {
     goBackManageAll() {
+      localStorage.removeItem('groupIssueName');
       router.push({
         name: 'ManageAll'
       });

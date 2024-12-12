@@ -3,13 +3,17 @@ import router from '@/router/router';
 
 export default {
   name: 'BackIssuesByGroupBoutonComponent',
+  props: {
+    groupIssueName: String
+  },
+  data() {
+    return {
+    };
+  },
   methods: {
     goBackIssuesByGroup() {
-      router.push({
-        name: 'IssuesByGroup'
-      });
+      router.push('/admin/issuesByGroup/'  + this.groupIssueName);
     }
-    
   }
 };
 </script>

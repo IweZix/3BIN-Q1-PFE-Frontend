@@ -12,13 +12,14 @@ export default {
     return {
       isLoading: true, // Indicateur de chargement
       issueName: '',
+      groupIssueName: '',
       errorMessage: '',
-      successMessage: ''
+      successMessage: '',
     };
   },
   async mounted() {
     this.issueName = this.$route.params.issueName;
-
+    this.groupIssueName = localStorage.getItem('groupIssueName');
     try {
         this.isLoading = false;
     } catch (error) {
@@ -50,7 +51,7 @@ export default {
 
 <template>
   <div class="button-back">
-    <BackIssuesByGroupBoutonComponent />
+    <BackIssuesByGroupBoutonComponent :groupIssueName="this.groupIssueName" />
   </div>
   
   
