@@ -32,6 +32,7 @@ export default {
     return {
       questionsTable: [] as ListQuestions[], // Initialisation de questionsTable
       currentIndex: 0,
+      naIndex:0,
       successSaveMessage: '',
       questionNA: [] as ListQuestions[]
     };
@@ -52,23 +53,34 @@ export default {
         } else {
           const response = await getAnswerForm(token);
           this.questionsTable = response as ListQuestions[];
+          this.questionNA = await getNAList(token) as ListQuestions[]; ;
+          if(this.questionNA[0].issue_id===this.questionsTable[0].issue_id){
+            this.naIndex=0;
+          }
 
-          const responseNA = await getNAList(token);
-          this.questionNA = responseNA as ListQuestions[];
+          
         }
       } catch (error) {
         console.error('Erreur lors du chargement des questions:', error);
       }
     },
     nextListQuestion() {
+      this.naIndex=0;
       if (this.currentIndex < this.questionsTable.length) {
         this.currentIndex++;
+      }
+      
+      while(this.questionNA[this.naIndex].issue_id !== this.questionsTable[this.currentIndex].issue_id){
+        this.naIndex++;
       }
       this.$emit('next', (this.currentIndex/this.questionsTable.length * 100));
     },
     prevQuestion() {
       if (this.currentIndex > 0) {
         this.currentIndex--;
+      }
+      while(this.questionNA[this.naIndex].issue_id !== this.questionsTable[this.currentIndex].issue_id && this.naIndex>0){
+        this.naIndex--;
       }
       this.$emit('prev', (this.currentIndex/this.questionsTable.length * 100));
     },
@@ -196,7 +208,7 @@ export default {
 </script>
 
 <template>
-  <div v-if="questionsTable.length > 0">
+  <div v-if="questionsTable[currentIndex].questionsList.length > 0">
     <h3>Liste {{ currentIndex + 1 }} / {{ questionsTable.length }}</h3>
     
   </div>
@@ -259,13 +271,14 @@ export default {
     </div>
   </div>
 
-  <div class="question-container" v-if="questionNA[currentIndex] !== undefined
+  <div class="question-container" v-if="questionNA[naIndex] !== undefined
     && questionNA.length > 0
-    && questionNA[currentIndex].questionsList.length > 0"
+    && questionNA[currentIndex].questionsList.length > 0
+    && questionNA[naIndex].issue_id === questionsTable[currentIndex].issue_id"
   >
     <h1>Liste des questions ne vous concernant pas - pour information</h1>
     <div
-      v-for="(question, index) in questionNA[currentIndex].questionsList"
+      v-for="(question, index) in questionNA[naIndex].questionsList"
       :key="index"
       class="question-box"
     >
