@@ -13,8 +13,8 @@ export default {
   },
   data() {
     return {
-      localPassword: this.password, // Crée une variable locale pour le mot de passe
-      localConfirmPassword: this.confirmPassword, // Crée une variable locale pour la confirmation
+      localPassword: this.password,
+      localConfirmPassword: this.confirmPassword, 
       showPassword: false,
       showConfirmPassword: false,
       passwordError: null as string | null
@@ -24,7 +24,6 @@ export default {
     // Mettez à jour les props si les variables locales changent
     localPassword(newValue: string) {
       this.$emit('update:password', newValue);
-      this.checkPassword(newValue);
     },
     localConfirmPassword(newValue: string) {
       this.$emit('update:confirmPassword', newValue);
@@ -38,27 +37,6 @@ export default {
     toggleConfirmPasswordVisibility() {
       this.showConfirmPassword = !this.showConfirmPassword;
     },
-    checkPassword(input: string) {
-      let errorMessage = '';
-
-      // Vérification de la longueur
-      if (input.length < 8) {
-        errorMessage = 'Le mot de passe doit contenir au moins 8 caractères.';
-      }
-
-      // Vérification de la présence d'une majuscule
-      if (!/[A-Z]/.test(input)) {
-        errorMessage = 'Le mot de passe doit contenir au moins une majuscule.';
-      }
-
-      // Vérification de la présence d'un caractère spécial
-      if (!/[!@#$%^&*(),.?":{}|<>]/.test(input)) {
-        errorMessage = 'Le mot de passe doit contenir au moins un caractère spécial.';
-      }
-
-      this.passwordError = errorMessage;
-      this.$emit('checkPassword', !errorMessage);
-    }
   }
 };
 </script>
@@ -75,7 +53,6 @@ export default {
           id="password"
           placeholder="Mot de passe"
           required
-          @blur="passwordError = checkPassword(localPassword)"
         />
         <button
           @click="togglePasswordVisibility"
