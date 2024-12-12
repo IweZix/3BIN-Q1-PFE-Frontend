@@ -15,13 +15,35 @@ export default {
       password: '',
       confirmPassword: '',
       errorMessage: '',
-      successMessage: ''
+      successMessage: '',
+      passwordError: null as string | null
     };
   },
   mounted() {
     renderPageTitle('Change Password');
   },
   methods: {
+    checkPassword(input: string) {
+      let errorMessageMethode = '';
+
+      if (input.length < 8) {
+        errorMessageMethode = 'Le mot de passe doit contenir au moins 8 caractères.';
+        this.passwordError = errorMessageMethode;
+      }
+
+      if (!/[A-Z]/.test(input)) {
+        errorMessageMethode = 'Le mot de passe doit contenir au moins une majuscule.';
+        this.passwordError = errorMessageMethode;
+      }
+
+      if (!/[!@#$%^&*(),.?":{}|<>]/.test(input)) {
+        errorMessageMethode = 'Le mot de passe doit contenir au moins un caractère spécial.';
+      }
+    
+      this.passwordError = errorMessageMethode;
+      
+    },
+
     async changePassword() {
       this.errorMessage = '';
       this.successMessage = '';
@@ -31,6 +53,12 @@ export default {
         return;
       }
 
+      this.checkPassword(this.password);
+      if (this.passwordError != '') {
+        this.errorMessage = this.passwordError || '';
+        return;
+      }
+    
       try {
         const token = localStorage.getItem('token');
         if (!token) {
