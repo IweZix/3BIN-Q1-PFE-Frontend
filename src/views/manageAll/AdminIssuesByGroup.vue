@@ -19,6 +19,7 @@ export default {
     },
     async mounted() {
         this.groupIssueName = this.$route.params.groupIssueName;
+        localStorage.setItem('groupIssueName', this.groupIssueName);
         try {
             // Charger les problèmes par groupe
             this.issuesByGroup = await getIssuesByGroup(this.groupIssueName);
