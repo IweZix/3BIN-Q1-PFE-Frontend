@@ -23,7 +23,7 @@ export default {
         const response = await getScoringByEmail(this.companyEmail);
         this.scoreTotalNow = response[0].scoreTotalNow;
         this.scoreTotalEngagement = response[0].scoreTotal2Years;
-        this.scoreTotalTotal = response[0].totalTotal;
+        this.scoreTotalTotal = response[0].totalTotal*100;
         for (let i = 0; i < response[0].issuesList.length; i++) {         
           this.issues.push({
             id: i,
