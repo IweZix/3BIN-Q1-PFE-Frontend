@@ -32,7 +32,7 @@ export default {
         for (let i = 0; i < this.companies.length; i++) {
           const response = await getScoringByEmail(this.companies[i].email);
           const scoringResponse = response as Array<{ totalTotal: number }>;
-          this.companies[i].totalTotal = scoringResponse[0].totalTotal;
+          this.companies[i].totalTotal = scoringResponse[0].totalTotal*100;
         }
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -87,7 +87,7 @@ export default {
                 {{ company.isValidated ? 'Oui' : 'Non' }}
               </span>
             </td>
-            <td>{{ company.totalTotal ?? '/' }}%</td>
+            <td>{{ company.totalTotal === 0 ? '/' : company.totalTotal + '%' }}</td>
             <td v-if="!company.isValidated">
               <GetCompanyButton
                 :companyEmail="company.email"
