@@ -87,7 +87,7 @@ export default {
                 {{ company.isValidated ? 'Oui' : 'Non' }}
               </span>
             </td>
-            <td>{{ company.totalTotal ?? '/' }}%</td>
+            <td>{{ company.totalTotal === 0 ? '/' : company.totalTotal + '%' }}</td>
             <td v-if="!company.isValidated">
               <GetCompanyButton
                 :companyEmail="company.email"
